@@ -213,7 +213,9 @@ export default function EnterpriseDashboardPage() {
                                  </div>
                              ))}
                         </div>
-                        <Button variant='outline' className='w-full mt-4'>View Leaderboard →</Button>
+                        <Link href="/enterprise/leaderboard">
+                            <Button variant='outline' className='w-full mt-4'>View Leaderboard →</Button>
+                        </Link>
                     </CardContent>
                 </Card>
                  <Card className="bg-card/50 border-l-4 border-primary">
@@ -225,7 +227,9 @@ export default function EnterpriseDashboardPage() {
                         <p className='text-sm mb-1'>Goal: {(enterpriseData.challenges[1].goal / 1000000).toFixed(1)}M steps as team</p>
                          <Progress value={(enterpriseData.challenges[1].progress / enterpriseData.challenges[1].goal) * 100} className='h-2' />
                         <p className='text-xs text-muted-foreground mt-1'>Progress: { (enterpriseData.challenges[1].progress / 1000000).toFixed(1) }M / { (enterpriseData.challenges[1].goal / 1000000).toFixed(1) }M</p>
-                        <Button variant='outline' className='w-full mt-4'>View Team Progress →</Button>
+                         <Link href="/enterprise/leaderboard">
+                            <Button variant='outline' className='w-full mt-4'>View Team Progress →</Button>
+                        </Link>
                     </CardContent>
                 </Card>
             </div>
