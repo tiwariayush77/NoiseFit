@@ -81,11 +81,5 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: radial-gradient(
-        circle at top,
-        rgba(112, 58, 214, 0.15),
-        transparent 50%
-      ),
-      #121212;
   }
 }
