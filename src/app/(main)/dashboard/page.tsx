@@ -8,9 +8,9 @@ import {
 } from '@/components/ui/card';
 import EnergyScoreCard from '@/components/energy-score-card';
 import TodayVitalsCard from '@/components/today-vitals-card';
+import SmartTimelineCard from '@/components/smart-timeline-card';
 
 const placeholderSections = [
-    { title: 'Smart Daily Timeline', description: 'Coming next...' },
     { title: 'Top Opportunities', description: 'Coming next...' },
     { title: 'Quick Actions', description: 'Coming next...' },
 ];
@@ -33,6 +33,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
         <EnergyScoreCard />
         <TodayVitalsCard />
+        <SmartTimelineCard />
         {placeholderSections.map(section => (
             <PlaceholderCard key={section.title} title={section.title} description={section.description} />
         ))}
