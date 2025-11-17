@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, Flame, Footprints, Route } from 'lucide-react';
 import {
@@ -59,11 +59,25 @@ export function ActivityCard() {
 }
 
 const sleepData = [
-  { stage: 'Awake', hours: 0.5 },
-  { stage: 'REM', hours: 1.5 },
-  { stage: 'Light', hours: 4 },
-  { stage: 'Deep', hours: 2 },
+  { stage: 'Awake', hours: 0.5, fill: 'var(--color-accent)' },
+  { stage: 'REM', hours: 1.5, fill: 'var(--color-primary)' },
+  { stage: 'Light', hours: 4, fill: 'var(--color-primary)' },
+  { stage: 'Deep', hours: 2, fill: 'var(--color-primary)' },
 ];
+
+const chartConfig = {
+  hours: {
+    label: 'Hours',
+  },
+  accent: {
+    label: 'Accent',
+    color: 'hsl(var(--accent))',
+  },
+  primary: {
+    label: 'Primary',
+    color: 'hsl(var(--primary))',
+  },
+};
 
 export function SleepCard() {
   return (
@@ -73,9 +87,14 @@ export function SleepCard() {
         <CardDescription>Last Night: 8h 0m</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[150px]">
+        <ChartContainer config={chartConfig} className="h-[150px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={sleepData} layout="vertical" margin={{ left: -10 }}>
+            <BarChart
+              data={sleepData}
+              layout="vertical"
+              margin={{ left: -10 }}
+              accessibilityLayer
+            >
               <XAxis type="number" hide />
               <YAxis
                 type="category"
@@ -92,13 +111,12 @@ export function SleepCard() {
               />
               <Bar
                 dataKey="hours"
-                fill="hsl(var(--primary))"
                 radius={[4, 4, 4, 4]}
                 background={{ fill: 'hsl(var(--primary) / 0.1)', radius: 4 }}
               />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartContainer>
       </CardContent>
     </Card>
   );
