@@ -26,7 +26,7 @@ export default function DashboardPage() {
     if (showSync) {
       const timer = setTimeout(() => {
         // Use router.replace to not add to browser history
-        router.replace('/dashboard');
+        router.replace('/instant-value');
       }, 7000); // 6s for sync + 1s buffer
       return () => clearTimeout(timer);
     }
