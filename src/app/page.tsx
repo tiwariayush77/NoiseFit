@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Apple,
   Circle,
@@ -8,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const benefits = [
   { text: 'Know exactly when to workout', icon: <Sparkles className="w-5 h-5 text-accent" /> },
@@ -20,13 +23,17 @@ const brands = ['Noise', 'Apple Watch', 'Garmin', 'boAt', 'Fire-Boltt', 'Amazfit
 
 export default function WelcomePage() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center p-4 text-center animate-fade-in-up">
+    <div className="flex flex-col min-h-screen items-center justify-center p-4 text-center animate-fade-in-up bg-background text-foreground">
       <main className="flex flex-col items-center justify-center flex-1 max-w-md mx-auto">
         <div className="relative h-32 w-full flex items-center justify-center mb-8">
-          <div className="relative w-24 h-24">
-            <Watch className="absolute inset-0 m-auto w-16 h-16 text-white animate-fade-in-out" />
-            <div className="absolute inset-0 m-auto w-16 h-16 rounded-full border-2 border-white animate-fade-in-out animation-delay-3000"></div>
-          </div>
+          <motion.div
+            className="relative w-24 h-24"
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          >
+            <Watch className="absolute inset-0 m-auto w-16 h-16 text-white opacity-0 animate-fade-in-out" style={{ animationDelay: '0s' }} />
+            <div className="absolute inset-0 m-auto w-16 h-16 rounded-full border-2 border-primary opacity-0 animate-fade-in-out" style={{ animationDelay: '1.5s' }}></div>
+          </motion.div>
            <div
             className="absolute inset-0 m-auto w-20 h-20 bg-primary/30 blur-2xl rounded-full animate-pulse"
           ></div>
@@ -39,7 +46,7 @@ export default function WelcomePage() {
           We turn your wearable data into actions that actually work
         </p>
 
-        <div className="space-y-3 text-left mb-8 self-start">
+        <div className="space-y-3 text-left mb-8 self-start w-full">
           {benefits.map((benefit, index) => (
             <div key={index} className="flex items-center gap-3">
               {benefit.icon}
@@ -54,7 +61,7 @@ export default function WelcomePage() {
             {brands.map((brand) => (
               <div
                 key={brand}
-                className="text-xs px-3 py-1 bg-white/10 rounded-full"
+                className="text-xs px-3 py-1 bg-card/50 rounded-full"
               >
                 {brand}
               </div>
@@ -65,7 +72,7 @@ export default function WelcomePage() {
         <Link href="/device-selection" className="w-full">
           <Button
             size="lg"
-            className="w-full bg-gradient-to-r from-primary to-purple-600 text-white hover:scale-102 transition-transform hover:shadow-lg hover:shadow-accent/20"
+            className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
           >
             Begin your journey 🚀
           </Button>
