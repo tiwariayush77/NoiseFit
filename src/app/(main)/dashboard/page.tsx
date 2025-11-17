@@ -1,21 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { ActivityCard, GoalsCard, SleepCard } from '@/components/dashboard-cards';
+import WorkoutGenerator from '@/components/workout-generator';
 
 export default function DashboardPage() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Home Dashboard</CardTitle>
-        <CardDescription>Coming Soon</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>This is the home dashboard page.</p>
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      <WorkoutGenerator />
+      <ActivityCard />
+      <SleepCard />
+      <GoalsCard />
+    </div>
   );
 }

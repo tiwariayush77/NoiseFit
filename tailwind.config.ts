@@ -96,30 +96,21 @@ export default {
             transform: 'translateY(0)',
           },
         },
+        'fade-in-out': {
+          '0%, 100%': { opacity: '0' },
+          '50%': { opacity: '1' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-      },
-      animationDelay: {
-        '300': '300ms',
-        '600': '600ms',
+        'fade-in-out': 'fade-in-out 3s ease-in-out infinite',
       },
     },
   },
   plugins: [
     require('tailwindcss-animate'),
     require('@tailwindcss/typography'),
-    function ({ matchUtilities, theme }: { matchUtilities: any, theme: any }) {
-      matchUtilities(
-        {
-          'animation-delay': (value: string) => ({
-            'animation-delay': value,
-          }),
-        },
-        { values: theme('animationDelay') }
-      );
-    },
   ],
 } satisfies Config;
