@@ -45,6 +45,7 @@ function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => v
   const Icon = device.type === 'watch' ? Watch : ToyBrick;
 
   useEffect(() => {
+    const totalDuration = 2500;
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -54,7 +55,7 @@ function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => v
         }
         return prev + 1;
       });
-    }, 25); // Animate over 2.5s
+    }, totalDuration / 100);
 
     const statusTimer1 = setTimeout(() => setStatus('Pairing...'), 1000);
     const statusTimer2 = setTimeout(() => setStatus('Connected!'), 2000);
