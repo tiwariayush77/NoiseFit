@@ -83,8 +83,8 @@ const settingsMenu = {
 }
 
 export default function ProfilePage() {
-  const [accountType, setAccountType] = useState('personal');
-  const [isCompanyLinked, setIsCompanyLinked] = useState(false);
+  const [accountType, setAccountType] = useState('enterprise');
+  const [isCompanyLinked, setIsCompanyLinked] = useState(true);
 
   return (
     <div className="space-y-6">
