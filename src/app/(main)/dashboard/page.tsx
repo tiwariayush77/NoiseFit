@@ -6,9 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import EnergyScoreCard from '@/components/energy-score-card';
 
 const placeholderSections = [
-    { title: 'Energy Score', description: 'Coming next...' },
     { title: "Today's Vitals", description: 'Coming next...' },
     { title: 'Smart Daily Timeline', description: 'Coming next...' },
     { title: 'Top Opportunities', description: 'Coming next...' },
@@ -31,6 +31,7 @@ function PlaceholderCard({ title, description }: { title: string, description: s
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
+        <EnergyScoreCard />
         {placeholderSections.map(section => (
             <PlaceholderCard key={section.title} title={section.title} description={section.description} />
         ))}
