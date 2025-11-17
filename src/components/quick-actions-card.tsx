@@ -16,7 +16,7 @@ const quickActions = [
         icon: '😴',
         label: 'Track Sleep',
         color: '#8B5CF6', // Purple
-        link: '/sleep/track'
+        link: '/vitals/sleep'
     },
     {
         id: 'breathing',
