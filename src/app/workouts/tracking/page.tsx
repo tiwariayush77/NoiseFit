@@ -59,8 +59,14 @@ export default function WorkoutTrackingPage() {
     Peak: 0, Cardio: 0, 'Fat Burn': 0, Light: 0, Resting: 0,
   });
 
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    if (isPaused) return;
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || !isClient) return;
 
     const timerInterval = setInterval(() => {
       setElapsedTime((prev) => prev + 1);
@@ -76,10 +82,10 @@ export default function WorkoutTrackingPage() {
       clearInterval(timerInterval);
       clearInterval(hrInterval);
     };
-  }, [isPaused]);
+  }, [isPaused, isClient]);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !isClient) return;
 
     setTotalHR((prev) => prev + currentHR);
     setHrSamples((prev) => prev + 1);
@@ -92,7 +98,7 @@ export default function WorkoutTrackingPage() {
     setDistance(prev => parseFloat((prev + 0.003).toFixed(2))); // Approx 10.8 km/h
     setCalories(prev => prev + 0.15); // Approx 540 kcal/h
 
-  }, [elapsedTime, isPaused, currentHR, totalHR, hrSamples]);
+  }, [elapsedTime, isPaused, currentHR, totalHR, hrSamples, isClient]);
 
   const handleEndWorkout = () => {
     router.push('/workouts/summary');
