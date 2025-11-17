@@ -95,6 +95,13 @@ export default function DeviceSearchPage() {
     }
   };
   
+  const handleContinue = () => {
+    if (selectedDevices.length > 0) {
+      const deviceIds = selectedDevices.map(d => d.id).join(',');
+      router.push(`/device-connect?devices=${deviceIds}`);
+    }
+  };
+
   const noiseEcosystemDevices = filteredDevices.filter(d => d.brand === 'noise');
   const otherBrandsDevices = filteredDevices.filter(d => d.brand !== 'noise');
 
@@ -184,7 +191,7 @@ export default function DeviceSearchPage() {
             {selectedDevices.length} device{selectedDevices.length !== 1 ? 's' : ''} selected
           </p>
           <Button
-            onClick={() => router.push('/dashboard')}
+            onClick={handleContinue}
             disabled={selectedDevices.length === 0}
           >
             Continue ({selectedDevices.length} selected)

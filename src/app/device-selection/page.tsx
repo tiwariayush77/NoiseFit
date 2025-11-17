@@ -1,9 +1,13 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Devices, Watch, ToyBrick, Smartphone } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function DeviceSelectionPage() {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-border/20">
@@ -59,11 +63,9 @@ export default function DeviceSelectionPage() {
                 Choose my devices <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/dashboard" className="block">
-               <Button size="lg" variant="outline" className="w-full">
-                I'm just exploring 👀
-              </Button>
-            </Link>
+            <Button size="lg" variant="outline" className="w-full" onClick={() => router.push('/dashboard')}>
+              I'm just exploring 👀
+            </Button>
              <p className="text-xs text-muted-foreground">Browse with sample data</p>
           </div>
         </div>
