@@ -1,5 +1,5 @@
 import BottomNav from '@/components/bottom-nav';
-import Header from '@/components/header';
+import DashboardHeader from '@/components/dashboard-header';
 
 export default function MainLayout({
   children,
@@ -8,8 +8,8 @@ export default function MainLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
-      <main className="flex-1 overflow-y-auto pb-16 px-4 pt-6">
+      <DashboardHeader />
+      <main className="flex-1 overflow-y-auto pb-24 px-4 pt-6 bg-gradient-to-b from-background to-[#1a1a1a]">
         {children}
       </main>
       <BottomNav />
