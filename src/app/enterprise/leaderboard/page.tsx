@@ -43,6 +43,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts';
+import { Separator } from '@/components/ui/separator';
 
 const leaderboardData = {
   challenge: {
