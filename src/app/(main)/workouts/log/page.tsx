@@ -7,7 +7,7 @@ import {
   Dumbbell,
   Repeat,
   Bike,
-  Swimmer,
+  Waves,
   PersonStanding,
   Footprints,
   Plus,
@@ -32,7 +32,7 @@ const workoutTypes = [
   { id: 'strength', name: 'Strength', icon: <Dumbbell className="w-8 h-8" /> },
   { id: 'cycling', name: 'Cycling', icon: <Bike className="w-8 h-8" /> },
   { id: 'yoga', name: 'Yoga', icon: <PersonStanding className="w-8 h-8" /> },
-  { id: 'swimming', name: 'Swimming', icon: <Swimmer className="w-8 h-8" /> },
+  { id: 'swimming', name: 'Swimming', icon: <Waves className="w-8 h-8" /> },
   { id: 'walking', name: 'Walking', icon: <Footprints className="w-8 h-8" /> },
   { id: 'other', name: 'Other', icon: <Plus className="w-8 h-8" /> },
 ];
