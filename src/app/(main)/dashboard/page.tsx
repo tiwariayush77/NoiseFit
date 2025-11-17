@@ -10,23 +10,7 @@ import EnergyScoreCard from '@/components/energy-score-card';
 import TodayVitalsCard from '@/components/today-vitals-card';
 import SmartTimelineCard from '@/components/smart-timeline-card';
 import TopOpportunitiesCard from '@/components/top-opportunities-card';
-
-const placeholderSections = [
-    { title: 'Quick Actions', description: 'Coming next...' },
-];
-
-function PlaceholderCard({ title, description }: { title: string, description: string }) {
-    return (
-        <Card className="bg-card/50 backdrop-blur-lg border-border/20 shadow-lg min-h-[150px]">
-            <CardHeader>
-                <CardTitle>{title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground">{description}</p>
-            </CardContent>
-        </Card>
-    );
-}
+import QuickActionsCard from '@/components/quick-actions-card';
 
 export default function DashboardPage() {
   return (
@@ -35,9 +19,7 @@ export default function DashboardPage() {
         <TodayVitalsCard />
         <SmartTimelineCard />
         <TopOpportunitiesCard />
-        {placeholderSections.map(section => (
-            <PlaceholderCard key={section.title} title={section.title} description={section.description} />
-        ))}
+        <QuickActionsCard />
     </div>
   );
 }
