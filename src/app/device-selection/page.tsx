@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { Devices, Watch, ToyBrick, Smartphone } from 'lucide-react';
+import { SmartphoneNfc, Watch, ToyBrick, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function DeviceSelectionPage() {
@@ -24,7 +24,7 @@ export default function DeviceSelectionPage() {
       <main className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-fade-in-up">
         <div className="w-full max-w-md">
           <div className="flex items-center justify-center mb-10 text-primary">
-            <Devices size={200} strokeWidth={0.5} />
+            <SmartphoneNfc size={200} strokeWidth={0.5} />
           </div>
 
           <h2 className="text-3xl font-bold mb-4">
