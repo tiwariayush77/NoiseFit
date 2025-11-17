@@ -62,7 +62,7 @@ export default function WelcomePage() {
           </div>
         </div>
 
-        <Link href="/dashboard" className="w-full">
+        <Link href="/device-selection" className="w-full">
           <Button
             size="lg"
             className="w-full bg-gradient-to-r from-primary to-purple-600 text-white hover:scale-102 transition-transform hover:shadow-lg hover:shadow-accent/20"
@@ -74,19 +74,19 @@ export default function WelcomePage() {
         <div className="mt-8 text-center w-full">
           <p className="text-sm text-muted-foreground mb-4">Continue with:</p>
           <div className="flex justify-center gap-4">
-            <Link href="/dashboard">
+            <Link href="/device-selection">
               <Button variant="outline" size="icon">
                 <svg role="img" viewBox="0 0 24 24" className="h-5 w-5 fill-current"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.9-4.32 1.9-3.42 0-6.22-2.8-6.22-6.22s2.8-6.22 6.22-6.22c1.93 0 3.25.78 4.22 1.7l2.76-2.76C19.01 1.97 16.25 1 12.48 1 5.83 1 1 5.83 1 12.48s4.83 11.48 11.48 11.48c6.4 0 11.02-4.56 11.02-11.02 0-.74-.06-1.42-.18-2.08h-9.84z"/></svg>
                 <span className="sr-only">Google</span>
               </Button>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/device-selection">
               <Button variant="outline" size="icon">
                 <Apple className="h-5 w-5" />
                 <span className="sr-only">Apple</span>
               </Button>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/device-selection">
               <Button variant="outline" size="icon">
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>

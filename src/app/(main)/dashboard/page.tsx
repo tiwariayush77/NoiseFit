@@ -1,5 +1,13 @@
-import { ActivityCard, GoalsCard, SleepCard } from '@/components/dashboard-cards';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import WorkoutGenerator from '@/components/workout-generator';
+import { ActivityCard, GoalsCard, SleepCard } from '@/components/dashboard-cards';
+
 
 export default function DashboardPage() {
   return (
