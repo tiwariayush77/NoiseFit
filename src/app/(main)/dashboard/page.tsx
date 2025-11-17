@@ -25,8 +25,8 @@ export default function DashboardPage() {
   useEffect(() => {
     if (showSync) {
       const timer = setTimeout(() => {
-        // Use router.replace to not add to browser history
-        router.replace('/instant-value');
+        // After syncing, we are on the dashboard. Let's remove the query param.
+        router.replace('/dashboard');
       }, 7000); // 6s for sync + 1s buffer
       return () => clearTimeout(timer);
     }
