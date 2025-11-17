@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import {
@@ -13,15 +13,12 @@ import {
   BatteryFull,
   SignalMedium,
   SignalLow,
-  ChevronRight,
+  Check,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
@@ -44,7 +41,7 @@ const ALL_DEVICES: Device[] = [
 
 function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => void }) {
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState('Connecting to your device...');
+  const [status, setStatus] = useState('Searching for device...');
   const Icon = device.type === 'watch' ? Watch : ToyBrick;
 
   useEffect(() => {
@@ -52,15 +49,15 @@ function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => v
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
-          setTimeout(onDone, 500);
+          setTimeout(onDone, 500); // Wait for fade out
           return 100;
         }
         return prev + 1;
       });
     }, 25); // Animate over 2.5s
 
-    const statusTimer1 = setTimeout(() => setStatus('Pairing devices...'), 1000);
-    const statusTimer2 = setTimeout(() => setStatus('Connected! ✓'), 2000);
+    const statusTimer1 = setTimeout(() => setStatus('Pairing...'), 1000);
+    const statusTimer2 = setTimeout(() => setStatus('Connected!'), 2000);
 
     return () => {
       clearInterval(progressInterval);
@@ -68,21 +65,29 @@ function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => v
       clearTimeout(statusTimer2);
     };
   }, [onDone]);
-
+  
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-lg animate-in fade-in">
       <div className="flex flex-col items-center text-center p-8">
-        <div className="relative mb-8">
-          <Icon className="w-24 h-24 text-primary animate-pulse" />
+        <div className="relative mb-8 animate-[pulse_2s_ease-in-out_infinite]" style={{'--animate-scale-to': 1.1} as React.CSSProperties}>
+          <Icon className="w-32 h-32 text-primary" />
         </div>
-        <h2 className="text-2xl font-bold mb-2">Connecting to {device.name}</h2>
-        <p className="text-muted-foreground mb-8">{status}</p>
-        <Progress value={progress} className="w-64 h-2 mb-8" />
-        <p className="text-sm text-muted-foreground">💡 Keep your {device.type} close to your phone.</p>
+        <h2 className="text-xl font-bold mb-2 text-white animate-in fade-in slide-in-from-bottom-5">Connecting to {device.name}...</h2>
+        
+        <div className="h-6 w-48 text-center my-4 transition-all duration-300">
+            <p className="text-muted-foreground animate-in fade-in">
+                {status} {progress >= 100 && <Check className="inline-block w-4 h-4 text-green-500" />}
+            </p>
+        </div>
+
+        <Progress value={progress} className="w-48 h-1 mb-8" />
+        
+        <p className="text-sm text-muted-foreground animate-in fade-in [animation-delay:500ms]">💡 Keep your {device.type} nearby</p>
       </div>
     </div>
   );
 }
+
 
 function DeviceConnectContent() {
   const router = useRouter();
@@ -98,17 +103,20 @@ function DeviceConnectContent() {
   );
   
   useEffect(() => {
-    setFoundDevices([]); // Reset on deviceIds change
+    setFoundDevices([]);
     const timers: NodeJS.Timeout[] = [];
     if (selectedDevices.length > 0) {
       selectedDevices.forEach((device, index) => {
         const timer = setTimeout(() => {
-          setFoundDevices(prev => [...prev, device]);
-        }, (index + 1) * 2000); // Stagger appearance
+            setFoundDevices(prev => {
+                if (prev.some(p => p.id === device.id)) return prev;
+                return [...prev, device];
+            });
+        }, (index + 1) * 1500); // Stagger appearance
         timers.push(timer);
       });
     }
-
+  
     return () => {
       timers.forEach(clearTimeout);
     };
@@ -119,7 +127,9 @@ function DeviceConnectContent() {
   };
 
   const handleConnectionDone = () => {
-    router.push('/dashboard?sync=true');
+    setConnectingDevice(null);
+    const deviceIds = selectedDevices.map(d => d.id).join(',');
+    router.push(`/data-sync?devices=${deviceIds}`);
   };
 
   if (connectingDevice) {
@@ -129,7 +139,7 @@ function DeviceConnectContent() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-border/20">
-        <Link href="/device-search">
+        <Link href={`/connection-method?devices=${deviceIds.join(',')}`}>
           <Button variant="ghost" size="icon">
             <ArrowLeft />
             <span className="sr-only">Back</span>
