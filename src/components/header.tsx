@@ -1,25 +1,27 @@
-import { Dumbbell } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Bell } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Header() {
-  const userAvatar = PlaceHolderImages.find((p) => p.id === 'user-avatar');
-
   return (
-    <header className="flex items-center justify-between p-4 border-b border-border/20 sticky top-0 bg-background/80 backdrop-blur-lg z-10">
-      <div className="flex items-center gap-3">
-        <Dumbbell className="w-8 h-8 text-primary" />
-        <h1 className="text-2xl font-bold text-foreground">NoiseFit</h1>
-      </div>
-      <Avatar>
-        {userAvatar && (
-          <AvatarImage
-            src={userAvatar.imageUrl}
-            data-ai-hint={userAvatar.imageHint}
+    <header className="sticky top-0 z-50 h-16 w-full bg-background/30 backdrop-blur-lg border-b border-white/10">
+      <div className="container mx-auto flex h-full items-center justify-between px-4">
+        <div className="flex items-center gap-3">
+          <Image
+            src="https://www.gonoise.com/cdn/shop/files/Artboard_1_wf_1.png?v=1761318524"
+            alt="Noise Logo"
+            width={120}
+            height={40}
+            className="h-10 w-auto"
+            priority
           />
-        )}
-        <AvatarFallback>NF</AvatarFallback>
-      </Avatar>
+        </div>
+        <div className="hidden md:flex items-center">
+          <span className="text-lg font-semibold">NoiseFit Intelligence</span>
+        </div>
+        <div className="flex items-center">
+          <Bell className="h-6 w-6 text-muted-foreground" />
+        </div>
+      </div>
     </header>
   );
 }
