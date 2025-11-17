@@ -99,13 +99,19 @@ function DeviceConnectContent() {
   
   useEffect(() => {
     setFoundDevices([]); // Reset on deviceIds change
+    const timers: NodeJS.Timeout[] = [];
     if (selectedDevices.length > 0) {
       selectedDevices.forEach((device, index) => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setFoundDevices(prev => [...prev, device]);
         }, (index + 1) * 2000); // Stagger appearance
+        timers.push(timer);
       });
     }
+
+    return () => {
+      timers.forEach(clearTimeout);
+    };
   }, [selectedDevices]);
 
   const handleConnect = (device: Device) => {
