@@ -14,6 +14,7 @@ export default function DashboardPage() {
     const [showTeamBanner, setShowTeamBanner] = useState(false);
     const [insightsExpanded, setInsightsExpanded] = useState(false);
     const [winsExpanded, setWinsExpanded] = useState(false);
+    const [progressExpanded, setProgressExpanded] = useState(false);
     
     useEffect(() => {
         const isEnabled = localStorage.getItem('corporateEnabled') === 'true';
@@ -53,71 +54,84 @@ export default function DashboardPage() {
                 </button>
                 <SmartOpportunitiesCard />
                 
-                {/* Today's Progress - MERGED & ENHANCED */}
-                <div className="bg-card/50 border border-border/20 rounded-xl p-6 mb-6">
-                    <h3 className="text-lg font-semibold mb-4">Today's Progress</h3>
-                    <div className="space-y-5">
-                        {/* Steps - WITH PERCENTILE */}
+                {/* Today's Progress - COLLAPSIBLE */}
+                <div className="px-6 mb-6">
+                    <button
+                        onClick={() => setProgressExpanded(!progressExpanded)}
+                        className="w-full bg-card/50 border border-border/20 rounded-xl p-5 text-left"
+                    >
+                        <div className="flex items-center justify-between">
                         <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                            <span className="text-xl mr-2">👟</span>
-                            <span className="text-sm font-medium text-gray-300">Steps</span>
-                            </div>
+                            <h2 className="text-lg font-bold text-white mb-1">Today's Progress</h2>
+                            <p className="text-sm text-muted-foreground">
+                            8,540 steps -  7.2h sleep -  68 bpm
+                            </p>
+                        </div>
+                        <span className="text-muted-foreground text-2xl">
+                            {progressExpanded ? '▲' : '▼'}
+                        </span>
+                        </div>
+                    </button>
+                    
+                    {progressExpanded && (
+                        <div className="mt-4 space-y-5 px-4 animate-in fade-in-5">
+                        {/* Steps */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-300">👟 Steps</span>
                             <span className="text-sm font-bold text-white">8,540 / 10,000</span>
-                        </div>
-                        <Progress value={85.4} className="h-2.5" indicatorClassName="bg-teal-500" />
-                        <p className="text-xs text-teal-400 flex items-center mt-2">
-                            <span className="mr-1">🏆</span>
-                            You're ahead of 68% in your area
-                        </p>
-                        </div>
-                        {/* Sleep - WITH TREND */}
-                        <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                            <span className="text-xl mr-2">😴</span>
-                            <span className="text-sm font-medium text-gray-300">Sleep Quality</span>
                             </div>
+                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                            <div className="bg-teal-500 h-2.5 rounded-full" style={{ width: '85%' }}></div>
+                            </div>
+                            <p className="text-xs text-teal-400">
+                            🏆 You're ahead of 68% in your area
+                            </p>
+                        </div>
+
+                        {/* Sleep Quality */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-300">😴 Sleep Quality</span>
                             <span className="text-sm font-bold text-white">7.2h</span>
-                        </div>
-                        <Progress value={90} className="h-2.5" indicatorClassName="bg-blue-500" />
-                        <p className="text-xs text-blue-400 flex items-center mt-2">
-                            <span className="mr-1">📈</span>
-                            30 min more than your weekly average
-                        </p>
-                        </div>
-                        {/* Active Minutes - WITH MOTIVATION */}
-                        <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                            <span className="text-xl mr-2">💪</span>
-                            <span className="text-sm font-medium text-gray-300">Active Minutes</span>
                             </div>
+                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                            <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: '90%' }}></div>
+                            </div>
+                            <p className="text-xs text-blue-400">
+                            📈 30 min more than weekly average
+                            </p>
+                        </div>
+
+                        {/* Active Minutes */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-300">💪 Active Minutes</span>
                             <span className="text-sm font-bold text-white">23 / 30</span>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                            <div className="bg-orange-500 h-2.5 rounded-full" style={{ width: '77%' }}></div>
+                            </div>
+                            <p className="text-xs text-orange-400">
+                            ⚡ Just 7 more minutes to hit your goal!
+                            </p>
                         </div>
-                        <Progress value={77} className="h-2.5" indicatorClassName="bg-orange-500" />
-                        <p className="text-xs text-orange-400 flex items-center mt-2">
-                            <span className="mr-1">⚡</span>
-                            Just 7 more minutes to hit your goal!
-                        </p>
-                        </div>
+
                         {/* Resting HR */}
                         <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center">
-                            <span className="text-xl mr-2">❤️</span>
-                            <span className="text-sm font-medium text-gray-300">Resting Heart Rate</span>
-                            </div>
+                            <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-300">❤️ Resting HR</span>
                             <span className="text-sm font-bold text-white">68 bpm</span>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                            <div className="bg-red-500 h-2.5 rounded-full" style={{ width: '70%' }}></div>
+                            </div>
+                            <p className="text-xs text-gray-400">
+                            ✓ 4 bpm lower than average (excellent!)
+                            </p>
                         </div>
-                         <Progress value={70} className="h-2.5" indicatorClassName="bg-red-500" />
-                        <p className="text-xs text-gray-400 flex items-center mt-2">
-                            <span className="mr-1">✓</span>
-                            4 bpm lower than average (excellent!)
-                        </p>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* AI Insights - COLLAPSED */}
