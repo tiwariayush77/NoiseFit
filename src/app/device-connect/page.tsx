@@ -48,8 +48,15 @@ function DeviceConnectContent() {
   const [devices, setDevices] = useState<Device[]>([]);
   const [isScanning, setIsScanning] = useState(true);
 
-  // Simulate device detection based on query param for demo
+  // CRITICAL FIX: Divert to health app flow if platform is specified
   useEffect(() => {
+    const platform = searchParams.get('platform');
+    if (platform && platform !== 'bluetooth') {
+      router.replace(`/health-app-connect?platform=${platform}`);
+      return; // Stop further execution in this component
+    }
+
+    // Simulate device detection based on query param for demo
     const scanTimeout = setTimeout(() => {
         const scenario = searchParams.get('scenario');
         let detected: Device[] = [];
@@ -65,7 +72,7 @@ function DeviceConnectContent() {
     }, 2000);
 
     return () => clearTimeout(scanTimeout);
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   const noiseDevices = devices.filter(d => d.type === 'noise');
   const otherDevices = devices.filter(d => d.type === 'other');
