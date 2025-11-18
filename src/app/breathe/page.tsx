@@ -39,7 +39,7 @@ export default function BreathePage() {
 
     return (
         <div className="fixed inset-0 bg-background text-foreground flex flex-col items-center justify-center transition-colors duration-1000"
-             style={{ backgroundColor: isComplete ? '#10B981' : 'hsl(var(--background))' }}>
+             style={{ backgroundColor: isComplete ? 'hsl(var(--primary))' : 'hsl(var(--background))' }}>
             
             <AnimatePresence>
                 {!isComplete ? (
@@ -91,7 +91,7 @@ export default function BreathePage() {
                         <p className="text-white/80 mb-8">Feeling calmer already.</p>
                         <button
                             onClick={() => router.back()}
-                            className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg"
+                            className="px-8 py-3 bg-white text-primary font-semibold rounded-lg"
                         >
                             Return to Dashboard
                         </button>
