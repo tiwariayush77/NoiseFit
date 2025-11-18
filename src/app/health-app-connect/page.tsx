@@ -21,27 +21,39 @@ import Image from 'next/image';
 const platformConfig: { [key: string]: any } = {
   'google-fit': {
     name: 'Google Fit',
-    icon: 'https://www.gstatic.com/images/branding/product/1x/gfit_512dp.png',
+    icon: (
+        <div className="w-32 h-32 bg-gradient-to-br from-green-500/30 to-blue-500/30 rounded-3xl flex items-center justify-center text-white font-bold text-6xl mb-4">
+            G
+        </div>
+    ),
     color: 'from-green-500/30 to-blue-500/30'
   },
   'apple-health': {
     name: 'Apple Health',
-    icon: 'https://developer.apple.com/assets/elements/icons/health-app/health-app-96x96_2x.png',
+    icon: (
+        <div className="w-32 h-32 bg-gradient-to-br from-pink-500/30 to-red-500/30 rounded-3xl flex items-center justify-center text-white font-bold text-6xl mb-4">
+            ❤️
+        </div>
+    ),
     color: 'from-pink-500/30 to-red-500/30'
   },
   'fitbit': {
     name: 'Fitbit',
-    icon: 'https://www.fitbit.com/global/content/dam/fitbit/global/pdp/charge6/hero-static/porcelain/charge6-porcelain-device-1.png',
+    icon: <Image src="https://www.fitbit.com/global/content/dam/fitbit/global/pdp/charge6/hero-static/porcelain/charge6-porcelain-device-1.png" alt="Fitbit" width={120} height={120} className="mx-auto mb-4 rounded-3xl p-4 bg-gradient-to-br from-teal-500/30 to-cyan-500/30" />,
     color: 'from-teal-500/30 to-cyan-500/30'
   },
   'garmin': {
     name: 'Garmin',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Garmin_logo_2020.svg/1024px-Garmin_logo_2020.svg.png',
+    icon: <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Garmin_logo_2020.svg/1024px-Garmin_logo_2020.svg.png" alt="Garmin" width={120} height={120} className="mx-auto mb-4 rounded-3xl p-4 bg-gradient-to-br from-blue-500/30 to-indigo-500/30" />,
     color: 'from-blue-500/30 to-indigo-500/30'
   },
   'other': {
     name: 'Health App',
-    icon: null,
+    icon: (
+        <div className="w-32 h-32 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-gray-500/30 to-gray-700/30 flex items-center justify-center text-6xl">
+            <HeartPulse />
+        </div>
+    ),
     color: 'from-gray-500/30 to-gray-700/30'
   }
 };
@@ -85,13 +97,7 @@ function HealthAppConnectContent() {
             <div className="w-full max-w-md">
 
                 <div className="text-center mb-8 animate-in fade-in-5 slide-in-from-bottom-5">
-                    {config.icon ? (
-                         <Image src={config.icon} alt={config.name} width={120} height={120} className={`mx-auto mb-4 rounded-3xl p-4 bg-gradient-to-br ${config.color}`} />
-                    ) : (
-                        <div className={`w-32 h-32 mx-auto mb-4 rounded-3xl bg-gradient-to-br ${config.color} flex items-center justify-center text-6xl`}>
-                            <HeartPulse />
-                        </div>
-                    )}
+                    {config.icon}
                     <p className="text-xl font-semibold">{config.name}</p>
                 </div>
 
