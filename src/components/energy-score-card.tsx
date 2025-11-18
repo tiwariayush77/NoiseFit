@@ -100,7 +100,7 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
       
       {/* Breakdown button */}
       <button
-        onClick={() => router.push('/energy-breakdown')}
+        onClick={() => router.push('/energy-detail')}
         className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
       >
         See breakdown →
