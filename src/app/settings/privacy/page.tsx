@@ -48,8 +48,8 @@ const initialSettings = {
 };
 
 const connectedApps = [
-    { name: 'Google Fit', access: 'Steps, Sleep, Workouts' },
-    { name: 'Strava', access: 'Workouts only' },
+    { name: 'Google Fit', access: 'Steps, Sleep, Workouts', link: '/settings/apps' },
+    { name: 'Strava', access: 'Workouts only', link: '/settings/apps' },
 ]
 
 export default function PrivacySettingsPage() {
@@ -160,19 +160,21 @@ export default function PrivacySettingsPage() {
        <SettingsSection title="Connected Apps" icon={<Share2 />}>
             <div className="divide-y divide-border/50">
             {connectedApps.map(app => (
-                <div key={app.name} className="p-4">
-                    <div className="flex items-center justify-between">
+                <Link key={app.name} href={app.link} className="block hover:bg-muted/30">
+                    <div className="p-4 flex items-center justify-between">
                         <div>
                             <p className="font-semibold">{app.name}</p>
                             <p className="text-xs text-muted-foreground">Access: {app.access}</p>
                         </div>
-                        <Button variant="destructive" size="sm">Revoke</Button>
+                        <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
-                </div>
+                </Link>
             ))}
             </div>
              <div className="p-4">
-                <Button variant="outline" className="w-full">Manage Connected Apps</Button>
+                <Link href="/settings/apps">
+                    <Button variant="outline" className="w-full">Manage All Connected Apps</Button>
+                </Link>
             </div>
       </SettingsSection>
 
