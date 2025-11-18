@@ -36,18 +36,25 @@ export default function WeeklyWinsCard() {
   ];
 
   return (
-    <div className="bg-card/50 border border-border/20 rounded-xl p-4 mb-6">
+    <div className="bg-card/50 border border-border/20 rounded-xl p-5 mb-6">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between"
       >
         <div className="flex items-center">
             <span className="text-xl mr-2">🏆</span>
-            <span className="text-base font-semibold">This Week's Wins</span>
+            <span className="text-base font-bold">This Week's Wins</span>
         </div>
-        <span className="text-gray-400 text-xl">
-            {expanded ? '▲' : '▼'}
-        </span>
+        <svg
+          className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
+            expanded ? 'rotate-180' : ''
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
       
       <AnimatePresence>

@@ -38,7 +38,7 @@ export default function DashboardPage() {
         <div className="flex flex-col">
             <div className="space-y-6">
                  {!streakDismissed && (
-                  <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4 relative">
+                  <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-5 relative">
                       <button
                         onClick={handleDismissStreak}
                         className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
@@ -49,16 +49,16 @@ export default function DashboardPage() {
                         </svg>
                       </button>
                       <div className="flex items-center justify-between pr-8">
-                          <div className="flex items-center">
-                              <span className="text-4xl mr-3">🔥</span>
+                          <div className="flex items-center flex-1">
+                              <span className="text-5xl mr-4">🔥</span>
                               <div>
-                                  <p className="text-xl font-bold text-white">7-Day Streak</p>
+                                  <p className="text-2xl font-bold text-white mb-1">7-Day Streak</p>
                                   <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
                               </div>
                           </div>
-                          <div className="text-right">
-                              <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
-                              <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
+                          <div className="flex flex-col gap-2">
+                              <button className="text-sm text-orange-400 hover:text-orange-300 transition-colors whitespace-nowrap"> Invite Friends </button>
+                              <button className="text-sm text-orange-400 hover:text-orange-300 transition-colors whitespace-nowrap"> Leaderboard → </button>
                           </div>
                       </div>
                   </div>
@@ -77,7 +77,7 @@ export default function DashboardPage() {
                 <div className="px-6 mb-6">
                     <button
                         onClick={() => setProgressExpanded(!progressExpanded)}
-                        className="w-full bg-card/50 border border-border/20 rounded-xl p-5 text-left"
+                        className="w-full bg-card/50 border border-border/20 rounded-xl p-5 text-left hover:bg-muted/30 transition-colors"
                     >
                         <div className="flex items-center justify-between">
                         <div>
@@ -86,9 +86,16 @@ export default function DashboardPage() {
                             8,540 steps -  7.2h sleep -  68 bpm
                             </p>
                         </div>
-                        <span className="text-muted-foreground text-2xl">
-                            {progressExpanded ? '▲' : '▼'}
-                        </span>
+                        <svg
+                          className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
+                            progressExpanded ? 'rotate-180' : ''
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
                         </div>
                     </button>
                     
