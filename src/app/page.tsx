@@ -41,13 +41,6 @@ export default function WelcomePage() {
       
        <header className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
         <div className="text-xl font-bold">NoiseFit</div>
-        <Button
-            onClick={() => router.push('/sign-in')}
-            variant="ghost"
-            className="text-sm text-muted-foreground hover:text-foreground"
-        >
-            Sign In
-        </Button>
       </header>
 
       <main className="flex flex-col items-center justify-center flex-1 max-w-md mx-auto">
