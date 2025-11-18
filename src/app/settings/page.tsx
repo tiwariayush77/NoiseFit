@@ -66,8 +66,8 @@ const settingsMenu = {
   ],
   'Privacy & Security': [
       { icon: <Shield />, label: 'Privacy Settings', href: '/settings/privacy' },
-      { icon: <Users />, label: 'Data Sharing Preferences', href: '/settings/data-sharing' },
-      { icon: <Fingerprint />, label: 'Biometric Lock', href: '/settings/biometric' },
+      { icon: <Users />, label: 'Data Sharing Preferences', href: '/settings/privacy' },
+      { icon: <Fingerprint />, label: 'Biometric Lock', href: '/settings/privacy' },
       { icon: <History />, label: 'Activity History', href: '/settings/history' },
   ],
    'Goals & Targets': [
