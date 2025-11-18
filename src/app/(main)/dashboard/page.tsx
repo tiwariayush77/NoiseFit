@@ -139,7 +139,7 @@ export default function DashboardPage() {
                     <button onClick={() => setInsightsExpanded(!insightsExpanded)} className="w-full flex items-center justify-between" >
                         <div className="flex items-center">
                             <span className="text-xl mr-2">💡</span>
-                            <span className="text-base font-semibold">AI Insights</span>
+                            <span className="text-base font-semibold text-white">AI Insights</span>
                             <span className="ml-2 text-xs bg-teal-500/20 text-teal-400 px-2 py-1 rounded-full">3 new</span>
                         </div>
                         <span className="text-gray-400 text-xl">{insightsExpanded ? '▲' : '▼'}</span>
