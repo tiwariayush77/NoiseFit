@@ -126,89 +126,153 @@ function DeviceConnectContent() {
 
         {/* Both Devices Found Scenario */}
         {noiseDevices.length > 0 && otherDevices.length > 0 && (
-          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-purple-500 rounded-2xl p-6 mb-6">
-            <div className="text-center mb-4">
-              <div className="text-5xl mb-3">🎯</div>
-              <h2 className="text-2xl font-bold mb-2">Multi-Device Insights</h2>
-              <p className="text-sm text-muted-foreground">
-                Combine data from both devices for the best results
-              </p>
+          <div>
+            <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-purple-500 rounded-2xl p-6 mb-6">
+              <div className="text-center mb-4">
+                <div className="text-5xl mb-3">🎯</div>
+                <h2 className="text-2xl font-bold mb-2">Multi-Device Insights</h2>
+                <p className="text-sm text-muted-foreground">
+                  Combine data from both devices for the best results
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                  <span className="text-purple-400 text-xl mr-3">✓</span>
+                  <div>
+                    <p className="font-medium">24/7 Coverage</p>
+                    <p className="text-xs text-muted-foreground">Complete data throughout the day</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                  <span className="text-purple-400 text-xl mr-3">✓</span>
+                  <div>
+                    <p className="font-medium">Cross-Device Validation</p>
+                    <p className="text-xs text-muted-foreground">More accurate measurements</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                  <span className="text-purple-400 text-xl mr-3">✓</span>
+                  <div>
+                    <p className="font-medium">Better Pattern Detection</p>
+                    <p className="text-xs text-muted-foreground">AI learns from multiple sources</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          
-            <div className="space-y-3">
-              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                <span className="text-purple-400 text-xl mr-3">✓</span>
-                <div>
-                  <p className="font-medium">24/7 Coverage</p>
-                  <p className="text-xs text-muted-foreground">Complete data throughout the day</p>
+
+            {/* Noise Devices */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-3">
+                NOISE DEVICES ({noiseDevices.length})
+              </h3>
+              {noiseDevices.map(device => (
+                <div key={device.id} className="bg-card/50 rounded-xl p-4 mb-3">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <p className="font-semibold">{device.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Battery: {device.battery}% · {device.distance}
+                      </p>
+                    </div>
+                    <Watch className="w-8 h-8 text-primary"/>
+                  </div>
+                  <Button
+                    onClick={() => router.push(`/device-connect-intro?devices=${device.id}&device=${encodeURIComponent(device.name)}`)}
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors"
+                  >
+                    Pair via Bluetooth
+                  </Button>
                 </div>
-              </div>
-          
-              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                <span className="text-purple-400 text-xl mr-3">✓</span>
-                <div>
-                  <p className="font-medium">Cross-Device Validation</p>
-                  <p className="text-xs text-muted-foreground">More accurate measurements</p>
-                </div>
-              </div>
-          
-              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                <span className="text-purple-400 text-xl mr-3">✓</span>
-                <div>
-                  <p className="font-medium">Better Pattern Detection</p>
-                  <p className="text-xs text-muted-foreground">AI learns from multiple sources</p>
-                </div>
-              </div>
+              ))}
             </div>
-             <Button onClick={handleContinue} className="w-full mt-4">Connect Both Devices</Button>
-          </Card>
+
+            {/* Non-Noise Devices */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-3">
+                OTHER WEARABLES ({otherDevices.length})
+              </h3>
+              {otherDevices.map(device => (
+                <div key={device.id} className="bg-card/50 rounded-xl p-4 mb-3">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <p className="font-semibold">{device.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        via {device.brand}
+                      </p>
+                    </div>
+                    <Smartphone className="w-8 h-8 text-accent"/>
+                  </div>
+                  <Button
+                    onClick={() => router.push(`/health-app-connect?platform=${device.suggestedPlatform}`)}
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-2 rounded-lg transition-colors"
+                  >
+                    Connect via {device.brand === 'Apple' ? 'Apple Health' : 'Google Fit'}
+                  </Button>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-auto pt-6">
+                <Button onClick={() => router.push('/dashboard')} variant="link" className="w-full">
+                    Setup Later
+                </Button>
+            </div>
+          </div>
         )}
 
-        {/* Noise Devices */}
-        <div>
-            <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">NOISE DEVICES ({noiseDevices.length})</h2>
-            {noiseDevices.length > 0 ? (
-                noiseDevices.map(device => (
-                    <Card key={device.id} className="bg-card/50">
-                        <CardContent className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <Watch className="w-8 h-8 text-primary"/>
-                                <div>
-                                    <p className="font-semibold">{device.name}</p>
-                                    <p className="text-xs text-muted-foreground">Battery: {device.battery}% · {device.distance}</p>
-                                </div>
-                            </div>
-                            <Check className="w-5 h-5 text-green-500" />
-                        </CardContent>
-                    </Card>
-                ))
-            ) : (
-                <p className="text-muted-foreground text-sm px-2">No Noise devices nearby</p>
-            )}
-        </div>
-        
-        {/* Other Wearables */}
-         <div>
-            <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">OTHER WEARABLES ({otherDevices.length})</h2>
-            {otherDevices.length > 0 ? (
-                otherDevices.map(device => (
-                    <Card key={device.id} className="bg-card/50">
-                        <CardContent className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <Smartphone className="w-8 h-8 text-primary"/>
-                                <div>
-                                    <p className="font-semibold">{device.name}</p>
-                                    <p className="text-xs text-muted-foreground">via {device.suggestedPlatform === 'apple-health' ? 'Apple Health' : 'Google Fit'}</p>
-                                </div>
-                            </div>
-                            <Check className="w-5 h-5 text-green-500" />
-                        </CardContent>
-                    </Card>
-                ))
-            ) : (
-                 <p className="text-muted-foreground text-sm px-2">No other wearables or apps detected</p>
-            )}
-        </div>
+        {/* Only Noise or Other, not both */}
+        {!(noiseDevices.length > 0 && otherDevices.length > 0) && (
+            <>
+                {/* Noise Devices */}
+                <div>
+                    <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">NOISE DEVICES ({noiseDevices.length})</h2>
+                    {noiseDevices.length > 0 ? (
+                        noiseDevices.map(device => (
+                            <Card key={device.id} className="bg-card/50">
+                                <CardContent className="p-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <Watch className="w-8 h-8 text-primary"/>
+                                        <div>
+                                            <p className="font-semibold">{device.name}</p>
+                                            <p className="text-xs text-muted-foreground">Battery: {device.battery}% · {device.distance}</p>
+                                        </div>
+                                    </div>
+                                    <Check className="w-5 h-5 text-green-500" />
+                                </CardContent>
+                            </Card>
+                        ))
+                    ) : (
+                        <p className="text-muted-foreground text-sm px-2">No Noise devices nearby</p>
+                    )}
+                </div>
+                
+                {/* Other Wearables */}
+                 <div>
+                    <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">OTHER WEARABLES ({otherDevices.length})</h2>
+                    {otherDevices.length > 0 ? (
+                        otherDevices.map(device => (
+                            <Card key={device.id} className="bg-card/50">
+                                <CardContent className="p-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <Smartphone className="w-8 h-8 text-primary"/>
+                                        <div>
+                                            <p className="font-semibold">{device.name}</p>
+                                            <p className="text-xs text-muted-foreground">via {device.suggestedPlatform === 'apple-health' ? 'Apple Health' : 'Google Fit'}</p>
+                                        </div>
+                                    </div>
+                                    <Check className="w-5 h-5 text-green-500" />
+                                </CardContent>
+                            </Card>
+                        ))
+                    ) : (
+                         <p className="text-muted-foreground text-sm px-2">No other wearables or apps detected</p>
+                    )}
+                </div>
+            </>
+        )}
         
 
         {/* No devices found */}
@@ -256,3 +320,5 @@ export default function DeviceConnectPage() {
     </Suspense>
   )
 }
+
+    
