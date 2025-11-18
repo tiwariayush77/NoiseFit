@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const benefits = [
   { text: 'Connect any fitness tracker', icon: <Check className="w-5 h-5 text-green-400" /> },
@@ -23,8 +24,32 @@ const benefits = [
 const brands = ['Noise', 'Apple Watch', 'Garmin', 'boAt', 'Fire-Boltt', 'Amazfit'];
 
 export default function WelcomePage() {
+  const router = useRouter();
+  
+  const handleGetStarted = () => {
+    // In a real app, you'd have a proper auth check service
+    const isAuthenticated = !!localStorage.getItem('userId');
+    if (isAuthenticated) {
+      router.push('/device-search');
+    } else {
+      router.push('/sign-up');
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4 text-center animate-fade-in-up bg-background text-foreground">
+      
+       <header className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+        <div className="text-xl font-bold">NoiseFit</div>
+        <Button
+            onClick={() => router.push('/sign-in')}
+            variant="ghost"
+            className="text-sm text-muted-foreground hover:text-foreground"
+        >
+            Sign In
+        </Button>
+      </header>
+
       <main className="flex flex-col items-center justify-center flex-1 max-w-md mx-auto">
         <div className="relative h-32 w-full flex items-center justify-center mb-8">
           <motion.div
@@ -56,14 +81,13 @@ export default function WelcomePage() {
           ))}
         </div>
 
-        <Link href="/device-search" className="w-full">
-          <Button
-            size="lg"
-            className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
-          >
-            Get Started
-          </Button>
-        </Link>
+        <Button
+          onClick={handleGetStarted}
+          size="lg"
+          className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
+        >
+          Get Started
+        </Button>
         
         <p className="text-sm text-muted-foreground mt-4">
             Already have an account?{' '}
