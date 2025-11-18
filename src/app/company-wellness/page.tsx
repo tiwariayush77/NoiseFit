@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Briefcase, HeartPulse, Sparkles, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const benefits = [
   { text: 'Earn wellness credits (₹2,400/year)', icon: <Sparkles className="w-5 h-5 text-accent" /> },
@@ -12,6 +13,18 @@ const benefits = [
 ];
 
 export default function CompanyWellnessPage() {
+  const router = useRouter();
+
+  const handleLinkAccount = () => {
+    // In a real app, this would involve more logic
+    // For now, we'll just redirect to goal selection
+    router.push('/goal-selection');
+  };
+
+  const handleSkip = () => {
+    router.push('/goal-selection');
+  }
+
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-6 text-center animate-fade-in-up bg-background text-foreground">
       <main className="flex flex-col items-center justify-center flex-1 max-w-md mx-auto">
@@ -43,19 +56,16 @@ export default function CompanyWellnessPage() {
 
 
         <div className="w-full space-y-4">
-            <Link href="/instant-value" className="w-full block">
-            <Button
-                size="lg"
-                className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
-            >
-                Link Company Account ✨
-            </Button>
-            </Link>
-            <Link href="/instant-value" className="w-full block">
-                <Button size="lg" variant="outline" className="w-full">
-                    Skip for Now
-                </Button>
-            </Link>
+          <Button
+              onClick={handleLinkAccount}
+              size="lg"
+              className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
+          >
+              Link Company Account ✨
+          </Button>
+          <Button onClick={handleSkip} size="lg" variant="outline" className="w-full">
+              Skip for Now
+          </Button>
         </div>
 
 

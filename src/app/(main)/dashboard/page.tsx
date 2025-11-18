@@ -25,7 +25,7 @@ export default function DashboardPage() {
             </div>
 
             {!corporateEnabled && (
-                <div className="fixed bottom-20 left-0 right-0 px-4 pb-4">
+                <div className="fixed bottom-20 left-0 right-0 px-4 pb-4 z-40">
                     <div className="max-w-md mx-auto bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-4">
                         <div className="flex items-center justify-between">
                             <div>
@@ -110,7 +110,7 @@ return (
       </div>
       <div className="flex items-start">
         <span className="text-primary mr-2">- </span>
-        <p className="text-sm text-muted-foreground">Your average daily steps: 8,540</p>
+        <p className="text-sm text-muted-foreground">Your average daily step count: 8,540</p>
       </div>
     </div>
     <button className="mt-4 text-primary text-sm font-medium hover:underline">

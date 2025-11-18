@@ -52,7 +52,8 @@ export default function DataSyncPage() {
         if (prev >= 100) {
           clearInterval(interval);
           localStorage.setItem('onboardingComplete', 'true');
-          setTimeout(() => router.push('/dashboard'), 500);
+          // CORRECTED: Route to the next step in onboarding, not directly to dashboard
+          setTimeout(() => router.push('/instant-value'), 500);
           return 100;
         }
         return prev + 2;
@@ -60,7 +61,7 @@ export default function DataSyncPage() {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [router]);
+  }, [router, platform]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6">

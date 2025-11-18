@@ -111,7 +111,7 @@ function ImportCompletionContent() {
 
                 <div className="space-y-3">
                     <Button onClick={handleContinue} size="lg" className="w-full bg-gradient-to-r from-primary to-purple-600 text-white">
-                        See Your Insights
+                        Next: Set Your Goals
                     </Button>
                     <div className="flex space-x-3">
                         <Button onClick={handleImportMore} variant="secondary" className="flex-1">Import More</Button>
