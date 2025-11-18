@@ -35,23 +35,33 @@ type DataCategory = {
 const platformConfig: { [key: string]: any } = {
   'google-fit': {
     name: 'Google Fit',
-    icon: 'https://www.gstatic.com/images/branding/product/1x/gfit_512dp.png',
+    icon: 'G',
+    color: 'bg-gradient-to-br from-green-500/30 to-blue-500/30',
   },
   'apple-health': {
     name: 'Apple Health',
-    icon: 'https://developer.apple.com/assets/elements/icons/health-app/health-app-96x96_2x.png',
+    icon: '❤️',
+    color: 'bg-gradient-to-br from-pink-500/30 to-red-500/30',
   },
   fitbit: {
     name: 'Fitbit',
-    icon: 'https://www.fitbit.com/global/content/dam/fitbit/global/pdp/charge6/hero-static/porcelain/charge6-porcelain-device-1.png',
+    icon: '핏',
+    color: 'bg-gradient-to-br from-teal-500/30 to-cyan-500/30',
   },
   garmin: {
     name: 'Garmin',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Garmin_logo_2020.svg/1024px-Garmin_logo_2020.svg.png',
+    icon: 'G',
+    color: 'bg-gradient-to-br from-blue-500/30 to-indigo-500/30',
+  },
+  bluetooth: {
+    name: 'Noise Device',
+    icon: '⌚',
+    color: 'bg-gradient-to-br from-gray-500/30 to-gray-700/30',
   },
   other: {
     name: 'Health App',
-    icon: null,
+    icon: 'H',
+    color: 'bg-gradient-to-br from-gray-500/30 to-gray-700/30',
   },
 };
 
@@ -144,14 +154,18 @@ function DataSyncContent() {
       <div className="w-full max-w-md">
         
         <div className="flex flex-col items-center space-y-4 mb-8">
-            {config.icon && <Image src={config.icon} alt={config.name} width={64} height={64} className="p-2 bg-white rounded-2xl" />}
+            <div className={cn("w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-4xl font-bold text-white", config.color)}>
+              {config.icon}
+            </div>
             <div className="text-3xl animate-bounce">↓</div>
              <div className="relative w-20 h-20 flex items-center justify-center">
                 <div className="absolute w-full h-full border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                 <Watch className="w-8 h-8 text-primary"/>
             </div>
              <div className="text-3xl animate-bounce" style={{animationDelay: '0.2s'}}>↓</div>
-             <Image src="/logo.svg" alt="Noise Logo" width={64} height={64} className="p-2 bg-card rounded-2xl" />
+            <div className="w-24 h-24 mx-auto bg-gradient-to-br from-teal-500 to-blue-500 rounded-3xl flex items-center justify-center">
+              <span className="text-white font-bold text-4xl">N</span>
+            </div>
         </div>
 
         <h1 className="text-2xl font-bold mb-2">Importing Your Health Data...</h1>
