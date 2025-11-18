@@ -1,167 +1,134 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import Link from 'next/link';
-import {
-  ArrowLeft,
-  Check,
-  HeartPulse,
-  Lock,
-  Loader2,
-  Dumbbell,
-  Footprints,
-  BedDouble,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 
-const platformConfig: { [key: string]: any } = {
-  'google-fit': {
-    name: 'Google Fit',
-    icon: (
-        <div className="w-32 h-32 bg-gradient-to-br from-green-500/30 to-blue-500/30 rounded-3xl flex items-center justify-center text-white font-bold text-6xl mb-4">
-            G
-        </div>
-    ),
-    color: 'from-green-500/30 to-blue-500/30'
-  },
+const PLATFORM_CONFIG: Record<string, any> = {
   'apple-health': {
     name: 'Apple Health',
-    icon: (
-        <div className="w-32 h-32 bg-gradient-to-br from-pink-500/30 to-red-500/30 rounded-3xl flex items-center justify-center text-white font-bold text-6xl mb-4">
-            ❤️
-        </div>
-    ),
-    color: 'from-pink-500/30 to-red-500/30'
+    logo: 'https://www.apple.com/v/health/d/images/overview/health-app/icon_health_app__fbkc4e69zdaq_large_2x.jpg',
+    provider: 'Apple',
+    gradient: 'from-pink-500 to-red-500',
+    dataTypes: ['Steps & activity data', 'Heart rate data', 'Sleep tracking', 'Workout history']
+  },
+  'google-fit': {
+    name: 'Google Fit',
+    logo: 'https://lh3.googleusercontent.com/ir2-W48gf2uIorNfXw4UDmK1mbq0g79vqe-3JVz9urSlhKQjBT58o57ENqtZ71MovujW10qrVe-mhpiic_Dsrg=w560-rw',
+    provider: 'Google',
+    gradient: 'from-green-500 to-blue-500',
+    dataTypes: ['Steps & activity data', 'Heart rate data', 'Sleep tracking', 'Workout history']
   },
   'fitbit': {
     name: 'Fitbit',
-    icon: <Image src="https://www.fitbit.com/global/content/dam/fitbit/global/pdp/charge6/hero-static/porcelain/charge6-porcelain-device-1.png" alt="Fitbit" width={120} height={120} className="mx-auto mb-4 rounded-3xl p-4 bg-gradient-to-br from-teal-500/30 to-cyan-500/30" />,
-    color: 'from-teal-500/30 to-cyan-500/30'
+    logo: 'https://cdn.brandfetch.io/idIrdiIB8m/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B',
+    provider: 'Fitbit',
+    gradient: 'from-teal-500 to-cyan-500',
+    dataTypes: ['Steps & activity data', 'Heart rate data', 'Sleep tracking', 'Workout history']
   },
   'garmin': {
     name: 'Garmin',
-    icon: <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Garmin_logo_2020.svg/1024px-Garmin_logo_2020.svg.png" alt="Garmin" width={120} height={120} className="mx-auto mb-4 rounded-3xl p-4 bg-gradient-to-br from-blue-500/30 to-indigo-500/30" />,
-    color: 'from-blue-500/30 to-indigo-500/30'
-  },
-  'other': {
-    name: 'Health App',
-    icon: (
-        <div className="w-32 h-32 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-gray-500/30 to-gray-700/30 flex items-center justify-center text-6xl">
-            <HeartPulse />
-        </div>
-    ),
-    color: 'from-gray-500/30 to-gray-700/30'
+    logo: 'https://cdn.brandfetch.io/iduRj5zc0_/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B',
+    provider: 'Garmin',
+    gradient: 'from-blue-600 to-cyan-600',
+    dataTypes: ['Steps & activity data', 'Heart rate data', 'Sleep tracking', 'Workout history']
   }
 };
 
-
-function HealthAppConnectContent() {
+export default function HealthAppConnectPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const platform = searchParams.get('platform') || 'google-fit';
-  const [isConnecting, setIsConnecting] = useState(false);
+  const config = PLATFORM_CONFIG[platform] || PLATFORM_CONFIG['google-fit'];
 
-  const config = platformConfig[platform] || platformConfig['other'];
-
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    // Simulate OAuth flow
-    setTimeout(() => {
-      router.push(`/data-sync?platform=${platform}`);
-    }, 2000);
+  const handleConnect = () => {
+    router.push(`/data-sync?platform=${platform}`);
   };
 
-  const permissions = [
-    { icon: <Footprints className="w-5 h-5 text-teal-400" />, text: 'Steps & activity data' },
-    { icon: <HeartPulse className="w-5 h-5 text-teal-400" />, text: 'Heart rate data' },
-    { icon: <BedDouble className="w-5 h-5 text-teal-400" />, text: 'Sleep tracking' },
-    { icon: <Dumbbell className="w-5 h-5 text-teal-400" />, text: 'Workout history' }
-  ];
-
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-        <header className="sticky top-0 z-10 flex items-center p-4 border-b border-border/20 bg-background/80 backdrop-blur-lg">
-            <Button variant="ghost" size="icon" onClick={() => router.back()}>
-              <ArrowLeft />
-              <span className="sr-only">Back</span>
-            </Button>
-             <h1 className="text-lg font-semibold mx-auto">Connect {config.name}</h1>
-            <div className="w-10"></div>
-        </header>
+    <div className="min-h-screen bg-background text-foreground p-6">
+      <div className="max-w-md mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <button onClick={() => router.back()} className="text-muted-foreground hover:text-foreground mb-4">
+            ← Back
+          </button>
+          <h1 className="text-2xl font-bold mb-2">Connect {config.name}</h1>
+          <p className="text-muted-foreground">We'll access your health data securely</p>
+        </div>
 
-        <main className="flex-1 flex flex-col items-center p-6 text-center">
-            <div className="w-full max-w-md">
+        {/* Platform Logo */}
+        <div className="text-center mb-8">
+          <div className={`
+            w-32 h-32 mx-auto mb-4 rounded-3xl flex items-center justify-center
+            bg-gradient-to-br ${config.gradient}
+            p-4
+          `}>
+            <img
+              src={config.logo}
+              alt={config.name}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                const parent = e.currentTarget.parentElement;
+                if (parent) {
+                    e.currentTarget.style.display = 'none';
+                    const fallback = document.createElement('span');
+                    fallback.className = "text-white font-bold text-5xl";
+                    fallback.innerText = config.name.charAt(0);
+                    parent.appendChild(fallback);
+                }
+              }}
+            />
+          </div>
+          <h2 className="text-xl font-semibold">{config.name}</h2>
+          <p className="text-sm text-muted-foreground mt-1">by {config.provider}</p>
+        </div>
 
-                <div className="text-center mb-8 animate-in fade-in-5 slide-in-from-bottom-5">
-                    {config.icon}
-                    <p className="text-xl font-semibold">{config.name}</p>
-                </div>
+        {/* What We'll Access */}
+        <div className="bg-card/50 border border-border rounded-xl p-6 mb-6">
+          <h3 className="font-semibold mb-4">We'll access:</h3>
+          <div className="space-y-3">
+            {config.dataTypes.map((type: string, idx: number) => (
+              <div key={idx} className="flex items-start">
+                <span className="text-primary mr-3 text-lg">✓</span>
+                <span className="text-muted-foreground">{type}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                <div className="mb-6 text-left animate-in fade-in-5 slide-in-from-bottom-5 [animation-delay:100ms]">
-                    <p className="text-lg font-medium mb-4">We'll access:</p>
-                    <div className="space-y-3">
-                        {permissions.map((permission, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                            {permission.icon}
-                            <span>{permission.text}</span>
-                        </div>
-                        ))}
-                    </div>
-                </div>
+        {/* Security Info */}
+        <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-8">
+          <h3 className="font-semibold mb-2 flex items-center">
+            <span className="mr-2">🔒</span>
+            Your Data Security
+          </h3>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>-  Data stays encrypted</li>
+            <li>-  We only access what you permit</li>
+            <li>-  Never shared with third parties</li>
+            <li>-  You can revoke access anytime</li>
+          </ul>
+        </div>
 
-                <Card className="bg-card/50 border-border/20 my-8 text-left animate-in fade-in-5 slide-in-from-bottom-5 [animation-delay:200ms]">
-                    <CardHeader className="flex-row items-center gap-3">
-                        <Lock className="w-5 h-5 text-primary" />
-                        <CardTitle>Your Data Security</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li>• Data stays encrypted</li>
-                            <li>• We only access what you permit</li>
-                            <li>• Never shared with third parties</li>
-                            <li>• You can revoke access anytime</li>
-                        </ul>
-                    </CardContent>
-                </Card>
+        {/* Connect Button */}
+        <button
+          onClick={handleConnect}
+          className={`
+            w-full font-semibold py-4 rounded-xl transition-all mb-4
+            bg-gradient-to-r ${config.gradient} hover:opacity-90
+            text-white
+          `}
+        >
+          Connect {config.name}
+        </button>
 
-                <div className="animate-in fade-in-5 slide-in-from-bottom-5 [animation-delay:300ms]">
-                    <Button
-                        onClick={handleConnect}
-                        disabled={isConnecting}
-                        size="lg"
-                        className={`w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600`}
-                    >
-                        {isConnecting ? (
-                            <Loader2 className="animate-spin" />
-                        ) : (
-                            `Connect to ${config.name}`
-                        )}
-                    </Button>
-                </div>
-
-                <div className="space-y-2 text-center mt-8 animate-in fade-in-5 slide-in-from-bottom-5 [animation-delay:400ms]">
-                    <Button variant="link" className="text-teal-400">
-                        Learn about data privacy →
-                    </Button>
-                    <Button variant="link" className="text-teal-400">
-                        How we use your data →
-                    </Button>
-                </div>
-            </div>
-        </main>
+        <button
+          onClick={() => router.back()}
+          className="w-full text-center text-sm text-muted-foreground hover:text-foreground"
+        >
+          Choose Different Platform
+        </button>
+      </div>
     </div>
   );
-}
-
-
-export default function HealthAppConnectPage() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <HealthAppConnectContent />
-        </Suspense>
-    )
 }

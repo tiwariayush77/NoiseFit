@@ -32,13 +32,14 @@ type Device = {
   brand?: string;
   battery?: number;
   distance?: string;
-  suggestedPlatform?: 'apple-health' | 'google-fit';
+  suggestedPlatform?: 'apple-health' | 'google-fit' | 'fitbit' | 'garmin';
 };
 
 const ALL_DEVICES: Device[] = [
   { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', type: 'noise', battery: 87, distance: '2m away' },
   { id: 'apple-watch-9', name: 'Apple Watch Series 9', type: 'other', brand: 'Apple', suggestedPlatform: 'apple-health' },
-  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'google-fit' },
+  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'fitbit' },
+  { id: 'garmin-venu-3', name: 'Garmin Venu 3', type: 'other', brand: 'Garmin', suggestedPlatform: 'garmin' },
 ];
 
 
@@ -48,15 +49,13 @@ function DeviceConnectContent() {
   const [devices, setDevices] = useState<Device[]>([]);
   const [isScanning, setIsScanning] = useState(true);
 
-  // CRITICAL FIX: Divert to health app flow if platform is specified
   useEffect(() => {
     const platform = searchParams.get('platform');
     if (platform && platform !== 'bluetooth') {
       router.replace(`/health-app-connect?platform=${platform}`);
-      return; // Stop further execution in this component
+      return; 
     }
 
-    // Simulate device detection based on query param for demo
     const scanTimeout = setTimeout(() => {
         const scenario = searchParams.get('scenario');
         let detected: Device[] = [];
@@ -79,16 +78,13 @@ function DeviceConnectContent() {
 
   const handleContinue = () => {
     if (noiseDevices.length > 0 && otherDevices.length === 0) {
-      // Only Noise device(s) found
       const deviceIds = noiseDevices.map(d => d.id).join(',');
       const primaryDeviceName = noiseDevices[0].name;
       router.push(`/device-connect-intro?devices=${deviceIds}&device=${encodeURIComponent(primaryDeviceName)}`);
     } else if (otherDevices.length > 0 && noiseDevices.length === 0) {
-      // Only other wearable(s) found
       const platform = otherDevices[0].suggestedPlatform || 'google-fit';
       router.push(`/health-app-connect?platform=${platform}`);
     }
-    // If both are found, this button is hidden, so no action is needed.
   };
 
   const handleManualConnect = () => {
@@ -127,46 +123,44 @@ function DeviceConnectContent() {
 
       <main className="flex-1 flex flex-col p-6 space-y-6">
 
-        {/* Both Devices Found Scenario */}
         {noiseDevices.length > 0 && otherDevices.length > 0 && (
           <div>
             <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-purple-500 rounded-2xl p-6 mb-6">
-              <div className="text-center mb-4">
-                <div className="text-5xl mb-3">🎯</div>
-                <h2 className="text-2xl font-bold mb-2">Multi-Device Insights</h2>
-                <p className="text-sm text-muted-foreground">
-                  Combine data from both devices for the best results
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                  <span className="text-purple-400 text-xl mr-3">✓</span>
-                  <div>
-                    <p className="font-medium">24/7 Coverage</p>
-                    <p className="text-xs text-muted-foreground">Complete data throughout the day</p>
-                  </div>
+                <div className="text-center mb-4">
+                    <div className="text-5xl mb-3">🎯</div>
+                    <h2 className="text-2xl font-bold mb-2">Multi-Device Insights</h2>
+                    <p className="text-sm text-muted-foreground">
+                    Combine data from both devices for the best results
+                    </p>
                 </div>
 
-                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                  <span className="text-purple-400 text-xl mr-3">✓</span>
-                  <div>
-                    <p className="font-medium">Cross-Device Validation</p>
-                    <p className="text-xs text-muted-foreground">More accurate measurements</p>
-                  </div>
-                </div>
+                <div className="space-y-3">
+                    <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                    <span className="text-purple-400 text-xl mr-3">✓</span>
+                    <div>
+                        <p className="font-medium">24/7 Coverage</p>
+                        <p className="text-xs text-muted-foreground">Complete data throughout the day</p>
+                    </div>
+                    </div>
 
-                <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
-                  <span className="text-purple-400 text-xl mr-3">✓</span>
-                  <div>
-                    <p className="font-medium">Better Pattern Detection</p>
-                    <p className="text-xs text-muted-foreground">AI learns from multiple sources</p>
-                  </div>
+                    <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                    <span className="text-purple-400 text-xl mr-3">✓</span>
+                    <div>
+                        <p className="font-medium">Cross-Device Validation</p>
+                        <p className="text-xs text-muted-foreground">More accurate measurements</p>
+                    </div>
+                    </div>
+
+                    <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                    <span className="text-purple-400 text-xl mr-3">✓</span>
+                    <div>
+                        <p className="font-medium">Better Pattern Detection</p>
+                        <p className="text-xs text-muted-foreground">AI learns from multiple sources</p>
+                    </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
-            {/* Noise Devices */}
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-3">
                 NOISE DEVICES ({noiseDevices.length})
@@ -192,30 +186,56 @@ function DeviceConnectContent() {
               ))}
             </div>
 
-            {/* Non-Noise Devices */}
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-3">
                 OTHER WEARABLES ({otherDevices.length})
               </h3>
-              {otherDevices.map(device => (
-                <div key={device.id} className="bg-card/50 rounded-xl p-4 mb-3">
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <p className="font-semibold">{device.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        via {device.brand}
-                      </p>
+              {otherDevices.map(device => {
+                const brandLogos: Record<string, string> = {
+                  'Apple': 'https://www.apple.com/v/health/d/images/overview/health-app/icon_health_app__fbkc4e69zdaq_large_2x.jpg',
+                  'Fitbit': 'https://cdn.brandfetch.io/idIrdiIB8m/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B',
+                  'Garmin': 'https://cdn.brandfetch.io/iduRj5zc0_/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B'
+                };
+                const logoUrl = device.brand ? brandLogos[device.brand] : '';
+
+                return (
+                    <div key={device.id} className="bg-card/50 rounded-xl p-4 mb-3">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center flex-1">
+                        <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mr-3 overflow-hidden">
+                          {logoUrl ? (
+                            <img
+                                src={logoUrl}
+                                alt={device.brand}
+                                className="w-10 h-10 object-contain"
+                                onError={(e) => {
+                                    const parent = e.currentTarget.parentElement;
+                                    if (parent) {
+                                        e.currentTarget.style.display = 'none';
+                                        const fallback = document.createElement('span');
+                                        fallback.className = "text-white text-xl";
+                                        fallback.innerText = device.brand?.charAt(0) || '?';
+                                        parent.appendChild(fallback);
+                                    }
+                                }}
+                            />
+                           ) : <Smartphone className="w-8 h-8 text-accent"/>}
+                        </div>
+                        <div>
+                          <p className="font-semibold">{device.name}</p>
+                          <p className="text-sm text-muted-foreground">via {device.brand}</p>
+                        </div>
+                      </div>
                     </div>
-                    <Smartphone className="w-8 h-8 text-accent"/>
+                    <Button
+                      onClick={() => router.push(`/health-app-connect?platform=${device.suggestedPlatform}`)}
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-2 rounded-lg transition-colors"
+                    >
+                      Connect via {device.brand === 'Apple' ? 'Apple Health' : device.brand}
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => router.push(`/health-app-connect?platform=${device.suggestedPlatform}`)}
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-2 rounded-lg transition-colors"
-                  >
-                    Connect via {device.brand === 'Apple' ? 'Apple Health' : 'Google Fit'}
-                  </Button>
-                </div>
-              ))}
+                )
+                })}
             </div>
             
             <div className="mt-auto pt-6">
@@ -226,10 +246,8 @@ function DeviceConnectContent() {
           </div>
         )}
 
-        {/* Only Noise or Other, not both */}
         {!(noiseDevices.length > 0 && otherDevices.length > 0) && (
             <>
-                {/* Noise Devices */}
                 <div>
                     <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">NOISE DEVICES ({noiseDevices.length})</h2>
                     {noiseDevices.length > 0 ? (
@@ -252,7 +270,6 @@ function DeviceConnectContent() {
                     )}
                 </div>
                 
-                {/* Other Wearables */}
                  <div>
                     <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">OTHER WEARABLES ({otherDevices.length})</h2>
                     {otherDevices.length > 0 ? (
@@ -277,8 +294,6 @@ function DeviceConnectContent() {
             </>
         )}
         
-
-        {/* No devices found */}
         {devices.length === 0 && (
              <div className="text-center py-10">
                 <p className="text-lg font-medium">No devices found</p>
@@ -299,7 +314,6 @@ function DeviceConnectContent() {
              </div>
         )}
 
-        {/* Primary CTA for single device type scenarios */}
         {devices.length > 0 && !(noiseDevices.length > 0 && otherDevices.length > 0) && (
             <div className="mt-auto pt-6">
                 <Button onClick={handleContinue} className="w-full" size="lg">Continue</Button>
@@ -323,5 +337,3 @@ export default function DeviceConnectPage() {
     </Suspense>
   )
 }
-
-    

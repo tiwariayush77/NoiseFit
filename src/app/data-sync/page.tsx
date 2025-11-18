@@ -1,223 +1,156 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import {
-  X,
-  CheckCircle,
-  Loader,
-  Smartphone,
-  Watch,
-  Lock,
-  HeartPulse,
-  Footprints,
-  BedDouble,
-  Dumbbell,
-  Pause,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
 
-type ImportStatus = 'pending' | 'importing' | 'complete';
-
-type DataCategory = {
-  id: string;
-  name: string;
-  recordCount: number;
-  status: ImportStatus;
-  icon: React.ReactNode;
-};
-
-const platformConfig: { [key: string]: any } = {
-  'google-fit': {
-    name: 'Google Fit',
-    icon: 'G',
-    color: 'bg-gradient-to-br from-green-500/30 to-blue-500/30',
-  },
+const PLATFORM_LOGOS: Record<string, any> = {
   'apple-health': {
     name: 'Apple Health',
-    icon: '❤️',
-    color: 'bg-gradient-to-br from-pink-500/30 to-red-500/30',
+    logo: 'https://www.apple.com/v/health/d/images/overview/health-app/icon_health_app__fbkc4e69zdaq_large_2x.jpg',
+    gradient: 'from-pink-500 to-red-500'
   },
-  fitbit: {
+  'google-fit': {
+    name: 'Google Fit',
+    logo: 'https://lh3.googleusercontent.com/ir2-W48gf2uIorNfXw4UDmK1mbq0g79vqe-3JVz9urSlhKQjBT58o57ENqtZ71MovujW10qrVe-mhpiic_Dsrg=w560-rw',
+    gradient: 'from-green-500 to-blue-500'
+  },
+  'fitbit': {
     name: 'Fitbit',
-    icon: '핏',
-    color: 'bg-gradient-to-br from-teal-500/30 to-cyan-500/30',
+    logo: 'https://cdn.brandfetch.io/idIrdiIB8m/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B',
+    gradient: 'from-teal-500 to-cyan-500'
   },
-  garmin: {
+  'garmin': {
     name: 'Garmin',
-    icon: 'G',
-    color: 'bg-gradient-to-br from-blue-500/30 to-indigo-500/30',
+    logo: 'https://cdn.brandfetch.io/iduRj5zc0_/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B',
+    gradient: 'from-blue-600 to-cyan-600'
   },
-  bluetooth: {
-    name: 'Noise Device',
-    icon: '⌚',
-    color: 'bg-gradient-to-br from-gray-500/30 to-gray-700/30',
-  },
-  other: {
-    name: 'Health App',
-    icon: 'H',
-    color: 'bg-gradient-to-br from-gray-500/30 to-gray-700/30',
-  },
+  'bluetooth': {
+    name: 'Your Device',
+    logo: null, // Use emoji fallback
+    gradient: 'from-primary to-purple-600'
+  }
 };
 
-const StatusIcon = ({ status }: { status: ImportStatus }) => {
-  if (status === 'complete') {
-    return <CheckCircle className="w-5 h-5 text-green-400" />;
-  }
-  if (status === 'importing') {
-    return <Loader className="w-5 h-5 text-yellow-400 animate-spin" />;
-  }
-  return <Pause className="w-5 h-5 text-muted-foreground/50" />;
+const NOISE_LOGO = {
+  name: 'Noise Intelligence',
+  logo: 'https://cdn.brandfetch.io/idZViZh4Xg/w/820/h/820/theme/dark/logo.png?c=1dxbfHSJFAPEGdCLU4o5B',
+  gradient: 'from-primary to-accent'
 };
 
-
-function DataSyncContent() {
+export default function DataSyncPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const platform = searchParams.get('platform') || 'google-fit';
-  const range = searchParams.get('range') || '30d';
+  const platform = searchParams.get('platform') || 'bluetooth';
+  const [syncProgress, setSyncProgress] = useState(0);
 
-  const config = platformConfig[platform] || platformConfig['other'];
-
-  const timeEstimates: { [key: string]: number } = {
-    '7d': 5,
-    '30d': 10,
-    '90d': 20,
-    all: 30,
-    none: 1,
-  };
-  const totalDuration = timeEstimates[range] || 10;
-
-  const [progress, setProgress] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(totalDuration);
-  const [categories, setCategories] = useState<DataCategory[]>([
-    { id: 'activity', name: 'Activity', recordCount: 2847, status: 'pending', icon: <Footprints /> },
-    { id: 'heart', name: 'Heart Rate', recordCount: 1923, status: 'pending', icon: <HeartPulse /> },
-    { id: 'sleep', name: 'Sleep', recordCount: 892, status: 'pending', icon: <BedDouble /> },
-    { id: 'workouts', name: 'Workouts', recordCount: 145, status: 'pending', icon: <Dumbbell /> },
-  ]);
+  const sourceConfig = PLATFORM_LOGOS[platform] || PLATFORM_LOGOS['bluetooth'];
 
   useEffect(() => {
-    const intervalDuration = 100;
-    const totalSteps = (totalDuration * 1000) / intervalDuration;
-    const progressIncrement = 100 / totalSteps;
-
     const interval = setInterval(() => {
-      setProgress(prev => {
-        const newProgress = Math.min(prev + progressIncrement, 100);
-        
-        setTimeRemaining(Math.max(0, Math.round(((100 - newProgress) / 100) * totalDuration)));
-
-        setCategories(prevCats => prevCats.map((cat, index) => {
-            const startThreshold = (index / prevCats.length) * 100;
-            const endThreshold = ((index + 1) / prevCats.length) * 100;
-            if (newProgress >= endThreshold) return {...cat, status: 'complete'};
-            if (newProgress >= startThreshold) return {...cat, status: 'importing'};
-            return cat;
-        }));
-
-        if (newProgress >= 100) {
+      setSyncProgress(prev => {
+        if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            localStorage.setItem('onboardingComplete', 'true');
-            router.push('/dashboard');
-          }, 1000);
+          localStorage.setItem('onboardingComplete', 'true');
+          setTimeout(() => router.push('/dashboard'), 500);
+          return 100;
         }
-
-        return newProgress;
+        return prev + 2;
       });
-    }, intervalDuration);
+    }, 100);
 
     return () => clearInterval(interval);
-  }, [range, platform, router, totalDuration]);
-
-
-  const handleCancel = () => {
-    // In a real app, this would need to stop the import process
-    if (confirm('Are you sure you want to cancel the import? In-progress data will be lost.')) {
-        router.push('/device-search');
-    }
-  }
-
+  }, [router]);
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-background text-foreground p-4 text-center">
-      <Button variant="ghost" size="icon" onClick={handleCancel} className="absolute top-4 right-4 z-10">
-        <X/>
-      </Button>
-
-      <div className="w-full max-w-md">
-        
-        <div className="flex flex-col items-center space-y-4 mb-8">
-            <div className={cn("w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-4xl font-bold text-white", config.color)}>
-              {config.icon}
-            </div>
-            <div className="text-3xl animate-bounce">↓</div>
-             <div className="relative w-20 h-20 flex items-center justify-center">
-                <div className="absolute w-full h-full border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                <Watch className="w-8 h-8 text-primary"/>
-            </div>
-             <div className="text-3xl animate-bounce" style={{animationDelay: '0.2s'}}>↓</div>
-            <div className="w-24 h-24 mx-auto bg-gradient-to-br from-teal-500 to-blue-500 rounded-3xl flex items-center justify-center">
-              <span className="text-white font-bold text-4xl">N</span>
-            </div>
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6">
+      <div className="max-w-md w-full text-center">
+        {/* Source Logo */}
+        <div className="mb-8">
+          <div className={`
+            w-24 h-24 mx-auto mb-4 rounded-3xl flex items-center justify-center p-4
+            bg-gradient-to-br ${sourceConfig.gradient}
+          `}>
+            {sourceConfig.logo ? (
+              <img
+                src={sourceConfig.logo}
+                alt={sourceConfig.name}
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                        e.currentTarget.style.display = 'none';
+                        const fallback = document.createElement('span');
+                        fallback.className = "text-white font-bold text-4xl";
+                        fallback.innerText = sourceConfig.name.charAt(0);
+                        parent.appendChild(fallback);
+                    }
+                }}
+              />
+            ) : (
+              <span className="text-white text-4xl">⌚</span>
+            )}
+          </div>
+          <p className="text-muted-foreground text-sm">{sourceConfig.name}</p>
         </div>
 
-        <h1 className="text-2xl font-bold mb-2">Importing Your Health Data...</h1>
-        <p className="text-muted-foreground mb-6">From {config.name}</p>
-
-        <div className="w-full mb-8">
-            <Progress value={progress} className="h-2 w-full mb-2" />
-            <p className="text-center font-semibold text-lg">{Math.round(progress)}% Complete</p>
+        {/* Sync Animation */}
+        <div className="mb-8">
+          <div className="text-4xl mb-4 animate-bounce">↓</div>
+          <div className="relative mx-auto w-20 h-20 mb-4">
+            <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          <div className="text-4xl mb-4 animate-bounce" style={{ animationDelay: '0.2s' }}>↓</div>
         </div>
 
-        <div className="bg-card/50 rounded-lg p-4 mb-6 text-left">
-             <p className="text-sm font-semibold text-muted-foreground mb-3">IMPORTING:</p>
-            <div className="space-y-4">
-                {categories.map(cat => (
-                    <div key={cat.id} className="flex items-center justify-between">
-                         <div className="flex items-center gap-3">
-                            <div className="text-accent">{cat.icon}</div>
-                             <div>
-                                <p className="font-medium text-sm">{cat.name}</p>
-                                <p className="text-xs text-muted-foreground">{cat.recordCount.toLocaleString()} records</p>
-                            </div>
-                         </div>
-                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <StatusIcon status={cat.status} />
-                            <span className="w-20 text-left">{cat.status.charAt(0).toUpperCase() + cat.status.slice(1)}</span>
-                         </div>
-                    </div>
-                ))}
-            </div>
+        {/* Noise Logo */}
+        <div className="mb-8">
+          <div className={`
+            w-24 h-24 mx-auto mb-4 rounded-3xl flex items-center justify-center p-4
+            bg-gradient-to-br ${NOISE_LOGO.gradient}
+          `}>
+            <img
+              src={NOISE_LOGO.logo}
+              alt={NOISE_LOGO.name}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                const parent = e.currentTarget.parentElement;
+                if (parent) {
+                    e.currentTarget.style.display = 'none';
+                    const fallback = document.createElement('span');
+                    fallback.className = "text-white font-bold text-4xl";
+                    fallback.innerText = 'N';
+                    parent.appendChild(fallback);
+                }
+              }}
+            />
+          </div>
+          <p className="text-muted-foreground text-sm">{NOISE_LOGO.name}</p>
         </div>
 
-        {timeRemaining > 0 && <p className="text-sm text-muted-foreground mb-6">
-            Estimated time remaining: {timeRemaining} seconds
-        </p>}
-        
-        <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 text-sm text-primary/80 flex items-center gap-2">
-            <Lock className="w-4 h-4" />
-            Your data is being encrypted and securely transferred
-        </div>
+        {/* Status Message */}
+        <h1 className="text-2xl font-bold mb-2">
+          Syncing from {sourceConfig.name}
+        </h1>
 
-        <Button variant="link" onClick={handleCancel} className="mt-6 text-muted-foreground">
-            Cancel Import
-        </Button>
+        {/* Progress Bar */}
+        <div className="w-full bg-card rounded-full h-3 overflow-hidden mb-2">
+          <div
+            className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-300"
+            style={{ width: `${syncProgress}%` }}
+          ></div>
+        </div>
+        <p className="text-sm text-muted-foreground mb-8">
+          {syncProgress < 100 ? `${Math.round(syncProgress)}% Complete` : 'Sync Complete!'}
+        </p>
+
+        {/* Security Note */}
+        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+          <p className="text-sm text-primary">
+            🔒 Your data is encrypted and secure
+          </p>
+        </div>
       </div>
     </div>
   );
-}
-
-export default function DataSyncPage() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <DataSyncContent />
-        </Suspense>
-    )
 }
