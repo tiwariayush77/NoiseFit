@@ -16,9 +16,7 @@ export default function CompanyWellnessPage() {
   const router = useRouter();
 
   const handleLinkAccount = () => {
-    // In a real app, this would involve more logic
-    // For now, we'll just redirect to goal selection
-    router.push('/goal-selection');
+    router.push('/corporate-setup');
   };
 
   const handleSkip = () => {

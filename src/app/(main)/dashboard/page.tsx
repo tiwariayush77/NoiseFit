@@ -30,7 +30,7 @@ export default function DashboardPage() {
             </div>
 
             {showTeamBanner && (
-                <div className="sticky bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent pt-8 pb-24 px-4 mt-8">
+                <div className="sticky bottom-16 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent pt-8 pb-4 px-4 mt-8">
                     <div className="max-w-md mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-4 shadow-2xl relative">
                         <button
                             onClick={() => {
