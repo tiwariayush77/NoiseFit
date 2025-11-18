@@ -14,11 +14,57 @@ const goals = [
   { id: 'move', icon: '🏃', title: 'Move More', description: 'Hit your daily step goal and stay active' },
   { id: 'strength', icon: '💪', title: 'Build Strength', description: 'Get stronger with regular workouts' },
   { id: 'stress', icon: '🧘', title: 'Reduce Stress', description: 'Find calm and balance in your day' },
-  { id: 'heart', icon: '❤️', title: 'Improve Heart Health', description: 'Build cardiovascular endurance' },
-  { id: 'weight', icon: '⚖️', title: 'Maintain Weight', description: 'Stay at your healthy weight range' }
+  { id: 'heart', icon: '❤️', title: 'Improve Cardio', description: 'Build cardiovascular endurance' },
+  { id: 'weight', icon: '⚖️', title: 'Manage Weight', description: 'Stay at your healthy weight range' }
 ];
 
 type Goal = typeof goals[0];
+
+const GOAL_COLORS: Record<string, { color: string; border: string; bg: string; glow: string; text: string; }> = {
+  'Sleep Better': {
+    color: 'blue',
+    border: 'border-blue-500',
+    bg: 'bg-blue-500/20',
+    glow: 'shadow-[0_0_20px_rgba(59,130,246,0.5)]',
+    text: 'text-blue-400'
+  },
+  'Move More': {
+    color: 'green',
+    border: 'border-green-500',
+    bg: 'bg-green-500/20',
+    glow: 'shadow-[0_0_20px_rgba(34,197,94,0.5)]',
+    text: 'text-green-400'
+  },
+  'Build Strength': {
+    color: 'orange',
+    border: 'border-orange-500',
+    bg: 'bg-orange-500/20',
+    glow: 'shadow-[0_0_20px_rgba(249,115,22,0.5)]',
+    text: 'text-orange-400'
+  },
+  'Reduce Stress': {
+    color: 'purple',
+    border: 'border-purple-500',
+    bg: 'bg-purple-500/20',
+    glow: 'shadow-[0_0_20px_rgba(168,85,247,0.5)]',
+    text: 'text-purple-400'
+  },
+  'Manage Weight': {
+    color: 'pink',
+    border: 'border-pink-500',
+    bg: 'bg-pink-500/20',
+    glow: 'shadow-[0_0_20px_rgba(236,72,153,0.5)]',
+    text: 'text-pink-400'
+  },
+  'Improve Cardio': {
+    color: 'cyan',
+    border: 'border-cyan-500',
+    bg: 'bg-cyan-500/20',
+    glow: 'shadow-[0_0_20px_rgba(6,182,212,0.5)]',
+    text: 'text-cyan-400'
+  }
+};
+
 
 export default function GoalSelectionPage() {
   const router = useRouter();
@@ -33,21 +79,21 @@ export default function GoalSelectionPage() {
         title: "Let's focus!",
         description: "You can select up to 3 goals at a time.",
       });
-      setShowLimitToast(false); // Reset the trigger
+      setShowLimitToast(false);
     }
   }, [showLimitToast, toast]);
 
-  const toggleGoal = (goalId: string) => {
+  const toggleGoal = (goalTitle: string) => {
     setSelectedGoals(prev => {
-      const isSelected = prev.includes(goalId);
+      const isSelected = prev.includes(goalTitle);
       if (isSelected) {
-        return prev.filter(id => id !== goalId);
+        return prev.filter(title => title !== goalTitle);
       }
       if (prev.length >= 3) {
-        setShowLimitToast(true); // Trigger the effect to show toast
+        setShowLimitToast(true);
         return prev;
       }
-      return [...prev, goalId];
+      return [...prev, goalTitle];
     });
   };
 
@@ -80,8 +126,8 @@ export default function GoalSelectionPage() {
             <GoalCard
               key={goal.id}
               goal={goal}
-              isSelected={selectedGoals.includes(goal.id)}
-              onSelect={() => toggleGoal(goal.id)}
+              isSelected={selectedGoals.includes(goal.title)}
+              onSelect={() => toggleGoal(goal.title)}
             />
           ))}
         </div>
@@ -118,29 +164,57 @@ export default function GoalSelectionPage() {
   );
 }
 
+const getColorClasses = (goalName: string, isSelected: boolean) => {
+  const colors = GOAL_COLORS[goalName] || {
+    border: 'border-border/20',
+    bg: 'bg-card/50',
+    glow: '',
+    text: 'text-foreground'
+  };
+
+  if (!isSelected) {
+    return {
+      border: 'border-border/20',
+      bg: 'bg-card/50',
+      glow: '',
+      text: 'text-muted-foreground',
+      scale: ''
+    };
+  }
+
+  return {
+    ...colors,
+    scale: 'scale-102' // Slight scale on selection
+  };
+};
+
 function GoalCard({ goal, isSelected, onSelect }: { goal: Goal, isSelected: boolean, onSelect: () => void }) {
+  const colorClasses = getColorClasses(goal.title, isSelected);
+
   return (
     <Card
       onClick={onSelect}
       className={cn(
-        "bg-card/50 cursor-pointer transition-all duration-300 border-2",
-        isSelected
-          ? 'border-accent bg-accent/10'
-          : 'border-border/20 hover:border-accent/50'
+        "cursor-pointer transition-all duration-300 border-2",
+        colorClasses.bg,
+        colorClasses.border,
+        isSelected ? colorClasses.glow : '',
+        isSelected ? colorClasses.scale : '',
+        'hover:border-accent/50'
       )}
     >
       <div className="p-6 text-center">
         <div className="text-5xl mb-4">{goal.icon}</div>
-        <h3 className="text-lg font-bold mb-2">{goal.title}</h3>
+        <h3 className={cn("text-lg font-bold mb-2", isSelected ? colorClasses.text : 'text-foreground')}>{goal.title}</h3>
         <p className="text-sm text-muted-foreground mb-4 h-10">{goal.description}</p>
         <div className="flex items-center justify-center text-sm">
           <div className={cn(
             "w-5 h-5 rounded-full border-2 flex items-center justify-center mr-2",
-            isSelected ? "bg-accent border-accent" : "border-muted-foreground"
+            isSelected ? colorClasses.border : "border-muted-foreground"
           )}>
-            {isSelected && <CheckCircle2 className="w-5 h-5 text-background" strokeWidth={3} />}
+            {isSelected && <CheckCircle2 className="w-5 h-5" style={{ color: GOAL_COLORS[goal.title]?.color.replace('text-', '') || 'currentColor' }} strokeWidth={3} />}
           </div>
-          <span className={cn(isSelected ? "text-accent font-semibold" : "text-muted-foreground")}>
+          <span className={cn(isSelected ? colorClasses.text : "text-muted-foreground", "font-semibold")}>
             {isSelected ? 'Selected' : 'Select'}
           </span>
         </div>
