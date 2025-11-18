@@ -114,7 +114,8 @@ function DataSyncContent() {
         if (newProgress >= 100) {
           clearInterval(interval);
           setTimeout(() => {
-            router.push(`/instant-value?platform=${platform}&range=${range}`);
+            localStorage.setItem('onboardingComplete', 'true');
+            router.push('/dashboard');
           }, 1000);
         }
 
