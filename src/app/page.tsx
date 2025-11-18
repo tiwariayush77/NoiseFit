@@ -56,7 +56,7 @@ export default function WelcomePage() {
           ))}
         </div>
 
-        <Link href="/device-selection" className="w-full">
+        <Link href="/device-search" className="w-full">
           <Button
             size="lg"
             className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
