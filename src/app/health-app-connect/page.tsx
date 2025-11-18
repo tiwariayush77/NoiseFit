@@ -59,7 +59,7 @@ function HealthAppConnectContent() {
     setIsConnecting(true);
     // Simulate OAuth flow
     setTimeout(() => {
-      router.push('/data-sync');
+      router.push(`/data-sync?platform=${platform}`);
     }, 2000);
   };
 
