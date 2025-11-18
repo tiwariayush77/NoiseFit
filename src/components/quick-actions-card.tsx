@@ -23,28 +23,28 @@ const quickActions = [
         icon: '🧘',
         label: 'Start Breathing',
         color: '#06B6D4', // Cyan
-        link: '/activities/breathing'
+        link: '/vitals/stress'
     },
     {
         id: 'log-food',
         icon: '🍎',
         label: 'Log Food',
         color: '#F97316', // Orange
-        link: '/nutrition/log'
+        link: '/nutrition'
     },
     {
         id: 'set-goal',
         icon: '🎯',
         label: 'Set Goal',
         color: '#EF4444', // Red
-        link: '/goals/new'
+        link: '/goal-selection'
     },
     {
         id: 'insights',
         icon: '📊',
         label: 'View Insights',
         color: '#3B82F6', // Blue
-        link: '/insights'
+        link: '/energy-detail'
     }
 ];
 
