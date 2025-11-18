@@ -6,6 +6,10 @@ import {
   TrendingUp,
   TrendingDown,
   Dot,
+  Share2,
+  Trophy,
+  Award,
+  BarChart,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,8 +39,6 @@ import { cn } from '@/lib/utils';
 import {
   LineChart,
   Line,
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   Tooltip,
@@ -48,8 +50,10 @@ import { Separator } from '@/components/ui/separator';
 const leaderboardData = {
   challenge: {
     name: 'Office Olympics 2024',
-    endsIn: '12 days',
+    endsIn: '12 days 8 hours',
     totalParticipants: 230,
+    bannerImage: 'https://picsum.photos/seed/olympics/1200/400',
+    bannerHint: 'stadium lights'
   },
   userRank: {
     name: 'Rahul Kumar',
@@ -60,6 +64,18 @@ const leaderboardData = {
     pointsBehindNext: 280,
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjMzODMwNzB8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
+   scoringRules: [
+    { rule: '1 point per 100 steps', icon: '👟' },
+    { rule: '20 points for 7h+ sleep', icon: '😴' },
+    { rule: '100 points per workout', icon: '💪' },
+    { rule: '50 bonus for daily goal', icon: '🎯' },
+  ],
+  prizes: [
+      { rank: '🥇 1st', prize: '₹10,000 gift card + Trophy' },
+      { rank: '🥈 2nd', prize: '₹5,000 gift card' },
+      { rank: '🥉 3rd', prize: '₹2,500 gift card' },
+      { rank: '🎁 Top 10', prize: 'Exclusive Noise merch' },
+  ],
   leaderboard: [
     { rank: 1, name: 'Sarah Kumar', score: 12450, trend: 'up' as const, department: 'Product', avatar: 'https://i.pravatar.cc/150?u=sarah' },
     { rank: 2, name: 'Raj Patel', score: 11890, trend: 'up' as const, department: 'Engineering', avatar: 'https://i.pravatar.cc/150?u=raj' },
@@ -70,17 +86,6 @@ const leaderboardData = {
     { rank: 46, name: 'Priya Sharma', score: 9000, trend: 'up' as const, department: 'HR', avatar: 'https://i.pravatar.cc/150?u=priya' },
     { rank: 48, name: 'Alex Martinez', score: 8690, trend: 'down' as const, department: 'Sales', avatar: 'https://i.pravatar.cc/150?u=alex' },
   ],
-  teams: [
-    { rank: 1, name: 'Product Team', score: 90440, members: 92, active: 88, trend: 'up' as const },
-    { rank: 2, name: 'Engineering', score: 89240, members: 85, active: 72, isUserTeam: true, trend: 'up' as const },
-    { rank: 3, name: 'Marketing', score: 86750, members: 78, active: 65, trend: 'stable' as const },
-    { rank: 4, name: 'Sales', score: 82340, members: 68, active: 58, trend: 'down' as const },
-  ],
-  teamMVPs: [
-    { name: 'Sarah Kumar', points: 890, reason: 'Most steps this week', avatar: 'https://i.pravatar.cc/150?u=sarah' },
-    { name: 'Raj Patel', points: 780, reason: 'Most workouts', avatar: 'https://i.pravatar.cc/150?u=raj' },
-    { name: 'Mike Johnson', points: 720, reason: 'Best sleep consistency', avatar: 'https://i.pravatar.cc/150?u=mike' },
-  ],
   userStats: {
     totalPoints: 8720,
     breakdown: [
@@ -89,7 +94,6 @@ const leaderboardData = {
       { category: 'Sleep', points: 1680, percentage: 19, detail: '84 nights tracked' },
       { category: 'Challenges', points: 440, percentage: 5, detail: '2 completed' },
     ],
-    teamContribution: 9.8,
     weeklyProgress: [
       { week: 'W1', points: 1800 },
       { week: 'W2', points: 2200 },
@@ -98,8 +102,7 @@ const leaderboardData = {
     ],
   },
   opportunities: {
-    toNextRank: { points: 280, suggestions: ['3 more workouts (300 pts)', '10K steps for 2 days'] },
-    toTop40: { points: 890, estimatedTime: '~2 weeks at current pace' },
+    toNextRank: { points: 280, suggestions: ['Complete 3 workouts (300 pts)', 'Hit 10K steps for 2 days'] },
   },
 };
 
@@ -122,11 +125,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function LeaderboardPage() {
-  const [activeTab, setActiveTab] = useState('individual');
+  const [activeTab, setActiveTab] = useState('leaderboard');
   const user = { ...leaderboardData.userRank, department: 'Engineering' };
   const fullLeaderboard = [...leaderboardData.leaderboard, user].sort((a,b) => a.rank - b.rank);
-  const maxScore = fullLeaderboard[0].score;
-  const maxTeamScore = leaderboardData.teams[0].score;
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
@@ -137,47 +138,50 @@ export default function LeaderboardPage() {
             <span className="sr-only">Back</span>
           </Button>
         </Link>
-        <h1 className="text-lg font-semibold">{leaderboardData.challenge.name}</h1>
+        <h1 className="text-lg font-semibold truncate">{leaderboardData.challenge.name}</h1>
         <Button variant="ghost" size="icon">
-          <Filter />
-          <span className="sr-only">Filter</span>
+          <Share2 />
+          <span className="sr-only">Share</span>
         </Button>
       </header>
 
       <main className="flex-1 overflow-y-auto p-4 space-y-6">
-        <Tabs defaultValue="individual" className="w-full" onValueChange={setActiveTab}>
+        <Card className="bg-card/50 overflow-hidden relative">
+            <Image src={leaderboardData.challenge.bannerImage} alt={leaderboardData.challenge.name} fill className="object-cover opacity-20" data-ai-hint={leaderboardData.challenge.bannerHint} />
+            <div className="relative p-6 text-center bg-gradient-to-t from-background/80 to-transparent">
+                <Trophy className="w-12 h-12 text-yellow-400 mx-auto mb-2" />
+                <h2 className="text-2xl font-bold">{leaderboardData.challenge.name}</h2>
+                <p className="text-muted-foreground">Ends in {leaderboardData.challenge.endsIn} • {leaderboardData.challenge.totalParticipants} participants</p>
+            </div>
+        </Card>
+
+        <Card className="bg-primary/10 border-primary/20">
+            <CardHeader>
+                <CardTitle>Your Standing</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p className="text-3xl font-bold">#{user.rank} <span className="text-base text-muted-foreground">/ {leaderboardData.challenge.totalParticipants}</span></p>
+                <p className="font-semibold text-accent">{user.score.toLocaleString()} points</p>
+                <Separator className="my-3" />
+                <p className="text-sm text-red-400">🔥 {leaderboardData.userRank.pointsBehindNext} points to #{user.rank - 1}</p>
+                <p className="text-sm text-green-400 mt-1">💡 {leaderboardData.opportunities.toNextRank.suggestions[0]}</p>
+            </CardContent>
+        </Card>
+
+        <Tabs defaultValue="leaderboard" className="w-full" onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="individual">Individual</TabsTrigger>
-            <TabsTrigger value="teams">Teams</TabsTrigger>
+            <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+            <TabsTrigger value="rules">Rules</TabsTrigger>
             <TabsTrigger value="mystats">My Stats</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="individual" className="space-y-6">
-            <Card className="bg-primary/10 border-primary/20 text-center">
-              <CardContent className="p-4">
-                <p>⏰ Challenge ends in <span className="font-bold">{leaderboardData.challenge.endsIn}</span>. 🏆 Top 10 win prizes!</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card/50 backdrop-blur-lg border-accent/30 shadow-lg">
-                <CardHeader><CardTitle>Your Rank</CardTitle></CardHeader>
-                <CardContent>
-                    <p className="text-3xl font-bold">#{user.rank} <span className="text-base text-muted-foreground">/ {leaderboardData.challenge.totalParticipants} employees</span></p>
-                    <p className="font-semibold text-accent flex items-center gap-1">Top {Math.ceil(user.rank / leaderboardData.challenge.totalParticipants * 100)}% <TrendArrow trend={user.trend} /> (+{user.changeThisWeek} this week)</p>
-                    <Separator className="my-4" />
-                    <p className="text-lg font-semibold">{user.score.toLocaleString()} points</p>
-                    <p className="text-sm text-red-400">🔥 {leaderboardData.userRank.pointsBehindNext} points behind #{user.rank - 1}</p>
-                </CardContent>
-            </Card>
-
-            {/* Podium */}
+          <TabsContent value="leaderboard" className="space-y-6 mt-6">
             <div className="flex justify-center items-end gap-2 text-center">
                 <PodiumCard user={leaderboardData.leaderboard[1]} rank={2} />
                 <PodiumCard user={leaderboardData.leaderboard[0]} rank={1} />
                 <PodiumCard user={leaderboardData.leaderboard[2]} rank={3} />
             </div>
             
-            {/* Leaderboard list */}
             <div className="space-y-2">
                 {fullLeaderboard.filter(u => u.rank > 3).map(u => (
                     <Card key={u.rank} className={cn("p-3 bg-card/50", u.name === user.name && "border-accent bg-accent/10")}>
@@ -201,63 +205,42 @@ export default function LeaderboardPage() {
             </div>
 
           </TabsContent>
-          
-          <TabsContent value="teams" className="space-y-6">
-            <Card className="bg-card/50 backdrop-blur-lg border-accent/30 shadow-lg">
-                <CardHeader><CardTitle>Your Team: Engineering</CardTitle></CardHeader>
-                <CardContent>
-                    <p className="text-3xl font-bold">#2 <span className="text-base text-muted-foreground">/ {leaderboardData.teams.length} departments</span></p>
-                    <p className="font-semibold text-accent">Top 25%</p>
-                    <Separator className="my-4" />
-                    <p className="text-lg font-semibold">{leaderboardData.teams.find(t => t.isUserTeam)!.score.toLocaleString()} points</p>
-                    <p className="text-sm text-muted-foreground">{leaderboardData.teams.find(t => t.isUserTeam)!.members} members · {leaderboardData.teams.find(t => t.isUserTeam)!.active} active</p>
-                    <p className="text-sm text-red-400 mt-1">🔥 { (leaderboardData.teams[0].score - leaderboardData.teams.find(t => t.isUserTeam)!.score).toLocaleString() } points behind #1</p>
-                </CardContent>
-            </Card>
 
-            <div className="space-y-2">
-                <h3 className="text-sm font-semibold uppercase text-muted-foreground tracking-wider px-2">Department Standings</h3>
-                {leaderboardData.teams.map(team => (
-                    <Card key={team.rank} className={cn("p-4 bg-card/50", team.isUserTeam && "border-accent bg-accent/10")}>
-                        <div className="flex items-center gap-3">
-                            <p className="text-2xl font-bold w-10 text-center">{team.rank === 1 ? '🥇' : team.rank === 2 ? '🥈' : team.rank === 3 ? '🥉' : team.rank}</p>
-                            <div className="flex-1">
-                                <p className="font-semibold">{team.name}</p>
-                                <p className="text-xs text-muted-foreground">{team.score.toLocaleString()} pts · {team.members} members</p>
-                                <Progress value={(team.score / maxTeamScore) * 100} className="h-1 mt-1" />
-                            </div>
-                            <TrendArrow trend={team.trend} />
-                        </div>
-                    </Card>
-                ))}
-            </div>
-
-            <Card className="bg-card/50">
-                <CardHeader><CardTitle>🌟 Team MVPs (This Week)</CardTitle></CardHeader>
-                <CardContent className="space-y-4">
-                    {leaderboardData.teamMVPs.map(mvp => (
-                        <div key={mvp.name} className="flex items-center gap-3">
-                            <Avatar>
-                                <AvatarImage src={mvp.avatar} alt={mvp.name} />
-                                <AvatarFallback>{mvp.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                            </Avatar>
-                             <div>
-                                <p className="font-semibold">{mvp.name} <span className="text-green-400 font-normal">(+{mvp.points} pts)</span></p>
-                                <p className="text-xs text-muted-foreground">{mvp.reason}</p>
-                            </div>
+          <TabsContent value="rules" className="space-y-6 mt-6">
+             <Card className="bg-card/50">
+                <CardHeader>
+                    <CardTitle>How to Earn Points</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                    {leaderboardData.scoringRules.map(rule => (
+                        <div key={rule.rule} className="flex items-center gap-3 bg-muted/30 p-3 rounded-md">
+                            <span className="text-xl">{rule.icon}</span>
+                            <p className="text-sm font-medium">{rule.rule}</p>
                         </div>
                     ))}
                 </CardContent>
             </Card>
 
+             <Card className="bg-card/50">
+                <CardHeader>
+                    <CardTitle>Prizes & Rewards</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                    {leaderboardData.prizes.map(prize => (
+                         <div key={prize.rank} className="flex items-start gap-3">
+                            <p className="font-bold text-lg w-20">{prize.rank}</p>
+                            <p className="text-sm text-muted-foreground">{prize.prize}</p>
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
           </TabsContent>
 
-          <TabsContent value="mystats" className="space-y-6">
+          <TabsContent value="mystats" className="space-y-6 mt-6">
                 <Card className="bg-card/50">
                     <CardHeader><CardTitle>Your Contribution</CardTitle></CardHeader>
                     <CardContent>
                         <p className="text-3xl font-bold">{leaderboardData.userStats.totalPoints.toLocaleString()} <span className="text-base text-muted-foreground">total points</span></p>
-                        <p className="text-sm text-muted-foreground">Rank: #{user.rank} / {leaderboardData.challenge.totalParticipants}</p>
                         <p className="text-sm text-muted-foreground">Team Contribution: {leaderboardData.userStats.teamContribution}%</p>
                     </CardContent>
                 </Card>
@@ -272,7 +255,6 @@ export default function LeaderboardPage() {
                                     <span className="text-muted-foreground">{item.points.toLocaleString()} pts ({item.percentage}%)</span>
                                 </div>
                                 <Progress value={item.percentage} className="h-2" />
-                                <p className="text-xs text-muted-foreground mt-1">{item.detail}</p>
                             </div>
                         ))}
                     </CardContent>
@@ -294,24 +276,6 @@ export default function LeaderboardPage() {
                         </div>
                     </CardContent>
                 </Card>
-
-                <Card className="bg-primary/10 border-primary/20">
-                    <CardHeader><CardTitle className="text-primary">💡 How to Move Up</CardTitle></CardHeader>
-                    <CardContent className="space-y-4 text-sm">
-                        <div>
-                            <p className="font-semibold">To reach #{user.rank - 1} ({leaderboardData.opportunities.toNextRank.points} pts needed):</p>
-                            <ul className="list-disc list-inside text-muted-foreground">
-                                {leaderboardData.opportunities.toNextRank.suggestions.map(s => <li key={s}>{s}</li>)}
-                            </ul>
-                        </div>
-                         <div>
-                            <p className="font-semibold">To reach Top 40 ({leaderboardData.opportunities.toTop40.points} pts needed):</p>
-                            <p className="text-muted-foreground">{leaderboardData.opportunities.toTop40.estimatedTime}</p>
-                        </div>
-                        <Button variant="default" className="w-full">Set Goal to Reach Top 40</Button>
-                    </CardContent>
-                </Card>
-
           </TabsContent>
         </Tabs>
       </main>
