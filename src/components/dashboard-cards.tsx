@@ -122,53 +122,39 @@ export function SleepCard() {
   );
 }
 
-const goalsData = [
-  {
-    title: 'Weekly Running Distance',
-    progress: 75,
-    target: '20km',
-    current: '15km',
-  },
-  {
-    title: 'Workout Sessions',
-    progress: 60,
-    target: '5 sessions',
-    current: '3 sessions',
-  },
-  {
-    title: 'Daily Steps',
-    progress: 100,
-    target: '10,000 steps',
-    current: '10,240 steps',
-  },
-];
-
 export function GoalsCard() {
   return (
     <Card className="bg-card/50 backdrop-blur-lg border-border/20 shadow-lg">
       <CardHeader>
-        <CardTitle>Goal Progress</CardTitle>
+        <CardTitle>Today's Goals</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {goalsData.map((goal) => (
-          <div key={goal.title}>
-            <div className="flex justify-between items-center mb-2">
-              <p className="font-medium text-sm">{goal.title}</p>
-              {goal.progress === 100 ? (
-                <CheckCircle2 className="w-5 h-5 text-accent" />
-              ) : (
-                <p className="text-sm text-muted-foreground">{`${goal.current} / ${goal.target}`}</p>
-              )}
-            </div>
-            <Progress
-              value={goal.progress}
-              className="h-2"
-              indicatorClassName={
-                goal.progress === 100 ? 'bg-accent' : 'bg-primary'
-              }
-            />
+      <CardContent className="space-y-4">
+        {/* Steps Goal */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium">Steps</span>
+            <span className="text-sm font-bold">8,540 / 10,000</span>
           </div>
-        ))}
+          <Progress value={85.4} className="h-2" indicatorClassName="bg-teal-500" />
+        </div>
+
+        {/* Sleep Goal */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium">Sleep Quality</span>
+            <span className="text-sm font-bold">85%</span>
+          </div>
+          <Progress value={85} className="h-2" indicatorClassName="bg-blue-500" />
+        </div>
+
+        {/* Active Minutes Goal */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium">Active Minutes</span>
+            <span className="text-sm font-bold">23 / 30</span>
+          </div>
+          <Progress value={77} className="h-2" indicatorClassName="bg-orange-500" />
+        </div>
       </CardContent>
     </Card>
   );

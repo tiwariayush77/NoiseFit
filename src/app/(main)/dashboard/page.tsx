@@ -108,8 +108,6 @@ return (
     </div>
     </div>
 
-    <GoalsCard />
-
   {/* AI Insights */}
   <div className="bg-card/50 border border-border/20 rounded-xl p-6">
     <h3 className="text-lg font-semibold mb-4 flex items-center">
@@ -134,6 +132,9 @@ return (
       View All Insights →
     </button>
   </div>
+  
+  <GoalsCard />
+
 </div>
 );
 }
