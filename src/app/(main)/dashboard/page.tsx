@@ -1,19 +1,19 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { GoalsCard } from '@/components/dashboard-cards';
 import EnergyScoreCard from '@/components/energy-score-card';
 import SmartOpportunitiesCard from '@/components/smart-opportunities-card';
-import SmartTimelineCard from '@/components/smart-timeline-card';
 import WeeklyWinsCard from '@/components/weekly-wins-card';
+import { Progress } from '@/components/ui/progress';
 
 export default function DashboardPage() {
     const router = useRouter();
     const [corporateEnabled, setCorporateEnabled] = useState(false);
     const [showTeamBanner, setShowTeamBanner] = useState(false);
+    const [insightsExpanded, setInsightsExpanded] = useState(false);
+    const [winsExpanded, setWinsExpanded] = useState(false);
     
     useEffect(() => {
         const isEnabled = localStorage.getItem('corporateEnabled') === 'true';
@@ -27,7 +27,124 @@ export default function DashboardPage() {
     return (
         <div className="flex flex-col">
             <div className="space-y-6">
-                <PersonalTabContent />
+                 {/* Streak Counter - NEW */}
+                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <span className="text-4xl mr-3">🔥</span>
+                            <div>
+                                <p className="text-xl font-bold text-white">7-Day Streak</p>
+                                <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
+                            <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
+                        </div>
+                    </div>
+                </div>
+
+                <EnergyScoreCard score={87} />
+                <SmartOpportunitiesCard />
+                
+                {/* Today's Progress - MERGED & ENHANCED */}
+                <div className="bg-card/50 border border-border/20 rounded-xl p-6 mb-6">
+                    <h3 className="text-lg font-semibold mb-4">Today's Progress</h3>
+                    <div className="space-y-5">
+                        {/* Steps - WITH PERCENTILE */}
+                        <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                            <span className="text-xl mr-2">👟</span>
+                            <span className="text-sm font-medium text-gray-300">Steps</span>
+                            </div>
+                            <span className="text-sm font-bold text-white">8,540 / 10,000</span>
+                        </div>
+                        <Progress value={85.4} className="h-2.5" indicatorClassName="bg-teal-500" />
+                        <p className="text-xs text-teal-400 flex items-center mt-2">
+                            <span className="mr-1">🏆</span>
+                            You're ahead of 68% in your area
+                        </p>
+                        </div>
+                        {/* Sleep - WITH TREND */}
+                        <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                            <span className="text-xl mr-2">😴</span>
+                            <span className="text-sm font-medium text-gray-300">Sleep Quality</span>
+                            </div>
+                            <span className="text-sm font-bold text-white">7.2h</span>
+                        </div>
+                        <Progress value={90} className="h-2.5" indicatorClassName="bg-blue-500" />
+                        <p className="text-xs text-blue-400 flex items-center mt-2">
+                            <span className="mr-1">📈</span>
+                            30 min more than your weekly average
+                        </p>
+                        </div>
+                        {/* Active Minutes - WITH MOTIVATION */}
+                        <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                            <span className="text-xl mr-2">💪</span>
+                            <span className="text-sm font-medium text-gray-300">Active Minutes</span>
+                            </div>
+                            <span className="text-sm font-bold text-white">23 / 30</span>
+                        </div>
+                        <Progress value={77} className="h-2.5" indicatorClassName="bg-orange-500" />
+                        <p className="text-xs text-orange-400 flex items-center mt-2">
+                            <span className="mr-1">⚡</span>
+                            Just 7 more minutes to hit your goal!
+                        </p>
+                        </div>
+                        {/* Resting HR */}
+                        <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                            <span className="text-xl mr-2">❤️</span>
+                            <span className="text-sm font-medium text-gray-300">Resting Heart Rate</span>
+                            </div>
+                            <span className="text-sm font-bold text-white">68 bpm</span>
+                        </div>
+                         <Progress value={70} className="h-2.5" indicatorClassName="bg-red-500" />
+                        <p className="text-xs text-gray-400 flex items-center mt-2">
+                            <span className="mr-1">✓</span>
+                            4 bpm lower than average (excellent!)
+                        </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* AI Insights - COLLAPSED */}
+                <div className="bg-card/50 border border-border/20 rounded-xl p-4 mb-4">
+                    <button onClick={() => setInsightsExpanded(!insightsExpanded)} className="w-full flex items-center justify-between" >
+                        <div className="flex items-center">
+                            <span className="text-xl mr-2">💡</span>
+                            <span className="text-base font-semibold">AI Insights</span>
+                            <span className="ml-2 text-xs bg-teal-500/20 text-teal-400 px-2 py-1 rounded-full">3 new</span>
+                        </div>
+                        <span className="text-gray-400 text-xl">{insightsExpanded ? '▲' : '▼'}</span>
+                    </button>
+                    {insightsExpanded && (
+                        <div className="mt-4 space-y-3">
+                            <div className="flex items-start">
+                                <span className="text-teal-400 mr-2 text-lg">- </span>
+                                <p className="text-sm text-gray-300">You sleep best on Saturdays</p>
+                            </div>
+                            <div className="flex items-start">
+                                <span className="text-teal-400 mr-2 text-lg">- </span>
+                                <p className="text-sm text-gray-300">Morning workouts boost your energy by 23%</p>
+                            </div>
+                            <div className="flex items-start">
+                                <span className="text-teal-400 mr-2 text-lg">- </span>
+                                <p className="text-sm text-gray-300">Your average daily step count: 8,540</p>
+                            </div>
+                            <button className="mt-2 text-sm text-teal-400 hover:text-teal-300 transition-colors">View all insights →</button>
+                        </div>
+                    )}
+                </div>
+
+                <WeeklyWinsCard />
+
             </div>
 
             {showTeamBanner && (
@@ -65,89 +182,4 @@ export default function DashboardPage() {
             )}
         </div>
     );
-}
-
-
-// Personal Tab Content Component
-function PersonalTabContent() {
-return (
-<div className="space-y-6">
-  {/* Streak Counter - NEW */}
-<div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4">
-    <div className="flex items-center justify-between">
-        <div className="flex items-center">
-            <span className="text-4xl mr-3">🔥</span>
-            <div>
-                <p className="text-xl font-bold text-white">7-Day Streak</p>
-                <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
-            </div>
-        </div>
-        <div className="text-right">
-            <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
-            <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
-        </div>
-    </div>
-</div>
-
-  <EnergyScoreCard score={87} />
-  <SmartOpportunitiesCard />
-  <SmartTimelineCard />
-  <WeeklyWinsCard />
-
-  {/* Activity Cards */}
-    <div className="grid grid-cols-2 gap-4">
-    <div className="bg-gradient-to-br from-teal-500/20 to-teal-600/20 border-2 border-teal-500/50 rounded-xl p-4">
-        <div className="text-3xl mb-2">👟</div>
-        <p className="text-3xl font-bold text-white">8,540</p>
-        <p className="text-sm text-teal-200 font-medium">Steps today</p>
-    </div>
-    
-    <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500/50 rounded-xl p-4">
-        <div className="text-3xl mb-2">😴</div>
-        <p className="text-3xl font-bold text-white">7.2h</p>
-        <p className="text-sm text-blue-200 font-medium">Sleep last night</p>
-    </div>
-    
-    <div className="bg-gradient-to-br from-red-500/20 to-red-600/20 border-2 border-red-500/50 rounded-xl p-4">
-        <div className="text-3xl mb-2">❤️</div>
-        <p className="text-3xl font-bold text-white">68 bpm</p>
-        <p className="text-sm text-red-200 font-medium">Resting HR</p>
-    </div>
-    
-    <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border-2 border-purple-500/50 rounded-xl p-4">
-        <div className="text-3xl mb-2">💪</div>
-        <p className="text-3xl font-bold text-white">3</p>
-        <p className="text-sm text-purple-200 font-medium">Workouts this week</p>
-    </div>
-    </div>
-
-  {/* AI Insights */}
-  <div className="bg-card/50 border border-border/20 rounded-xl p-6">
-    <h3 className="text-lg font-semibold mb-4 flex items-center">
-      <span className="mr-2">💡</span>
-      AI Insights
-    </h3>
-    <div className="space-y-3">
-      <div className="flex items-start">
-        <span className="text-primary mr-2">- </span>
-        <p className="text-sm text-muted-foreground">You sleep best on Saturdays</p>
-      </div>
-      <div className="flex items-start">
-        <span className="text-primary mr-2">- </span>
-        <p className="text-sm text-muted-foreground">Morning workouts boost your energy by 23%</p>
-      </div>
-      <div className="flex items-start">
-        <span className="text-primary mr-2">- </span>
-        <p className="text-sm text-muted-foreground">Your average daily step count: 8,540</p>
-      </div>
-    </div>
-    <button className="mt-4 text-primary text-sm font-medium hover:underline">
-      View All Insights →
-    </button>
-  </div>
-  
-  <GoalsCard />
-
-</div>
-);
 }
