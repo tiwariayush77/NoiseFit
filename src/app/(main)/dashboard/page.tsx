@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -74,6 +75,23 @@ return (
 <div>
 <h2 className="text-2xl font-bold mb-4">Good morning! 👋</h2>
 <p className="text-muted-foreground">Here's your health overview</p>
+</div>
+
+{/* Streak Counter - NEW */}
+<div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4">
+    <div className="flex items-center justify-between">
+        <div className="flex items-center">
+            <span className="text-4xl mr-3">🔥</span>
+            <div>
+                <p className="text-xl font-bold text-white">7-Day Streak</p>
+                <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
+            </div>
+        </div>
+        <div className="text-right">
+            <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
+            <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
+        </div>
+    </div>
 </div>
 
   <EnergyScoreCard score={87} />
