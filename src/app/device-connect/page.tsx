@@ -36,10 +36,10 @@ type Device = {
 };
 
 const ALL_DEVICES: Device[] = [
-  { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', type: 'noise', battery: 87, distance: '2m away' },
+  { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', type: 'noise', brand: 'Noise', battery: 87, distance: '2m away' },
   { id: 'apple-watch-9', name: 'Apple Watch Series 9', type: 'other', brand: 'Apple', suggestedPlatform: 'apple-health' },
-  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'fitbit' },
-  { id: 'garmin-venu-3', name: 'Garmin Venu 3', type: 'other', brand: 'Garmin', suggestedPlatform: 'garmin' },
+  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'google-fit' },
+  { id: 'garmin-venu-3', name: 'Garmin Venu 3', type: 'other', brand: 'Garmin', suggestedPlatform: 'google-fit' },
 ];
 
 
@@ -62,7 +62,7 @@ function DeviceConnectContent() {
         if (scenario === 'noise') {
             detected = [ALL_DEVICES[0]];
         } else if (scenario === 'other') {
-            detected = [ALL_DEVICES[1]];
+            detected = [ALL_DEVICES[2]];
         } else if (scenario === 'both') {
             detected = [ALL_DEVICES[0], ALL_DEVICES[2]];
         }
@@ -83,7 +83,8 @@ function DeviceConnectContent() {
       router.push(`/device-connect-intro?devices=${deviceIds}&device=${encodeURIComponent(primaryDeviceName)}`);
     } else if (otherDevices.length > 0 && noiseDevices.length === 0) {
       const platform = otherDevices[0].suggestedPlatform || 'google-fit';
-      router.push(`/health-app-connect?platform=${platform}`);
+      const source = otherDevices[0].brand?.toLowerCase()
+      router.push(`/health-app-connect?platform=${platform}${source ? `&source=${source}`: ''}`);
     }
   };
 
@@ -177,7 +178,7 @@ function DeviceConnectContent() {
                     <Watch className="w-8 h-8 text-primary"/>
                   </div>
                   <Button
-                    onClick={() => router.push(`/device-connect-intro?devices=${device.id}&device=${encodeURIComponent(device.name)}`)}
+                    onClick={() => router.push(`/device-connect-intro?devices=${device.id}&device=${encodeURIComponent(device.name || 'Device')}`)}
                     className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors"
                   >
                     Pair via Bluetooth
@@ -203,7 +204,7 @@ function DeviceConnectContent() {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center flex-1">
                         <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mr-3 overflow-hidden">
-                          {logoUrl ? (
+                          {logoUrl && device.brand ? (
                             <img
                                 src={logoUrl}
                                 alt={device.brand}
@@ -228,10 +229,14 @@ function DeviceConnectContent() {
                       </div>
                     </div>
                     <Button
-                      onClick={() => router.push(`/health-app-connect?platform=${device.suggestedPlatform}`)}
+                      onClick={() => {
+                        const platform = device.suggestedPlatform || 'google-fit';
+                        const source = device.brand?.toLowerCase();
+                        router.push(`/health-app-connect?platform=${platform}${source ? `&source=${source}` : ''}`);
+                      }}
                       className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-2 rounded-lg transition-colors"
                     >
-                      Connect via {device.brand === 'Apple' ? 'Apple Health' : device.brand}
+                      Connect via {device.brand === 'Apple' ? 'Apple Health' : device.brand === 'Fitbit' ? 'Google Fit' : device.brand === 'Garmin' ? 'Google Fit' : device.brand}
                     </Button>
                   </div>
                 )

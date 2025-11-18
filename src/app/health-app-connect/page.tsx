@@ -38,6 +38,7 @@ export default function HealthAppConnectPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const platform = searchParams.get('platform') || 'google-fit';
+  const source = searchParams.get('source');
   const config = PLATFORM_CONFIG[platform] || PLATFORM_CONFIG['google-fit'];
 
   const handleConnect = () => {
@@ -52,9 +53,28 @@ export default function HealthAppConnectPage() {
           <button onClick={() => router.back()} className="text-muted-foreground hover:text-foreground mb-4">
             ← Back
           </button>
-          <h1 className="text-2xl font-bold mb-2">Connect {config.name}</h1>
-          <p className="text-muted-foreground">We'll access your health data securely</p>
+          <h1 className="text-2xl font-bold mb-2">Connect {source ? source.charAt(0).toUpperCase() + source.slice(1) : config.name}</h1>
+           {source ? (
+            <p className="text-muted-foreground">
+              {source.charAt(0).toUpperCase() + source.slice(1)} syncs through {config.name}
+            </p>
+          ) : (
+            <p className="text-muted-foreground">We'll access your health data securely</p>
+          )}
         </div>
+        
+        {source && (
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-6">
+            <h3 className="font-semibold mb-2 flex items-center">
+              <span className="mr-2">ℹ️</span>
+              How It Works
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {source.charAt(0).toUpperCase() + source.slice(1)} automatically syncs your data to {config.name}. 
+              By connecting {config.name}, we'll access your {source} data.
+            </p>
+          </div>
+        )}
 
         {/* Platform Logo */}
         <div className="text-center mb-8">
