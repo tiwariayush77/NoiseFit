@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Watch, Smartphone, Cloud, Check } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { Suspense } from 'react';
+
 
 const discoveries = [
   { progress: 10, text: 'Found 90 days of step data' },
@@ -14,19 +16,32 @@ const discoveries = [
   { progress: 80, text: 'Generating AI insights...' },
 ];
 
-export default function DataSync() {
+function DataSyncContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('Importing your activity data...');
   const [visibleDiscoveries, setVisibleDiscoveries] = useState<string[]>([]);
+  const range = searchParams.get('range') || '30d';
+
+  const timeEstimates: { [key: string]: number } = {
+    '7d': 3, // seconds
+    '30d': 6,
+    '90d': 10,
+    'all': 15,
+    'none': 1,
+  };
+
+  const totalDuration = (timeEstimates[range] || 6) * 1000;
+
 
   useEffect(() => {
     if (progress >= 100) {
-      // Navigate after a short delay once progress is 100
       const timer = setTimeout(() => router.push('/company-wellness'), 500);
       return () => clearTimeout(timer);
     }
 
+    const intervalTime = totalDuration / 100;
     const interval = setInterval(() => {
       setProgress(prev => {
         const newProgress = prev + 1;
@@ -47,10 +62,10 @@ export default function DataSync() {
 
         return newProgress;
       });
-    }, 60); // 100 steps * 60ms = ~6 seconds
+    }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [progress, router]);
+  }, [progress, router, totalDuration]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4 text-center">
@@ -69,7 +84,7 @@ export default function DataSync() {
           <div className="absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2"></div>
            <div
               className="absolute top-1/2 left-0 h-1 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary to-accent"
-              style={{ width: `${progress}%` }}
+              style={{ width: `${progress}%`, transition: 'width 0.1s linear' }}
             ></div>
         </div>
 
@@ -78,7 +93,7 @@ export default function DataSync() {
           <Progress value={progress} className="w-full h-2" />
         </div>
 
-        <div className="space-y-3 text-left w-full animate-in fade-in-5 slide-in-from-bottom-5 duration-1000">
+        <div className="space-y-3 text-left w-full animate-in fade-in-5 slide-in-from-bottom-5 duration-1000 min-h-[150px]">
           {visibleDiscoveries.map((text, i) => (
             <div
               key={i}
@@ -91,9 +106,17 @@ export default function DataSync() {
           ))}
         </div>
          {progress > 5 && <p className="text-xs text-muted-foreground mt-8 animate-pulse">
-            Found 90 days of data on your devices
+            Found {range} of data on your devices
         </p>}
       </div>
     </div>
   );
+}
+
+export default function DataSyncPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DataSyncContent />
+        </Suspense>
+    )
 }
