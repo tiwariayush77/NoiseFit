@@ -134,35 +134,6 @@ export default function DashboardPage() {
                     )}
                 </div>
 
-                {/* AI Insights - COLLAPSED */}
-                <div className="bg-card/50 border border-border/20 rounded-xl p-4 mb-4">
-                    <button onClick={() => setInsightsExpanded(!insightsExpanded)} className="w-full flex items-center justify-between" >
-                        <div className="flex items-center">
-                            <span className="text-xl mr-2">💡</span>
-                            <span className="text-base font-semibold text-white">AI Insights</span>
-                            <span className="ml-2 text-xs bg-teal-500/20 text-teal-400 px-2 py-1 rounded-full">3 new</span>
-                        </div>
-                        <span className="text-gray-400 text-xl">{insightsExpanded ? '▲' : '▼'}</span>
-                    </button>
-                    {insightsExpanded && (
-                        <div className="mt-4 space-y-3">
-                            <div className="flex items-start">
-                                <span className="text-teal-400 mr-2 text-lg">- </span>
-                                <p className="text-sm text-gray-300">You sleep best on Saturdays</p>
-                            </div>
-                            <div className="flex items-start">
-                                <span className="text-teal-400 mr-2 text-lg">- </span>
-                                <p className="text-sm text-gray-300">Morning workouts boost your energy by 23%</p>
-                            </div>
-                            <div className="flex items-start">
-                                <span className="text-teal-400 mr-2 text-lg">- </span>
-                                <p className="text-sm text-gray-300">Your average daily step count: 8,540</p>
-                            </div>
-                            <button onClick={() => router.push('/intelligence')} className="mt-2 text-sm text-teal-400 hover:text-teal-300 transition-colors">View all insights →</button>
-                        </div>
-                    )}
-                </div>
-
                 <WeeklyWinsCard />
 
             </div>
