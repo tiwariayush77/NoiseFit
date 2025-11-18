@@ -93,7 +93,7 @@ export default function WelcomePage() {
                 <span className="sr-only">Apple</span>
               </Button>
             </Link>
-            <Link href="/device-selection">
+            <Link href="/sign-in">
               <Button variant="outline" size="icon">
                 <Mail className="h-5 w-5" />
                 <span className="sr-only">Email</span>
