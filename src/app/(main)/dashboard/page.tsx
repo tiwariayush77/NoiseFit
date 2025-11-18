@@ -72,12 +72,7 @@ export default function DashboardPage() {
 function PersonalTabContent() {
 return (
 <div className="space-y-6">
-<div>
-<h2 className="text-2xl font-bold mb-4">Good morning! 👋</h2>
-<p className="text-muted-foreground">Here's your health overview</p>
-</div>
-
-{/* Streak Counter - NEW */}
+  {/* Streak Counter - NEW */}
 <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4">
     <div className="flex items-center justify-between">
         <div className="flex items-center">

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -11,12 +12,12 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
 
   const getScoreLevel = (score: number) => {
     if (score >= 80) return {
-      color: '#00E676', // Green
+      color: 'hsl(var(--primary))',
       label: 'EXCELLENT',
-      message: 'Perfect day for challenges',
-      gradientFrom: 'rgba(0, 230, 118, 0.2)',
-      gradientTo: 'rgba(0, 200, 83, 0.2)',
-      borderColor: 'rgba(0, 230, 118, 0.5)'
+      message: 'Perfect day for challenges! 💪',
+      gradientFrom: 'hsla(var(--primary), 0.2)',
+      gradientTo: 'hsla(var(--accent), 0.2)',
+      borderColor: 'hsla(var(--primary), 0.5)'
     };
     if (score >= 60) return {
       color: '#FFD54F', // Yellow
@@ -50,11 +51,12 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
 
   return (
     <div 
-      className="border-2 rounded-2xl p-6 mb-6"
+      className="border-2 rounded-2xl p-6 mb-6 bg-gradient-to-br"
       style={{
-        backgroundImage: `linear-gradient(to bottom right, ${gradientFrom}, ${gradientTo})`,
+        '--tw-gradient-from': gradientFrom,
+        '--tw-gradient-to': gradientTo,
         borderColor: borderColor
-      }}
+      } as React.CSSProperties}
     >
       <p className="text-sm font-semibold text-muted-foreground mb-4">YOUR ENERGY SCORE</p>
       
@@ -94,16 +96,26 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
       
       {/* Status */}
       <div className="text-center mb-4">
-        <p className="text-lg font-semibold mb-1" style={{ color }}>{label}</p>
-        <p className="text-sm text-muted-foreground">{message}</p>
+        <p className="text-lg font-semibold mb-2" style={{ color }}>{label}</p>
+        <p className="text-base text-white font-medium">
+          {message}
+        </p>
       </div>
       
+       {/* NEW: Urgency Message */}
+      <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3 mb-4">
+        <p className="text-sm text-orange-300 flex items-center justify-center">
+          <span className="mr-2">⏰</span>
+          Peak energy window: Next 3 hours
+        </p>
+      </div>
+
       {/* Breakdown button */}
       <button
         onClick={() => router.push('/energy-detail')}
         className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
       >
-        See breakdown →
+        See how this score is calculated →
       </button>
     </div>
   );
