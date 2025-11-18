@@ -98,7 +98,8 @@ export default function DeviceSearchPage() {
   const handleContinue = () => {
     if (selectedDevices.length > 0) {
       const deviceIds = selectedDevices.map(d => d.id).join(',');
-      router.push(`/connection-method?devices=${deviceIds}`);
+      const primaryDeviceName = selectedDevices[0].name;
+      router.push(`/device-connect-intro?devices=${deviceIds}&device=${encodeURIComponent(primaryDeviceName)}`);
     }
   };
 
