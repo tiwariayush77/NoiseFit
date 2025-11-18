@@ -40,7 +40,7 @@ function ImportCompletionContent() {
     const rangeLabel = range === 'none' ? 'future' : range === '7d' ? '7 days of' : range === '30d' ? '30 days of' : range === '90d' ? '90 days of' : 'all available';
 
     const handleContinue = () => {
-        router.push('/company-wellness');
+        router.push('/goal-selection'); // Direct to goals (corporate removed from flow)
     };
 
     const handleImportMore = () => {
