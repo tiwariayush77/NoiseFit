@@ -22,17 +22,17 @@ const patterns = [
 ];
 
 return (
-<div className="min-h-screen bg-gray-900 text-white pb-28">
+<div className="min-h-screen bg-background text-foreground pb-28">
 {/* Header */}
-<div className="bg-gradient-to-b from-gray-800 to-gray-900 p-6 pb-8">
+<div className="bg-gradient-to-b from-card to-background p-6 pb-8">
 <button
 onClick={() => router.back()}
-className="flex items-center text-gray-400 hover:text-white mb-4 transition-colors"
+className="flex items-center text-muted-foreground hover:text-foreground mb-4 transition-colors"
 >
 <span className="mr-2">←</span> Back
 </button>
     <h1 className="text-2xl font-bold mb-2">AI Intelligence Hub</h1>
-    <p className="text-gray-400 text-sm">
+    <p className="text-muted-foreground text-sm">
       Your personalized health insights powered by AI
     </p>
   </div>
@@ -43,8 +43,8 @@ className="flex items-center text-gray-400 hover:text-white mb-4 transition-colo
     <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-6 mb-6">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-sm text-gray-300 mb-1">Your Energy Score</p>
-          <p className="text-4xl font-bold text-white">{energyScore}<span className="text-xl text-gray-400">/100</span></p>
+          <p className="text-sm text-muted-foreground mb-1">Your Energy Score</p>
+          <p className="text-4xl font-bold text-white">{energyScore}<span className="text-xl text-muted-foreground">/100</span></p>
         </div>
         <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
           <span className="text-3xl">⚡</span>
@@ -65,8 +65,8 @@ className="flex items-center text-gray-400 hover:text-white mb-4 transition-colo
         {insights.map((insight) => (
           <div
             key={insight.id}
-            onClick={() => router.push(`/${insight.category}-insights`)}
-            className="bg-gray-800 border border-gray-700 rounded-xl p-4 cursor-pointer hover:border-teal-500/50 transition-all"
+            onClick={() => router.push(`/vitals/${insight.category}`)}
+            className="bg-card/50 border border-border/20 rounded-xl p-4 cursor-pointer hover:border-accent/50 transition-all"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-2xl">{insight.icon}</span>
@@ -77,7 +77,7 @@ className="flex items-center text-gray-400 hover:text-white mb-4 transition-colo
               </span>
             </div>
             <p className="text-sm font-medium text-white">{insight.title}</p>
-            <p className="text-xs text-gray-400 mt-1">Tap to explore →</p>
+            <p className="text-xs text-muted-foreground mt-1">Tap to explore →</p>
           </div>
         ))}
       </div>
@@ -99,13 +99,13 @@ className="flex items-center text-gray-400 hover:text-white mb-4 transition-colo
         {patterns.map((pattern) => (
           <div
             key={pattern.id}
-            className="bg-gray-800 border border-gray-700 rounded-xl p-4"
+            className="bg-card/50 border border-border/20 rounded-xl p-4"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-white mb-2">{pattern.title}</p>
                 <div className="flex items-center">
-                  <div className="flex-1 bg-gray-700 rounded-full h-2 mr-3">
+                  <div className="flex-1 bg-muted/30 rounded-full h-2 mr-3">
                     <div
                       className="bg-teal-500 h-2 rounded-full"
                       style={{ width: `${pattern.confidence}%` }}
@@ -127,34 +127,34 @@ className="flex items-center text-gray-400 hover:text-white mb-4 transition-colo
       <h2 className="text-lg font-semibold mb-4">Explore More</h2>
       <div className="space-y-3">
         <button
-          onClick={() => router.push('/hrv-tips')}
-          className="w-full bg-gray-800 border border-gray-700 rounded-xl p-4 text-left hover:border-teal-500/50 transition-all"
+          onClick={() => router.push('/vitals/heart')}
+          className="w-full bg-card/50 border border-border/20 rounded-xl p-4 text-left hover:border-accent/50 transition-all"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <span className="text-2xl mr-3">❤️</span>
               <div>
                 <p className="font-medium text-white">HRV Tips</p>
-                <p className="text-xs text-gray-400">Improve your recovery</p>
+                <p className="text-xs text-muted-foreground">Improve your recovery</p>
               </div>
             </div>
-            <span className="text-gray-400">→</span>
+            <span className="text-muted-foreground">→</span>
           </div>
         </button>
 
         <button
           onClick={() => router.push('/timeline')}
-          className="w-full bg-gray-800 border border-gray-700 rounded-xl p-4 text-left hover:border-teal-500/50 transition-all"
+          className="w-full bg-card/50 border border-border/20 rounded-xl p-4 text-left hover:border-accent/50 transition-all"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <span className="text-2xl mr-3">📅</span>
               <div>
                 <p className="font-medium text-white">Full Day Timeline</p>
-                <p className="text-xs text-gray-400">Optimal windows for activities</p>
+                <p className="text-xs text-muted-foreground">Optimal windows for activities</p>
               </div>
             </div>
-            <span className="text-gray-400">→</span>
+            <span className="text-muted-foreground">→</span>
           </div>
         </button>
 
