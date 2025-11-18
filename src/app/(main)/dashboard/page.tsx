@@ -45,6 +45,12 @@ export default function DashboardPage() {
                 </div>
 
                 <EnergyScoreCard score={87} />
+                 <button
+                    onClick={() => router.push('/intelligence')}
+                    className="w-full text-sm text-center -mt-4 mb-4 text-teal-400 hover:text-teal-300"
+                >
+                    Explore AI Insights →
+                </button>
                 <SmartOpportunitiesCard />
                 
                 {/* Today's Progress - MERGED & ENHANCED */}
@@ -138,7 +144,7 @@ export default function DashboardPage() {
                                 <span className="text-teal-400 mr-2 text-lg">- </span>
                                 <p className="text-sm text-gray-300">Your average daily step count: 8,540</p>
                             </div>
-                            <button className="mt-2 text-sm text-teal-400 hover:text-teal-300 transition-colors">View all insights →</button>
+                            <button onClick={() => router.push('/intelligence')} className="mt-2 text-sm text-teal-400 hover:text-teal-300 transition-colors">View all insights →</button>
                         </div>
                     )}
                 </div>
