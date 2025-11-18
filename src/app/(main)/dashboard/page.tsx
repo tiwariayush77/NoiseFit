@@ -15,35 +15,54 @@ export default function DashboardPage() {
     const [insightsExpanded, setInsightsExpanded] = useState(false);
     const [winsExpanded, setWinsExpanded] = useState(false);
     const [progressExpanded, setProgressExpanded] = useState(false);
-    
+    const [streakDismissed, setStreakDismissed] = useState(false);
+
     useEffect(() => {
         const isEnabled = localStorage.getItem('corporateEnabled') === 'true';
         setCorporateEnabled(isEnabled);
         
-        const dismissed = localStorage.getItem('teamBannerDismissed') === 'true';
-        setShowTeamBanner(!dismissed && !isEnabled);
+        const teamBannerDismissed = localStorage.getItem('teamBannerDismissed') === 'true';
+        setShowTeamBanner(!teamBannerDismissed && !isEnabled);
+
+        const streakCardDismissed = localStorage.getItem('streakDismissed') === 'true';
+        setStreakDismissed(streakCardDismissed);
 
     }, []);
+
+    const handleDismissStreak = () => {
+      localStorage.setItem('streakDismissed', 'true');
+      setStreakDismissed(true);
+    };
 
     return (
         <div className="flex flex-col">
             <div className="space-y-6">
-                 {/* Streak Counter - NEW */}
-                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <span className="text-4xl mr-3">🔥</span>
-                            <div>
-                                <p className="text-xl font-bold text-white">7-Day Streak</p>
-                                <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
-                            <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
-                        </div>
-                    </div>
-                </div>
+                 {!streakDismissed && (
+                  <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-4 mb-4 relative">
+                      <button
+                        onClick={handleDismissStreak}
+                        className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
+                        aria-label="Dismiss"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                      <div className="flex items-center justify-between pr-8">
+                          <div className="flex items-center">
+                              <span className="text-4xl mr-3">🔥</span>
+                              <div>
+                                  <p className="text-xl font-bold text-white">7-Day Streak</p>
+                                  <p className="text-sm text-gray-300">You're on fire! Keep it going 💪</p>
+                              </div>
+                          </div>
+                          <div className="text-right">
+                              <button className="text-sm text-orange-400 hover:text-orange-300 mb-1 block transition-colors"> Invite Friends </button>
+                              <button className="text-sm text-orange-400 hover:text-orange-300 block transition-colors"> Leaderboard → </button>
+                          </div>
+                      </div>
+                  </div>
+                )}
 
                 <EnergyScoreCard score={87} />
                  <button
