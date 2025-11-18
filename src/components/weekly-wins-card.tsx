@@ -18,19 +18,19 @@ export default function WeeklyWinsCard() {
     {
       icon: '😴',
       title: 'Sleep improved 18%',
-      subtitle: 'Evening walks working!',
+      subtitle: 'Evening walks are working!',
       percentChange: 18
     },
     {
       icon: '💪',
-      title: 'Fitness consistency ↑25%',
-      subtitle: 'Morning routine locked in',
+      title: 'Fitness consistency up 25%',
+      subtitle: 'Morning routine is locked in',
       percentChange: 25
     },
     {
       icon: '🧘',
-      title: 'Stress management ↑32%',
-      subtitle: 'Breathing sessions effective',
+      title: 'Stress down 32%',
+      subtitle: 'Breathing sessions are effective',
       percentChange: 32
     }
   ];
@@ -41,45 +41,54 @@ export default function WeeklyWinsCard() {
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between"
       >
-        <h3 className="text-lg font-semibold flex items-center">
-          This Week's Wins 🏆
-        </h3>
-        <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${expanded ? 'rotate-180' : ''}`} />
+        <div className="flex items-center">
+            <span className="text-xl mr-2">🏆</span>
+            <span className="text-base font-semibold">This Week's Wins</span>
+        </div>
+        <span className="text-gray-400 text-xl">
+            {expanded ? '▲' : '▼'}
+        </span>
       </button>
       
-      <AnimatePresence>
       {expanded && (
-        <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-        >
-          <div className="space-y-3 mt-3">
-            {wins.map((win, idx) => (
-              <div key={idx} className="flex items-start space-x-3 bg-muted/30 rounded-lg p-3">
-                <span className="text-2xl flex-shrink-0">{win.icon}</span>
-                <div className="flex-1">
-                  <p className="font-semibold text-foreground mb-1">{win.title}</p>
-                  <p className="text-sm text-muted-foreground">{win.subtitle}</p>
-                </div>
-                <div className="flex items-center text-green-400">
-                  <span className="text-xl">↑</span>
-                  <span className="text-sm font-semibold">{win.percentChange}%</span>
-                </div>
-              </div>
-            ))}
-            
-            {wins.length === 0 && (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                Keep going! Wins will appear as we discover patterns.
-              </p>
-            )}
+        <div className="mt-4 space-y-3">
+          <div className="flex items-start space-x-3 bg-muted/30 rounded-lg p-3">
+            <span className="text-2xl flex-shrink-0">😴</span>
+            <div className="flex-1">
+              <p className="font-semibold text-white mb-1">Sleep improved 18%</p>
+              <p className="text-sm text-gray-400">Evening walks are working!</p>
+            </div>
+            <div className="flex items-center text-green-400">
+              <span className="text-xl">↑</span>
+              <span className="text-sm font-semibold">18%</span>
+            </div>
           </div>
-        </motion.div>
+          
+          <div className="flex items-start space-x-3 bg-muted/30 rounded-lg p-3">
+            <span className="text-2xl flex-shrink-0">💪</span>
+            <div className="flex-1">
+              <p className="font-semibold text-white mb-1">Fitness consistency up 25%</p>
+              <p className="text-sm text-gray-400">Morning routine is locked in</p>
+            </div>
+            <div className="flex items-center text-green-400">
+              <span className="text-xl">↑</span>
+              <span className="text-sm font-semibold">25%</span>
+            </div>
+          </div>
+          
+          <div className="flex items-start space-x-3 bg-muted/30 rounded-lg p-3">
+            <span className="text-2xl flex-shrink-0">🧘</span>
+            <div className="flex-1">
+              <p className="font-semibold text-white mb-1">Stress down 32%</p>
+              <p className="text-sm text-gray-400">Breathing sessions are effective</p>
+            </div>
+            <div className="flex items-center text-green-400">
+              <span className="text-xl">↑</span>
+              <span className="text-sm font-semibold">32%</span>
+            </div>
+          </div>
+        </div>
       )}
-      </AnimatePresence>
     </div>
   );
 }
