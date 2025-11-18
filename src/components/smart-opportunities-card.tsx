@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
 interface Opportunity {
   id: string;
@@ -14,93 +15,65 @@ interface Opportunity {
 }
 
 export default function SmartOpportunitiesCard() {
-  const opportunities: Opportunity[] = [
-    {
-      id: '1',
-      icon: '🧘',
-      title: '5-min breathing at 2 PM',
-      subtitle: 'Success rate: 89% for you',
-      impact: 'HIGH',
-      successRate: 89,
-      action: 'Set Reminder',
-      timeEstimate: '5 min'
-    },
-    {
-      id: '2',
-      icon: '🚶',
-      title: 'Evening walk tonight',
-      subtitle: 'Improves sleep quality 23%',
-      impact: 'MEDIUM',
-      successRate: 76,
-      action: 'Plan Route',
-      timeEstimate: '20 min'
-    },
-    {
-      id: '3',
-      icon: '💧',
-      title: 'Hydration boost',
-      subtitle: 'You drink 30% more on active days',
-      impact: 'BONUS',
-      successRate: 85,
-      action: 'Track Water',
-      timeEstimate: '1 min'
-    }
-  ];
-
-  const impactStyles = {
-    HIGH: 'from-purple-500 to-pink-500',
-    MEDIUM: 'from-blue-500 to-cyan-500',
-    BONUS: 'from-green-500 to-teal-500'
-  };
-
-  const badgeStyles = {
-    HIGH: 'bg-purple-500/20 text-purple-300',
-    MEDIUM: 'bg-blue-500/20 text-blue-300',
-    BONUS: 'bg-green-500/20 text-green-300'
-  };
-
-  const buttonStyles = {
-    HIGH: 'bg-purple-500 hover:bg-purple-600',
-    MEDIUM: 'bg-blue-500 hover:bg-blue-600',
-    BONUS: 'bg-green-500 hover:bg-green-600'
+  const topOpportunity = {
+    icon: '🧘',
+    title: '5-minute breathing session at 2 PM',
+    socialProof: '14 people from your area completed this today',
+    successRateText: 'Works 9 out of 10 times for you',
+    impact: 'HIGH',
+    timeEstimate: '5 min',
+    ctaPrimary: 'Remind Me at 2 PM',
+    ctaSecondary: 'Start Now',
   };
 
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-semibold mb-4">Smart Opportunities</h3>
-      
-      <div className="space-y-3">
-        {opportunities.map((opp) => (
-          <div
-            key={opp.id}
-            className={cn(
-              'bg-gradient-to-r p-0.5 rounded-xl',
-              impactStyles[opp.impact]
-            )}
-          >
-            <div className="bg-background rounded-xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className={cn('text-xs font-semibold px-2 py-1 rounded-full', badgeStyles[opp.impact])}>
-                  {opp.impact} IMPACT
-                </span>
-                <span className="text-xs text-muted-foreground">{opp.timeEstimate}</span>
+      <h3 className="text-lg font-semibold mb-4">Today's Top Action</h3>
+      <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-0.5 rounded-xl">
+        <div className="bg-background rounded-xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              {topOpportunity.impact} IMPACT
+            </span>
+            <span className="text-xs text-muted-foreground">{topOpportunity.timeEstimate}</span>
+          </div>
+
+          <div className="flex items-start mb-4">
+            <span className="text-3xl mr-3">{topOpportunity.icon}</span>
+            <div className="flex-1">
+              <p className="font-semibold text-foreground text-base mb-2">
+                {topOpportunity.title}
+              </p>
+
+              <div className="flex items-center mb-2">
+                <span className="text-sm text-muted-foreground mr-2">👥</span>
+                <p className="text-sm text-muted-foreground">
+                  {topOpportunity.socialProof}
+                </p>
               </div>
-              
-              <div className="flex items-start mb-3">
-                <span className="text-2xl mr-3">{opp.icon}</span>
-                <div className="flex-1">
-                  <p className="font-semibold text-foreground mb-1">{opp.title}</p>
-                  <p className="text-sm text-muted-foreground">{opp.subtitle}</p>
-                </div>
+
+              <div className="flex items-center">
+                <span className="text-sm text-purple-300 mr-2">🔥</span>
+                <p className="text-sm text-purple-300">
+                  {topOpportunity.successRateText}
+                </p>
               </div>
-              
-              <button className={cn('w-full py-2 rounded-lg font-medium text-sm text-white transition-colors', buttonStyles[opp.impact])}>
-                {opp.action}
-              </button>
             </div>
           </div>
-        ))}
+
+          <div className="flex gap-3">
+            <Button variant="secondary" className="flex-1 py-2.5 h-auto bg-purple-500/20 hover:bg-purple-500/30 text-white font-medium text-sm transition-colors border border-purple-500/30">
+              {topOpportunity.ctaPrimary}
+            </Button>
+            <Button className="flex-1 py-2.5 h-auto bg-purple-600 hover:bg-purple-700 font-medium text-sm text-white transition-colors">
+              {topOpportunity.ctaSecondary}
+            </Button>
+          </div>
+        </div>
       </div>
+      <button className="mt-3 text-sm text-accent hover:text-accent/80 w-full text-center transition-colors">
+        View all opportunities →
+      </button>
     </div>
   );
 }
