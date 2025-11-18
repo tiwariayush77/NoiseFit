@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Avatar,
   AvatarFallback,
@@ -10,9 +11,6 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import {
   Tabs,
@@ -180,10 +178,22 @@ const socialData = {
 // Main Component
 export default function SocialPage() {
   const [activeTab, setActiveTab] = useState('feed');
+  const [corporateEnabled, setCorporateEnabled] = useState(false);
+  const [groupName, setGroupName] = useState('');
+  const [memberCount, setMemberCount] = useState(1);
+
+  useEffect(() => {
+    const isEnabled = localStorage.getItem('corporateEnabled') === 'true';
+    setCorporateEnabled(isEnabled);
+    if (isEnabled) {
+      setGroupName(localStorage.getItem('groupName') || 'Your Team');
+      setMemberCount(parseInt(localStorage.getItem('groupMemberCount') || '1', 10));
+    }
+  }, []);
 
   return (
     <div className="flex flex-col h-full">
-      <header className="flex items-center justify-between p-4">
+      <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Social</h1>
         <Button variant="ghost" size="icon">
           <UserPlus />
@@ -191,18 +201,31 @@ export default function SocialPage() {
       </header>
 
       <Tabs defaultValue="feed" className="w-full flex-1 flex flex-col" onValueChange={setActiveTab}>
-        <div className="px-4">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="feed">Feed</TabsTrigger>
-            <TabsTrigger value="friends">Friends</TabsTrigger>
-            <TabsTrigger value="challenges">Challenges</TabsTrigger>
-          </TabsList>
-        </div>
+        {corporateEnabled ? (
+            <div className="px-4 mt-4">
+                 <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="feed">Social Feed</TabsTrigger>
+                    <TabsTrigger value="team">My Team</TabsTrigger>
+                </TabsList>
+            </div>
+        ) : (
+             <div className="px-4 mt-4">
+                <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="feed">Feed</TabsTrigger>
+                    <TabsTrigger value="friends">Friends</TabsTrigger>
+                    <TabsTrigger value="challenges">Challenges</TabsTrigger>
+                </TabsList>
+            </div>
+        )}
 
         <TabsContent value="feed" className="flex-1 overflow-y-auto space-y-4 p-4">
           {socialData.feed.map(post => (
             <PostCard key={post.id} post={post} />
           ))}
+        </TabsContent>
+        
+        <TabsContent value="team" className="flex-1 overflow-y-auto p-4">
+            <TeamTabContent groupName={groupName} memberCount={memberCount} />
         </TabsContent>
 
         <TabsContent value="friends" className="flex-1 overflow-y-auto space-y-6 p-4">
@@ -230,6 +253,130 @@ export default function SocialPage() {
       )}
     </div>
   );
+}
+
+function TeamTabContent({ groupName, memberCount }: { groupName: string; memberCount: number }) {
+    const router = useRouter();
+    return (
+        <div className="space-y-6">
+            {/* Group Header */}
+            <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-2xl p-6">
+                <h2 className="text-2xl font-bold mb-2">{groupName} 💪</h2>
+                <p className="text-sm text-muted-foreground">Unofficial Group · {memberCount} member{memberCount !== 1 ? 's' : ''}</p>
+            </div>
+
+            {/* Team Status */}
+            {memberCount < 3 ? (
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6">
+                    <h3 className="font-semibold mb-2 flex items-center">
+                        <span className="mr-2">⚠️</span>
+                        Almost There!
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                        You need {3 - memberCount} more member{3 - memberCount !== 1 ? 's' : ''} to activate team features
+                    </p>
+                    <button className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                        Invite More Colleagues
+                    </button>
+                </div>
+            ) : (
+                <>
+                    {/* Team Rank */}
+                    <div className="bg-card/50 border border-border rounded-xl p-6">
+                        <h3 className="text-lg font-semibold mb-4">YOUR TEAM RANK</h3>
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <p className="text-4xl font-bold">#3</p>
+                                <p className="text-sm text-muted-foreground">out of {memberCount} members</p>
+                            </div>
+                            <button onClick={() => router.push('/enterprise/leaderboard')} className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                                View Leaderboard
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Active Challenges */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">ACTIVE CHALLENGES (2)</h3>
+                        <div className="space-y-3">
+                            <div className="bg-card/50 border border-border rounded-xl p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <h4 className="font-medium">🏃 10K Steps Daily</h4>
+                                    <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">Active</span>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-2">5/{memberCount} completed today</p>
+                                <div className="w-full bg-muted rounded-full h-2">
+                                    <div className="bg-green-500 h-2 rounded-full" style={{ width: `${(5 / memberCount) * 100}%` }}></div>
+                                </div>
+                            </div>
+
+                            <div className="bg-card/50 border border-border rounded-xl p-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <h4 className="font-medium">💪 Weekly Workout Streak</h4>
+                                    <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Active</span>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-2">3/{memberCount} on track</p>
+                                <div className="w-full bg-muted rounded-full h-2">
+                                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${(3 / memberCount) * 100}%` }}></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Team Leaderboard Preview */}
+                    <div className="bg-card/50 border border-border rounded-xl p-6">
+                        <h3 className="text-lg font-semibold mb-4">TEAM LEADERBOARD</h3>
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center">
+                                    <span className="text-xl mr-3">🥇</span>
+                                    <div>
+                                        <p className="font-medium">Sarah Kumar</p>
+                                        <p className="text-xs text-muted-foreground">Engineering</p>
+                                    </div>
+                                </div>
+                                <span className="font-bold text-accent">92</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center">
+                                    <span className="text-xl mr-3">🥈</span>
+                                    <div>
+                                        <p className="font-medium">Raj Patel</p>
+                                        <p className="text-xs text-muted-foreground">Engineering</p>
+                                    </div>
+                                </div>
+                                <span className="font-bold text-foreground">89</span>
+                            </div>
+                            <div className="flex items-center justify-between bg-accent/10 border border-accent/30 rounded-lg p-2">
+                                <div className="flex items-center">
+                                    <span className="text-xl mr-3">3️⃣</span>
+                                    <div>
+                                        <p className="font-medium">YOU</p>
+                                        <p className="text-xs text-muted-foreground">Engineering</p>
+                                    </div>
+                                </div>
+                                <span className="font-bold text-accent">84</span>
+                            </div>
+                        </div>
+                        <button onClick={() => router.push('/enterprise/leaderboard')} className="mt-4 text-blue-400 text-sm font-medium hover:underline">
+                            View Full Leaderboard →
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {/* Invite Section */}
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
+                <h3 className="font-semibold mb-2">Grow Your Team</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                    Invite more colleagues to join {groupName}
+                </p>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Share Invite Link
+                </button>
+            </div>
+        </div>
+    );
 }
 
 // Sub-components for clarity
