@@ -11,213 +11,218 @@ import {
   Smartphone,
   Signal,
   BatteryFull,
-  SignalMedium,
-  SignalLow,
   Check,
+  Loader2,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { Progress } from '@/components/ui/progress';
 
-// Mock device data - same as in device-search
-type DeviceType = 'watch' | 'ring' | 'app';
+// Mock device data
 type Device = {
   id: string;
   name: string;
-  brand: string;
-  type: DeviceType;
-  description: string;
+  type: 'noise' | 'other';
+  brand?: string;
+  battery?: number;
+  distance?: string;
+  suggestedPlatform?: 'apple-health' | 'google-fit';
 };
+
 const ALL_DEVICES: Device[] = [
-  { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', brand: 'noise', type: 'watch', description: 'Most popular choice' },
-  { id: 'noise-luna-2', name: 'Luna Ring 2.0', brand: 'noise', type: 'ring', description: 'Advanced sleep tracking' },
-  { id: 'apple-watch-9', name: 'Apple Watch Series 9', brand: 'apple', type: 'watch', description: 'Via Apple Health' },
-  { id: 'boat-storm', name: 'boAt Storm', brand: 'boat', type: 'watch', description: 'Via Google Fit' },
+  { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', type: 'noise', battery: 87, distance: '2m away' },
+  { id: 'apple-watch-9', name: 'Apple Watch Series 9', type: 'other', brand: 'Apple', suggestedPlatform: 'apple-health' },
+  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'google-fit' },
 ];
-
-function ConnectingOverlay({ device, onDone }: { device: Device; onDone: () => void }) {
-  const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState('Searching for device...');
-  const Icon = device.type === 'watch' ? Watch : ToyBrick;
-
-  useEffect(() => {
-    const totalDuration = 2500;
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          setTimeout(onDone, 500); // Wait for fade out
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, totalDuration / 100);
-
-    const statusTimer1 = setTimeout(() => setStatus('Pairing...'), 1000);
-    const statusTimer2 = setTimeout(() => setStatus('Connected!'), 2000);
-
-    return () => {
-      clearInterval(progressInterval);
-      clearTimeout(statusTimer1);
-      clearTimeout(statusTimer2);
-    };
-  }, [onDone]);
-  
-  return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-lg animate-in fade-in">
-      <div className="flex flex-col items-center text-center p-8">
-        <div className="relative mb-8 animate-[pulse_2s_ease-in-out_infinite]" style={{'--animate-scale-to': 1.1} as React.CSSProperties}>
-          <Icon className="w-32 h-32 text-primary" />
-        </div>
-        <h2 className="text-xl font-bold mb-2 text-white animate-in fade-in slide-in-from-bottom-5">Connecting to {device.name}...</h2>
-        
-        <div className="h-6 w-48 text-center my-4 transition-all duration-300">
-            <p className="text-muted-foreground animate-in fade-in">
-                {status} {progress >= 100 && <Check className="inline-block w-4 h-4 text-green-500" />}
-            </p>
-        </div>
-
-        <Progress value={progress} className="w-48 h-1 mb-8" />
-        
-        <p className="text-sm text-muted-foreground animate-in fade-in [animation-delay:500ms]">💡 Keep your {device.type} nearby</p>
-      </div>
-    </div>
-  );
-}
 
 
 function DeviceConnectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const deviceIds = useMemo(() => searchParams.get('devices')?.split(',') || [], [searchParams]);
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [isScanning, setIsScanning] = useState(true);
 
-  const [foundDevices, setFoundDevices] = useState<Device[]>([]);
-  const [connectingDevice, setConnectingDevice] = useState<Device | null>(null);
-
-  const selectedDevices = useMemo(() => 
-    ALL_DEVICES.filter(d => deviceIds.includes(d.id)),
-    [deviceIds]
-  );
-  
+  // Simulate device detection based on query param for demo
   useEffect(() => {
-    setFoundDevices([]);
-    const timers: NodeJS.Timeout[] = [];
-    if (selectedDevices.length > 0) {
-      selectedDevices.forEach((device, index) => {
-        const timer = setTimeout(() => {
-            setFoundDevices(prev => {
-                if (prev.some(p => p.id === device.id)) return prev;
-                return [...prev, device];
-            });
-        }, (index + 1) * 1500); // Stagger appearance
-        timers.push(timer);
-      });
+    const scanTimeout = setTimeout(() => {
+        const scenario = searchParams.get('scenario');
+        let detected: Device[] = [];
+        if (scenario === 'noise') {
+            detected = [ALL_DEVICES[0]];
+        } else if (scenario === 'other') {
+            detected = [ALL_DEVICES[1]];
+        } else if (scenario === 'both') {
+            detected = [ALL_DEVICES[0], ALL_DEVICES[2]];
+        }
+        setDevices(detected);
+        setIsScanning(false);
+    }, 2000);
+
+    return () => clearTimeout(scanTimeout);
+  }, [searchParams]);
+
+  const noiseDevices = devices.filter(d => d.type === 'noise');
+  const otherDevices = devices.filter(d => d.type === 'other');
+
+  const handleContinue = () => {
+    if (noiseDevices.length > 0) {
+      const deviceIds = devices.map(d => d.id).join(',');
+      const primaryDeviceName = noiseDevices[0].name;
+      router.push(`/device-connect-intro?devices=${deviceIds}&device=${encodeURIComponent(primaryDeviceName)}`);
+    } else if (otherDevices.length > 0) {
+      const platform = otherDevices[0].suggestedPlatform || 'google-fit';
+      router.push(`/health-app-connect?platform=${platform}`);
     }
-  
-    return () => {
-      timers.forEach(clearTimeout);
-    };
-  }, [selectedDevices]);
-
-  const handleConnect = (device: Device) => {
-    setConnectingDevice(device);
   };
 
-  const handleConnectionDone = () => {
-    setConnectingDevice(null);
-    const deviceIds = selectedDevices.map(d => d.id).join(',');
-    router.push(`/data-sync?devices=${deviceIds}`);
-  };
+  const handleManualConnect = () => {
+      router.push('/device-search');
+  }
 
-  if (connectingDevice) {
-    return <ConnectingOverlay device={connectingDevice} onDone={handleConnectionDone} />;
+  if (isScanning) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4 text-center">
+            <div className="relative w-48 h-48 flex items-center justify-center my-8">
+                <div className="absolute w-full h-full rounded-full bg-primary/10 animate-pulse"></div>
+                <div className="absolute w-2/3 h-2/3 rounded-full bg-primary/20 animate-pulse [animation-delay:0.5s]"></div>
+                <Signal className="w-16 h-16 text-primary animate-pulse" />
+            </div>
+            <h1 className="text-2xl font-bold">Scanning for devices...</h1>
+            <p className="text-muted-foreground mt-2">Keep your devices nearby and powered on.</p>
+        </div>
+    );
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-border/20">
-        <Link href={`/connection-method?devices=${deviceIds.join(',')}`}>
+        <Link href="/device-search">
           <Button variant="ghost" size="icon">
             <ArrowLeft />
-            <span className="sr-only">Back</span>
           </Button>
         </Link>
-        <h1 className="text-lg font-semibold">Finding your devices</h1>
-        <div className="w-10"></div>
+        <h1 className="text-lg font-semibold">Found Devices</h1>
+        <Link href="/device-search">
+            <Button variant="ghost" size="icon">
+                <X />
+            </Button>
+        </Link>
       </header>
 
-      <main className="flex-1 flex flex-col items-center p-6 text-center">
-        <div className="relative w-48 h-48 flex items-center justify-center my-8">
-          <div className="absolute w-full h-full rounded-full bg-primary/10 animate-pulse"></div>
-          <div className="absolute w-2/3 h-2/3 rounded-full bg-primary/20 animate-pulse [animation-delay:0.5s]"></div>
-          <div className="absolute w-1/3 h-1/3 rounded-full bg-primary/30 animate-pulse [animation-delay:1s]"></div>
-          <Signal className="w-16 h-16 text-primary" />
-        </div>
+      <main className="flex-1 flex flex-col p-6 space-y-6">
 
-        <div className="w-full max-w-md text-left bg-card/30 p-6 rounded-lg border border-border/20 mb-8">
-          <p className="font-semibold mb-3">Make sure your devices are:</p>
-          <ul className="space-y-2 text-muted-foreground text-sm">
-            <li className="flex items-center gap-3">✓ <span className="flex-1">Powered on and charged</span></li>
-            <li className="flex items-center gap-3">✓ <span className="flex-1">Within arm's reach</span></li>
-            <li className="flex items-center gap-3">✓ <span className="flex-1">Ready to pair (check manual if needed)</span></li>
-          </ul>
-        </div>
-        
-        {foundDevices.length > 0 && (
-          <div className="w-full max-w-md space-y-4 animate-in fade-in-5 slide-in-from-bottom-5">
-            <h2 className="text-sm font-semibold text-muted-foreground text-left px-2">FOUND DEVICES</h2>
-            {foundDevices.map(device => (
-              <DeviceConnectCard key={device.id} device={device} onConnect={handleConnect} />
-            ))}
-          </div>
+        {/* Both Devices Found Scenario */}
+        {noiseDevices.length > 0 && otherDevices.length > 0 && (
+          <Card className="bg-gradient-to-br from-primary/20 to-purple-500/20 border-primary/30">
+            <CardHeader>
+              <CardTitle>🎯 Multi-Device Insights</CardTitle>
+              <CardDescription>Combine data from both devices for the best results.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                <li>24/7 coverage for complete data</li>
+                <li>Cross-device validation for accuracy</li>
+                <li>More accurate pattern detection</li>
+              </ul>
+               <Button onClick={handleContinue} className="w-full mt-4">Connect Both Devices</Button>
+            </CardContent>
+          </Card>
         )}
 
-        <div className="mt-8">
-          <Button variant="link">Device not found? Troubleshooting tips</Button>
+        {/* Noise Devices */}
+        <div>
+            <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">NOISE DEVICES ({noiseDevices.length})</h2>
+            {noiseDevices.length > 0 ? (
+                noiseDevices.map(device => (
+                    <Card key={device.id} className="bg-card/50">
+                        <CardContent className="p-4 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <Watch className="w-8 h-8 text-primary"/>
+                                <div>
+                                    <p className="font-semibold">{device.name}</p>
+                                    <p className="text-xs text-muted-foreground">Battery: {device.battery}% · {device.distance}</p>
+                                </div>
+                            </div>
+                            <Check className="w-5 h-5 text-green-500" />
+                        </CardContent>
+                    </Card>
+                ))
+            ) : (
+                <p className="text-muted-foreground text-sm px-2">No Noise devices nearby</p>
+            )}
         </div>
+        
+        {/* Other Wearables */}
+         <div>
+            <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">OTHER WEARABLES ({otherDevices.length})</h2>
+            {otherDevices.length > 0 ? (
+                otherDevices.map(device => (
+                    <Card key={device.id} className="bg-card/50">
+                        <CardContent className="p-4 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <Smartphone className="w-8 h-8 text-primary"/>
+                                <div>
+                                    <p className="font-semibold">{device.name}</p>
+                                    <p className="text-xs text-muted-foreground">via {device.suggestedPlatform === 'apple-health' ? 'Apple Health' : 'Google Fit'}</p>
+                                </div>
+                            </div>
+                            <Check className="w-5 h-5 text-green-500" />
+                        </CardContent>
+                    </Card>
+                ))
+            ) : (
+                 <p className="text-muted-foreground text-sm px-2">No other wearables or apps detected</p>
+            )}
+        </div>
+        
+
+        {/* No devices found */}
+        {devices.length === 0 && (
+             <div className="text-center py-10">
+                <p className="text-lg font-medium">No devices found</p>
+                <p className="text-muted-foreground mt-1 mb-6">Make sure your device is powered on and Bluetooth is enabled.</p>
+                <div className="space-y-3">
+                    <Button onClick={() => window.location.reload()} className="w-full">Rescan</Button>
+                    <Button onClick={handleManualConnect} variant="outline" className="w-full">Enter Manually</Button>
+                </div>
+                 <div className="relative my-8">
+                    <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+                    <div className="relative flex justify-center text-xs uppercase"><span className="bg-background px-2 text-muted-foreground">OR</span></div>
+                </div>
+                <p className="text-muted-foreground text-sm mb-4">Connect a health app instead:</p>
+                <div className="flex justify-center gap-4">
+                    <Button variant="secondary" onClick={() => router.push('/health-app-connect?platform=google-fit')}>Google Fit</Button>
+                    <Button variant="secondary" onClick={() => router.push('/health-app-connect?platform=apple-health')}>Apple Health</Button>
+                </div>
+             </div>
+        )}
+
+        {/* Primary CTA for single device type scenarios */}
+        {devices.length > 0 && !(noiseDevices.length > 0 && otherDevices.length > 0) && (
+            <div className="mt-auto pt-6">
+                <Button onClick={handleContinue} className="w-full" size="lg">Continue</Button>
+            </div>
+        )}
+
       </main>
     </div>
-  );
-}
-
-function DeviceConnectCard({ device, onConnect }: { device: Device, onConnect: (device: Device) => void }) {
-  const Icon = device.type === 'watch' ? Watch : device.type === 'ring' ? ToyBrick : Smartphone;
-  const [signalStrength] = useState(Math.floor(Math.random() * 3)); // 0: low, 1: med, 2: high
-  const [battery] = useState(Math.floor(Math.random() * 30) + 70); // 70-99%
-
-  const SignalIcon = () => {
-    if (signalStrength === 2) return <Signal className="w-4 h-4 text-green-500" />;
-    if (signalStrength === 1) return <SignalMedium className="w-4 h-4 text-yellow-500" />;
-    return <SignalLow className="w-4 h-4 text-red-500" />;
-  };
-
-  return (
-    <Card className="bg-card/50 backdrop-blur-sm border-border/20 shadow-md text-left animate-in fade-in-5 slide-in-from-bottom-5">
-      <CardContent className="p-4 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Icon className="w-8 h-8 text-primary flex-shrink-0" />
-          <div>
-            <p className="font-semibold">{device.name}</p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
-              <span className="flex items-center gap-1"><SignalIcon /> {['Weak', 'Moderate', 'Strong'][signalStrength]}</span>
-              <span className="flex items-center gap-1"><BatteryFull className="w-4 h-4 text-green-500" /> {battery}%</span>
-            </div>
-          </div>
-        </div>
-        <Button onClick={() => onConnect(device)}>Connect</Button>
-      </CardContent>
-    </Card>
   );
 }
 
 
 export default function DeviceConnectPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
+            <Loader2 className="w-8 h-8 animate-spin text-primary"/>
+        </div>
+    }>
       <DeviceConnectContent />
     </Suspense>
   )
