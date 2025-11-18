@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 
 const PLATFORM_LOGOS: Record<string, any> = {
@@ -38,7 +38,7 @@ const NOISE_LOGO = {
   gradient: 'from-primary to-accent'
 };
 
-export default function DataSyncPage() {
+function DataSyncContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const platform = searchParams.get('platform') || 'bluetooth';
@@ -52,7 +52,6 @@ export default function DataSyncPage() {
         if (prev >= 100) {
           clearInterval(interval);
           localStorage.setItem('onboardingComplete', 'true');
-          // CORRECTED: Route to the next step in onboarding, not directly to dashboard
           setTimeout(() => router.push('/instant-value'), 500);
           return 100;
         }
@@ -154,4 +153,13 @@ export default function DataSyncPage() {
       </div>
     </div>
   );
+}
+
+
+export default function DataSyncPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DataSyncContent />
+        </Suspense>
+    )
 }

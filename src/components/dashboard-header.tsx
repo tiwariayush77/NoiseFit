@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Sun, Cloud, Sunset, Moon, User, Briefcase } from 'lucide-react';
+import { Settings, User, Briefcase } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,8 +11,7 @@ import { cn } from '@/lib/utils';
 
 export default function DashboardHeader() {
   const router = useRouter();
-  const [time, setTime] = useState('');
-  const [greeting, setGreeting] = useState({ text: '', icon: <Sun /> });
+  const [greeting, setGreeting] = useState('');
   const [corporateEnabled, setCorporateEnabled] = useState(false);
 
   useEffect(() => {
@@ -23,23 +22,16 @@ export default function DashboardHeader() {
     const updateHeader = () => {
       const now = new Date();
       const hours = now.getHours();
-      const minutes = now.getMinutes();
-
-      // Format time
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-      setTime(`${formattedHours}:${formattedMinutes} ${ampm}`);
 
       // Determine greeting
       if (hours >= 5 && hours < 12) {
-        setGreeting({ text: 'Good morning, Rahul', icon: <Sun className="w-5 h-5 text-yellow-400" /> });
+        setGreeting('Good morning, Rahul');
       } else if (hours >= 12 && hours < 17) {
-        setGreeting({ text: 'Good afternoon, Rahul', icon: <Cloud className="w-5 h-5 text-sky-400" /> });
+        setGreeting('Good afternoon, Rahul');
       } else if (hours >= 17 && hours < 21) {
-        setGreeting({ text: 'Good evening, Rahul', icon: <Sunset className="w-5 h-5 text-orange-400" /> });
+        setGreeting('Good evening, Rahul');
       } else {
-        setGreeting({ text: 'Good night, Rahul', icon: <Moon className="w-5 h-5 text-slate-400" /> });
+        setGreeting('Good night, Rahul');
       }
     };
 
@@ -59,7 +51,7 @@ export default function DashboardHeader() {
 
 
   return (
-    <header className="sticky top-0 z-40 h-16 w-full bg-[#1E1E1E]/80 backdrop-blur-lg border-b border-white/10">
+    <header className="sticky top-0 z-40 h-16 w-full bg-background/80 backdrop-blur-lg border-b border-white/10">
       <div className="container mx-auto flex h-full items-center justify-between px-4">
         <div className="flex items-center gap-2">
             <Link href="/me">
@@ -83,8 +75,7 @@ export default function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-2 text-base font-medium">
-          {greeting.icon}
-          <span>{greeting.text.split(',')[0]}</span>
+          <span>{greeting.split(',')[0]}</span>
         </div>
         
         <div className="w-auto flex justify-end">
