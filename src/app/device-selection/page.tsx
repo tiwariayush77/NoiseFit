@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { SmartphoneNfc, Watch, ToyBrick, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -63,10 +63,22 @@ export default function DeviceSelectionPage() {
                 Choose my devices <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="w-full" onClick={() => router.push('/dashboard')}>
-              I'm just exploring 👀
+             <div className="mt-8 pt-6 border-t border-border/50">
+                <p className="text-center text-sm text-muted-foreground mb-3">
+                    Don't have a Noise device?
+                </p>
+                <Button
+                    onClick={() => router.push('/device-search')}
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                >
+                    <Plus className="mr-2 h-4 w-4" /> Use data from another app
+                </Button>
+            </div>
+            <Button size="lg" variant="link" className="w-full text-muted-foreground" onClick={() => router.push('/dashboard')}>
+              I'm just exploring for now
             </Button>
-             <p className="text-xs text-muted-foreground">Browse with sample data</p>
           </div>
         </div>
       </main>
