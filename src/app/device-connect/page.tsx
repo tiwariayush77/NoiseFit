@@ -33,12 +33,13 @@ type Device = {
   battery?: number;
   distance?: string;
   suggestedPlatform?: 'apple-health' | 'google-fit' | 'fitbit' | 'garmin';
+  logo?: string;
 };
 
 const ALL_DEVICES: Device[] = [
   { id: 'noise-pro-6', name: 'ColorFit Pro 6 Max', type: 'noise', brand: 'Noise', battery: 87, distance: '2m away' },
   { id: 'apple-watch-9', name: 'Apple Watch Series 9', type: 'other', brand: 'Apple', suggestedPlatform: 'apple-health' },
-  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'google-fit' },
+  { id: 'fitbit-charge-5', name: 'Fitbit Charge 5', type: 'other', brand: 'Fitbit', suggestedPlatform: 'google-fit', logo: 'https://cdn.brandfetch.io/idIrdiIB8m/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B' },
   { id: 'garmin-venu-3', name: 'Garmin Venu 3', type: 'other', brand: 'Garmin', suggestedPlatform: 'google-fit' },
 ];
 
@@ -48,33 +49,43 @@ function DeviceConnectContent() {
   const searchParams = useSearchParams();
   const [devices, setDevices] = useState<Device[]>([]);
   const [isScanning, setIsScanning] = useState(true);
+  const [noiseDevices, setNoiseDevices] = useState<Device[]>([]);
+  const [otherDevices, setOtherDevices] = useState<Device[]>([]);
+  const scenario = searchParams.get('scenario');
+
 
   useEffect(() => {
-    const platform = searchParams.get('platform');
-    if (platform && platform !== 'bluetooth') {
-      router.replace(`/health-app-connect?platform=${platform}`);
-      return; 
+    // Simulate device detection based on scenario
+    if (scenario === 'noise' || scenario === 'both') {
+      setNoiseDevices([
+        {
+          id: 'noise-pro-6',
+          name: 'ColorFit Pro 6 Max',
+          type: 'noise',
+          battery: 87,
+          distance: '2m',
+          brand: 'Noise'
+        }
+      ]);
     }
 
-    const scanTimeout = setTimeout(() => {
-        const scenario = searchParams.get('scenario');
-        let detected: Device[] = [];
-        if (scenario === 'noise') {
-            detected = [ALL_DEVICES[0]];
-        } else if (scenario === 'other') {
-            detected = [ALL_DEVICES[2]];
-        } else if (scenario === 'both') {
-            detected = [ALL_DEVICES[0], ALL_DEVICES[2]];
+    if (scenario === 'other' || scenario === 'both') {
+      setOtherDevices([
+        {
+          id: 'fitbit-charge-5',
+          name: 'Fitbit Charge 5',
+          type: 'other',
+          brand: 'Fitbit',
+          suggestedPlatform: 'google-fit',
+          logo: 'https://cdn.brandfetch.io/idIrdiIB8m/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B'
         }
-        setDevices(detected);
-        setIsScanning(false);
+      ]);
+    }
+     const scanTimeout = setTimeout(() => {
+      setIsScanning(false);
     }, 2000);
-
-    return () => clearTimeout(scanTimeout);
-  }, [searchParams, router]);
-
-  const noiseDevices = devices.filter(d => d.type === 'noise');
-  const otherDevices = devices.filter(d => d.type === 'other');
+     return () => clearTimeout(scanTimeout);
+  }, [scenario]);
 
   const handleContinue = () => {
     if (noiseDevices.length > 0 && otherDevices.length === 0) {
@@ -228,16 +239,15 @@ function DeviceConnectContent() {
                         </div>
                       </div>
                     </div>
-                    <Button
-                      onClick={() => {
-                        const platform = device.suggestedPlatform || 'google-fit';
-                        const source = device.brand?.toLowerCase();
-                        router.push(`/health-app-connect?platform=${platform}${source ? `&source=${source}` : ''}`);
-                      }}
-                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium py-2 rounded-lg transition-colors"
-                    >
-                      Connect via {device.brand === 'Apple' ? 'Apple Health' : device.brand === 'Fitbit' ? 'Google Fit' : device.brand === 'Garmin' ? 'Google Fit' : device.brand}
-                    </Button>
+                    <button
+                        onClick={() => {
+                            const platform = device.suggestedPlatform || 'google-fit';
+                            router.push(`/health-app-connect?platform=${platform}&source=${device.brand?.toLowerCase()}`);
+                        }}
+                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors"
+                        >
+                        Connect via {device.suggestedPlatform === 'google-fit' ? 'Google Fit' : 'Apple Health'}
+                    </button>
                   </div>
                 )
                 })}
@@ -253,7 +263,7 @@ function DeviceConnectContent() {
 
         {!(noiseDevices.length > 0 && otherDevices.length > 0) && (
             <>
-                <div>
+                <div className="mb-6">
                     <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">NOISE DEVICES ({noiseDevices.length})</h2>
                     {noiseDevices.length > 0 ? (
                         noiseDevices.map(device => (
@@ -275,20 +285,49 @@ function DeviceConnectContent() {
                     )}
                 </div>
                 
-                 <div>
+                 <div className="mb-6">
                     <h2 className="text-sm font-semibold text-muted-foreground mb-3 px-2">OTHER WEARABLES ({otherDevices.length})</h2>
                     {otherDevices.length > 0 ? (
                         otherDevices.map(device => (
-                            <Card key={device.id} className="bg-card/50">
-                                <CardContent className="p-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <Smartphone className="w-8 h-8 text-primary"/>
-                                        <div>
-                                            <p className="font-semibold">{device.name}</p>
-                                            <p className="text-xs text-muted-foreground">via {device.suggestedPlatform === 'apple-health' ? 'Apple Health' : 'Google Fit'}</p>
+                             <Card key={device.id} className="bg-card/50">
+                                <CardContent className="p-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mr-3 overflow-hidden">
+                                                {device.logo && device.brand ? (
+                                                <img
+                                                    src={device.logo}
+                                                    alt={device.brand}
+                                                    className="w-10 h-10 object-contain"
+                                                    onError={(e) => {
+                                                        const parent = e.currentTarget.parentElement;
+                                                        if (parent) {
+                                                            e.currentTarget.style.display = 'none';
+                                                            const fallback = document.createElement('span');
+                                                            fallback.className = "text-white text-xl";
+                                                            fallback.innerText = device.brand?.charAt(0) || '?';
+                                                            parent.appendChild(fallback);
+                                                        }
+                                                    }}
+                                                />
+                                                ) : <Smartphone className="w-8 h-8 text-accent"/>}
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold">{device.name}</p>
+                                                <p className="text-xs text-muted-foreground">via {device.suggestedPlatform === 'apple-health' ? 'Apple Health' : 'Google Fit'}</p>
+                                            </div>
                                         </div>
+                                        <Check className="w-5 h-5 text-green-500" />
                                     </div>
-                                    <Check className="w-5 h-5 text-green-500" />
+                                     <button
+                                        onClick={() => {
+                                            const platform = device.suggestedPlatform || 'google-fit';
+                                            router.push(`/health-app-connect?platform=${platform}&source=${device.brand?.toLowerCase()}`);
+                                        }}
+                                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors mt-4"
+                                        >
+                                        Connect via {device.suggestedPlatform === 'google-fit' ? 'Google Fit' : 'Apple Health'}
+                                    </button>
                                 </CardContent>
                             </Card>
                         ))
@@ -299,7 +338,7 @@ function DeviceConnectContent() {
             </>
         )}
         
-        {devices.length === 0 && (
+        {(noiseDevices.length === 0 && otherDevices.length === 0) && (
              <div className="text-center py-10">
                 <p className="text-lg font-medium">No devices found</p>
                 <p className="text-muted-foreground mt-1 mb-6">Make sure your device is powered on and Bluetooth is enabled.</p>
