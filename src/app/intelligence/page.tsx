@@ -107,11 +107,11 @@ className="flex items-center text-muted-foreground hover:text-foreground mb-4 tr
                 <div className="flex items-center">
                   <div className="flex-1 bg-muted/30 rounded-full h-2 mr-3">
                     <div
-                      className="bg-teal-500 h-2 rounded-full"
+                      className="bg-accent h-2 rounded-full"
                       style={{ width: `${pattern.confidence}%` }}
                     ></div>
                   </div>
-                  <span className="text-xs text-teal-400 font-semibold">
+                  <span className="text-xs text-accent font-semibold">
                     {pattern.confidence}% confident
                   </span>
                 </div>
@@ -127,7 +127,7 @@ className="flex items-center text-muted-foreground hover:text-foreground mb-4 tr
       <h2 className="text-lg font-semibold mb-4">Explore More</h2>
       <div className="space-y-3">
         <button
-          onClick={() => router.push('/vitals/heart')}
+          onClick={() => router.push('/hrv-tips')}
           className="w-full bg-card/50 border border-border/20 rounded-xl p-4 text-left hover:border-accent/50 transition-all"
         >
           <div className="flex items-center justify-between">
