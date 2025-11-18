@@ -40,7 +40,9 @@ function ImportCompletionContent() {
     const rangeLabel = range === 'none' ? 'future' : range === '7d' ? '7 days of' : range === '30d' ? '30 days of' : range === '90d' ? '90 days of' : 'all available';
 
     const handleContinue = () => {
-        router.push('/goal-selection');
+        // For non-Noise users (health app path), skip company wellness
+        // since they might not be corporate users
+        router.push('/instant-value');
     };
 
     const handleImportMore = () => {
