@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
@@ -24,6 +24,18 @@ export default function GoalSelectionPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  const [showLimitToast, setShowLimitToast] = useState(false);
+
+  useEffect(() => {
+    if (showLimitToast) {
+      toast({
+        variant: 'destructive',
+        title: "Let's focus!",
+        description: "You can select up to 3 goals at a time.",
+      });
+      setShowLimitToast(false); // Reset the trigger
+    }
+  }, [showLimitToast, toast]);
 
   const toggleGoal = (goalId: string) => {
     setSelectedGoals(prev => {
@@ -32,11 +44,7 @@ export default function GoalSelectionPage() {
         return prev.filter(id => id !== goalId);
       }
       if (prev.length >= 3) {
-        toast({
-          variant: 'destructive',
-          title: "Let's focus!",
-          description: "You can select up to 3 goals at a time.",
-        });
+        setShowLimitToast(true); // Trigger the effect to show toast
         return prev;
       }
       return [...prev, goalId];
