@@ -7,6 +7,7 @@ import EnergyScoreCard from '@/components/energy-score-card';
 import SmartOpportunitiesCard from '@/components/smart-opportunities-card';
 import WeeklyWinsCard from '@/components/weekly-wins-card';
 import { Progress } from '@/components/ui/progress';
+import StressLevelCard from '@/components/stress-level-card';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -36,9 +37,9 @@ export default function DashboardPage() {
 
     return (
         <div className="flex flex-col">
-            <div className="space-y-6">
+            <div className="space-y-8">
                  {!streakDismissed && (
-                  <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-xl p-5 relative">
+                  <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-2xl p-5 relative">
                       <button
                         onClick={handleDismissStreak}
                         className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
@@ -71,6 +72,7 @@ export default function DashboardPage() {
                 >
                     Explore AI Insights →
                 </button>
+                <StressLevelCard />
                 <SmartOpportunitiesCard />
                 
                 {/* Today's Progress - COLLAPSIBLE */}
