@@ -40,7 +40,7 @@ export default function WelcomePage() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4 text-center animate-fade-in-up bg-background text-foreground">
       
-       <header className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+       <header className="absolute top-0 left-0 right-0 p-6 flex justify-center items-center z-10">
         <Image
           src="https://www.gonoise.com/cdn/shop/files/Artboard_1_wf_1.png?v=1761318524"
           alt="NoiseFit Logo"
