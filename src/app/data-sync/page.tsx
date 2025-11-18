@@ -21,14 +21,17 @@ export default function DataSync() {
   const [visibleDiscoveries, setVisibleDiscoveries] = useState<string[]>([]);
 
   useEffect(() => {
+    if (progress >= 100) {
+      // Navigate after a short delay once progress is 100
+      const timer = setTimeout(() => router.push('/company-wellness'), 500);
+      return () => clearTimeout(timer);
+    }
+
     const interval = setInterval(() => {
       setProgress(prev => {
         const newProgress = prev + 1;
         if (newProgress > 100) {
-          clearInterval(interval);
-          // Navigate to company wellness screen after sync
-          router.push('/company-wellness');
-          return 100;
+            return 100;
         }
 
         if (newProgress > 33 && newProgress < 66) {
@@ -44,10 +47,10 @@ export default function DataSync() {
 
         return newProgress;
       });
-    }, 60); // 100 steps * 60ms = 6 seconds
+    }, 60); // 100 steps * 60ms = ~6 seconds
 
     return () => clearInterval(interval);
-  }, [router]);
+  }, [progress, router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4 text-center">
