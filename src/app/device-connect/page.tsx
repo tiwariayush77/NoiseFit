@@ -126,19 +126,41 @@ function DeviceConnectContent() {
 
         {/* Both Devices Found Scenario */}
         {noiseDevices.length > 0 && otherDevices.length > 0 && (
-          <Card className="bg-gradient-to-br from-primary/20 to-purple-500/20 border-primary/30">
-            <CardHeader>
-              <CardTitle>🎯 Multi-Device Insights</CardTitle>
-              <CardDescription>Combine data from both devices for the best results.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>24/7 coverage for complete data</li>
-                <li>Cross-device validation for accuracy</li>
-                <li>More accurate pattern detection</li>
-              </ul>
-               <Button onClick={handleContinue} className="w-full mt-4">Connect Both Devices</Button>
-            </CardContent>
+          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-purple-500 rounded-2xl p-6 mb-6">
+            <div className="text-center mb-4">
+              <div className="text-5xl mb-3">🎯</div>
+              <h2 className="text-2xl font-bold mb-2">Multi-Device Insights</h2>
+              <p className="text-sm text-muted-foreground">
+                Combine data from both devices for the best results
+              </p>
+            </div>
+          
+            <div className="space-y-3">
+              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                <span className="text-purple-400 text-xl mr-3">✓</span>
+                <div>
+                  <p className="font-medium">24/7 Coverage</p>
+                  <p className="text-xs text-muted-foreground">Complete data throughout the day</p>
+                </div>
+              </div>
+          
+              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                <span className="text-purple-400 text-xl mr-3">✓</span>
+                <div>
+                  <p className="font-medium">Cross-Device Validation</p>
+                  <p className="text-xs text-muted-foreground">More accurate measurements</p>
+                </div>
+              </div>
+          
+              <div className="flex items-start bg-purple-500/10 rounded-lg p-3">
+                <span className="text-purple-400 text-xl mr-3">✓</span>
+                <div>
+                  <p className="font-medium">Better Pattern Detection</p>
+                  <p className="text-xs text-muted-foreground">AI learns from multiple sources</p>
+                </div>
+              </div>
+            </div>
+             <Button onClick={handleContinue} className="w-full mt-4">Connect Both Devices</Button>
           </Card>
         )}
 
