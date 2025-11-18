@@ -78,14 +78,17 @@ function DeviceConnectContent() {
   const otherDevices = devices.filter(d => d.type === 'other');
 
   const handleContinue = () => {
-    if (noiseDevices.length > 0) {
-      const deviceIds = devices.map(d => d.id).join(',');
+    if (noiseDevices.length > 0 && otherDevices.length === 0) {
+      // Only Noise device(s) found
+      const deviceIds = noiseDevices.map(d => d.id).join(',');
       const primaryDeviceName = noiseDevices[0].name;
       router.push(`/device-connect-intro?devices=${deviceIds}&device=${encodeURIComponent(primaryDeviceName)}`);
-    } else if (otherDevices.length > 0) {
+    } else if (otherDevices.length > 0 && noiseDevices.length === 0) {
+      // Only other wearable(s) found
       const platform = otherDevices[0].suggestedPlatform || 'google-fit';
       router.push(`/health-app-connect?platform=${platform}`);
     }
+    // If both are found, this button is hidden, so no action is needed.
   };
 
   const handleManualConnect = () => {
