@@ -34,6 +34,8 @@ import {
   Smartphone,
   Trash2,
   User as UserIcon,
+  Users,
+  Fingerprint,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -64,7 +66,7 @@ const settingsMenu = {
   ],
   'Privacy & Security': [
       { icon: <Shield />, label: 'Privacy Settings', href: '/settings/privacy' },
-      { icon: <UsersIcon />, label: 'Data Sharing Preferences', href: '/settings/data-sharing' },
+      { icon: <Users />, label: 'Data Sharing Preferences', href: '/settings/data-sharing' },
       { icon: <Fingerprint />, label: 'Biometric Lock', href: '/settings/biometric' },
       { icon: <History />, label: 'Activity History', href: '/settings/history' },
   ],
@@ -162,8 +164,3 @@ function ConditionalLink({ children, isStatic, ...props }: { children: React.Rea
     }
     return <Link {...props}>{children}</Link>
 }
-
-// Dummy icons for compilation
-const UsersIcon = () => <UserIcon />;
-const Fingerprint = () => <UserIcon />;
-
