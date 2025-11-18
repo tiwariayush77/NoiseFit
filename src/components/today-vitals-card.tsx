@@ -21,14 +21,14 @@ const vitalsData = [
     link: '/vitals/heart'
   },
   {
-    id: 'steps',
+    id: 'activity',
     icon: '👟',
     label: 'Steps',
     value: '8,234',
     subtitle: 'Goal: 10,000',
     progress: 82,
     color: '#10B981', // Green
-    link: '/vitals/steps'
+    link: '/vitals/activity'
   },
   {
     id: 'sleep',
