@@ -1,98 +1,84 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  ArrowLeft,
-  Search,
-  Watch,
-  ToyBrick,
-  Smartphone,
-  Plus,
-  Minus,
-  Check,
-  Bluetooth,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
-
+import { useState } from 'react';
 
 export default function DeviceSearchPage() {
   const router = useRouter();
-  
-  const handleSmartScan = () => {
-    // For demo, we'll use query params to simulate different scan results
-    const scenarios = ['noise', 'other', 'both', 'none'];
-    const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-    router.push(`/device-connect?scenario=${randomScenario}`);
+  const [scanning, setScanning] = useState(false);
+
+  const handleSmartDetection = () => {
+    setScanning(true);
+
+    // Simulate device scan (2 seconds)
+    setTimeout(() => {
+      setScanning(false);
+      
+      // INTELLIGENT DETECTION: Randomly detect different scenarios
+      const scenarios = ['noise', 'other', 'both', 'none'];
+      const randomScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+      
+      // For demo purposes, let's favor 'both' scenario to show mixed devices
+      const scenario = Math.random() > 0.3 ? 'both' : randomScenario;
+      
+      router.push(`/device-connect?scenario=${scenario}`);
+    }, 2000);
+  };
+
+  const handleManualSearch = () => {
+    router.push('/fitness-platform-select');
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-20 flex items-center p-4 border-b border-border/20 bg-background">
-        <Link href="/">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft />
-            <span className="sr-only">Back</span>
-          </Button>
-        </Link>
-        <div className="text-center flex-1">
-            <h1 className="text-lg font-semibold">Find Your Devices</h1>
-            <p className="text-sm text-muted-foreground">Detect any wearable automatically</p>
+    <div className="min-h-screen bg-background text-foreground p-6">
+      <div className="max-w-md mx-auto">
+        <div className="mb-8">
+          <button onClick={() => router.back()} className="text-muted-foreground hover:text-foreground mb-4">
+            ← Back
+          </button>
+          <h1 className="text-2xl font-bold mb-2">Find Your Devices</h1>
+          <p className="text-muted-foreground">We'll scan for all compatible devices</p>
         </div>
-        <div className="w-10"></div>
-      </header>
-      
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col justify-center">
-        <div className="w-full max-w-md mx-auto">
-            <Card 
-                className="bg-gradient-to-br from-primary/20 to-purple-500/20 border-primary/30 text-center"
-                onClick={handleSmartScan}
-            >
-                <CardHeader>
-                    <div className="w-20 h-20 mx-auto rounded-full bg-primary/20 flex items-center justify-center mb-4">
-                        <Bluetooth className="w-10 h-10 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl">Smart Detection</CardTitle>
-                    <CardDescription>Find any device automatically</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="text-left text-sm text-muted-foreground space-y-2 mb-6">
-                        <p className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500"/> Noise watches & rings</p>
-                        <p className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500"/> Other brand wearables</p>
-                        <p className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500"/> Fitness apps on your phone</p>
-                    </div>
-                    <Button size="lg" className="w-full">Scan for Devices</Button>
-                </CardContent>
-            </Card>
 
-            <div className="relative my-8">
-                <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
-                <div className="relative flex justify-center text-xs uppercase"><span className="bg-background px-2 text-muted-foreground">OR</span></div>
-            </div>
+        {/* Smart Detection */}
+        <button
+          onClick={handleSmartDetection}
+          disabled={scanning}
+          className="w-full bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 disabled:from-muted disabled:to-muted text-white font-semibold py-4 rounded-xl mb-4 transition-all"
+        >
+          {scanning ? (
+            <span className="flex items-center justify-center">
+              <span className="animate-spin mr-2">⏳</span>
+              Scanning for devices...
+            </span>
+          ) : (
+            '🔍 Scan for All Devices'
+          )}
+        </button>
 
-            <div className="space-y-4">
-                 <Button variant="outline" className="w-full justify-start" onClick={() => router.push('/device-search-manual')}>
-                    <Search className="mr-2"/>
-                    Search by device name
-                </Button>
-                 <Button variant="outline" className="w-full justify-start" onClick={() => router.push('/fitness-platform-select')}>
-                    <Smartphone className="mr-2"/>
-                    Connect a fitness app
-                </Button>
-            </div>
+        {/* Manual Selection */}
+        <button
+          onClick={handleManualSearch}
+          className="w-full bg-card/50 hover:bg-muted border border-border text-foreground font-medium py-4 rounded-xl transition-colors"
+        >
+          📱 Choose Health App Manually
+        </button>
+
+        {/* Info */}
+        <div className="mt-8 bg-primary/10 border border-primary/20 rounded-xl p-4">
+          <p className="text-sm text-foreground mb-2">
+            <strong>Smart Detection finds:</strong>
+          </p>
+          <ul className="text-sm text-muted-foreground space-y-1">
+            <li>-  Noise smartwatches & fitness bands</li>
+            <li>-  Apple Watch & Apple Health data</li>
+            <li>-  Fitbit devices & trackers</li>
+            <li>-  Garmin watches</li>
+            <li>-  Google Fit data</li>
+          </ul>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
+    
