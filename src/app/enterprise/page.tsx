@@ -179,7 +179,9 @@ export default function EnterpriseDashboardPage() {
                 <p className='text-3xl font-bold'>₹{enterpriseData.credits.earned.toLocaleString()} <span className='text-base text-muted-foreground'>earned this month</span></p>
                 <Progress value={(enterpriseData.credits.earned / enterpriseData.credits.target) * 100} className='my-3 h-2' />
                 <p className='text-sm text-muted-foreground'>₹{(enterpriseData.credits.target - enterpriseData.credits.earned).toLocaleString()} more → Next reward (₹{enterpriseData.credits.target.toLocaleString()} milestone)</p>
-                <Button className='w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-black'>Redeem Credits (₹{enterpriseData.credits.earned})</Button>
+                <Link href="/enterprise/rewards">
+                    <Button className='w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-black'>Redeem Credits (₹{enterpriseData.credits.earned})</Button>
+                </Link>
                 <Separator className='my-4' />
                 <p className='text-xs text-muted-foreground mb-2'>How you earned credits:</p>
                 <ul className='text-xs text-muted-foreground space-y-1'>
@@ -263,7 +265,9 @@ export default function EnterpriseDashboardPage() {
                 </Card>
                 ))}
              </div>
-             <Button variant='link' className='w-full mt-2'>Browse All Rewards (50+) →</Button>
+             <Link href="/enterprise/rewards">
+                <Button variant='link' className='w-full mt-2'>Browse All Rewards (50+) →</Button>
+             </Link>
         </div>
         
         {/* Extra PTO Tracker */}
