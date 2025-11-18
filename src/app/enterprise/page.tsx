@@ -245,7 +245,9 @@ export default function EnterpriseDashboardPage() {
                 <p className='text-sm'>{enterpriseData.team.totalMembers} members · {enterpriseData.team.activeThisWeek} active this week</p>
                 <p className='text-sm mt-2'>Average wellness score: {enterpriseData.team.avgWellnessScore}/100</p>
                 <p className='text-sm text-green-400 font-semibold'>(You're {enterpriseData.user.wellnessScore - enterpriseData.team.avgWellnessScore} points above avg!)</p>
-                <Button variant='outline' className='w-full mt-4'>View Team Dashboard →</Button>
+                <Link href="/enterprise/team-dashboard">
+                    <Button variant='outline' className='w-full mt-4'>View Team Dashboard →</Button>
+                </Link>
             </CardContent>
         </Card>
 
