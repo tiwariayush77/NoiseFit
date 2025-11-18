@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { GoalsCard } from '@/components/dashboard-cards';
 import EnergyScoreCard from '@/components/energy-score-card';
+import SmartOpportunitiesCard from '@/components/smart-opportunities-card';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -74,6 +75,7 @@ return (
 </div>
 
   <EnergyScoreCard score={87} />
+  <SmartOpportunitiesCard />
 
   {/* Activity Cards */}
     <div className="grid grid-cols-2 gap-4">
