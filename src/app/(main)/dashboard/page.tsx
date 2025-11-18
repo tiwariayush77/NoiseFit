@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { GoalsCard } from '@/components/dashboard-cards';
 import EnergyScoreCard from '@/components/energy-score-card';
 import SmartOpportunitiesCard from '@/components/smart-opportunities-card';
+import SmartTimelineCard from '@/components/smart-timeline-card';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -76,6 +77,7 @@ return (
 
   <EnergyScoreCard score={87} />
   <SmartOpportunitiesCard />
+  <SmartTimelineCard />
 
   {/* Activity Cards */}
     <div className="grid grid-cols-2 gap-4">

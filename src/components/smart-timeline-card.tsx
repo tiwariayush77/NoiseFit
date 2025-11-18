@@ -34,7 +34,7 @@ const timeBlocks: TimeBlock[] = [
     insight: 'Your body is 91% ready',
     reasons: ['Energy peaks at 7 AM', 'HR baseline optimal'],
     action: 'Explore Workouts',
-    actionLink: '/workouts',
+    actionLink: '/workouts/log',
     priority: 'high',
   },
   {
@@ -47,7 +47,7 @@ const timeBlocks: TimeBlock[] = [
     insight: 'HRV peaks during this time',
     suggestions: ['Deep work sessions', 'Important meetings'],
     action: 'Block Calendar',
-    actionLink: '/calendar',
+    actionLink: '#',
     priority: 'medium',
   },
   {
@@ -60,7 +60,7 @@ const timeBlocks: TimeBlock[] = [
     insight: '10-min walk helps 8/10 times',
     suggestions: ['Walking break', 'Stretching'],
     action: 'Start Walk Timer',
-    actionLink: '/activities/walk',
+    actionLink: '/workouts/log',
     priority: 'high',
   },
   {
@@ -73,7 +73,7 @@ const timeBlocks: TimeBlock[] = [
     insight: 'Screens off = better sleep',
     suggestions: ['Reading', 'Light stretching'],
     action: 'Enable Night Mode',
-    actionLink: '/settings/night-mode',
+    actionLink: '/settings/notifications',
     priority: 'medium',
   },
 ];
