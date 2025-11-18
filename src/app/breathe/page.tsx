@@ -15,6 +15,10 @@ export default function BreathePage() {
     const [phaseIndex, setPhaseIndex] = useState(0);
     const [cycleCount, setCycleCount] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [startHR, setStartHR] = useState(88);
+    const [currentHR, setCurrentHR] = useState(88);
+    const [startStress, setStartStress] = useState(68);
+    const [currentStress, setCurrentStress] = useState(68);
 
     useEffect(() => {
         if (isComplete) return;
@@ -26,6 +30,12 @@ export default function BreathePage() {
             if (nextPhaseIndex === 0) {
                 const newCycleCount = cycleCount + 1;
                 setCycleCount(newCycleCount);
+
+                // Simulate biometric improvements
+                const progress = (newCycleCount + 1) / 4;
+                setCurrentHR(Math.round(startHR - (12 * progress)));
+                setCurrentStress(Math.round(startStress - (20 * progress)));
+
                 if (newCycleCount >= 4) { // Complete after 4 cycles
                     setIsComplete(true);
                 }
@@ -33,7 +43,17 @@ export default function BreathePage() {
         }, currentPhase.duration * 1000);
 
         return () => clearTimeout(timer);
-    }, [phaseIndex, cycleCount, isComplete]);
+    }, [phaseIndex, cycleCount, isComplete, startHR, startStress]);
+
+    useEffect(() => {
+        if (isComplete) {
+            const hrDrop = startHR - currentHR;
+            const stressDrop = startStress - currentStress;
+            setTimeout(() => {
+                router.push(`/breathe-complete?hr=${hrDrop}&stress=${stressDrop}`);
+            }, 1500); // wait for animation
+        }
+    }, [isComplete, router, startHR, currentHR, startStress, currentStress]);
 
     const currentPhase = phases[phaseIndex];
 
@@ -89,12 +109,6 @@ export default function BreathePage() {
                         </div>
                         <h1 className="text-3xl font-bold text-white mb-2">Session Complete</h1>
                         <p className="text-white/80 mb-8">Feeling calmer already.</p>
-                        <button
-                            onClick={() => router.back()}
-                            className="px-8 py-3 bg-white text-primary font-semibold rounded-lg"
-                        >
-                            Return to Dashboard
-                        </button>
                     </motion.div>
                 )}
             </AnimatePresence>
