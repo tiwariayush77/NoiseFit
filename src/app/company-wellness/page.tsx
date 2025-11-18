@@ -35,7 +35,7 @@ export default function CompanyWellnessPage() {
           UNLOCK COMPANY WELLNESS BENEFITS
         </h1>
         <p className="text-lg text-muted-foreground mb-8">
-          We detected you work at Acme Corp
+          Link your work account to get started
         </p>
 
         <div className="space-y-3 text-left mb-8 self-start w-full">

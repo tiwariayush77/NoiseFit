@@ -3,11 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import EnergyScoreCard from '@/components/energy-score-card';
-import TodayVitalsCard from '@/components/today-vitals-card';
-import SmartTimelineCard from '@/components/smart-timeline-card';
-import TopOpportunitiesCard from '@/components/top-opportunities-card';
-import QuickActionsCard from '@/components/quick-actions-card';
+import { GoalsCard } from '@/components/dashboard-cards';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -112,6 +108,8 @@ return (
         <p className="text-sm text-purple-200 font-medium">Workouts this week</p>
     </div>
     </div>
+
+    <GoalsCard />
 
   {/* AI Insights */}
   <div className="bg-card/50 border border-border/20 rounded-xl p-6">

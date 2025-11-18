@@ -7,14 +7,19 @@ import { CheckCircle2, Building, Users } from 'lucide-react';
 
 function CorporateVerifiedContent() {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const [companyName, setCompanyName] = useState('');
     const [showAnimation, setShowAnimation] = useState(false);
 
     useEffect(() => {
         setCompanyName(localStorage.getItem('companyName') || 'your company');
         setShowAnimation(true);
-    }, []);
+
+        const timer = setTimeout(() => {
+            router.push('/goal-selection');
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [router]);
 
     const handleContinue = () => {
         router.push('/goal-selection');
@@ -59,10 +64,11 @@ function CorporateVerifiedContent() {
 
                 <div className="space-y-3">
                     <Button onClick={handleContinue} size="lg" className="w-full bg-gradient-to-r from-primary to-purple-600 text-white">
-                        Next: Set Your Personal Goals
+                        Continue
                     </Button>
                 </div>
 
+                <p className="text-xs text-muted-foreground mt-4">Redirecting automatically in 3 seconds...</p>
             </div>
         </div>
     )
