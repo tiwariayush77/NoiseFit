@@ -7,16 +7,17 @@ import {
   Sparkles,
   Smartphone,
   Watch,
+  Check,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const benefits = [
-  { text: 'Know exactly when to workout', icon: <Sparkles className="w-5 h-5 text-accent" /> },
-  { text: 'Understand why you\'re tired', icon: <Sparkles className="w-5 h-5 text-accent" /> },
-  { text: 'Get sleep tips that work for you', icon: <Sparkles className="w-5 h-5 text-accent" /> },
-  { text: 'Compete with friends (any brand)', icon: <Sparkles className="w-5 h-5 text-accent" /> },
+  { text: 'Connect any fitness tracker', icon: <Check className="w-5 h-5 text-green-400" /> },
+  { text: 'AI-powered health insights', icon: <Check className="w-5 h-5 text-green-400" /> },
+  { text: 'Personalized recommendations', icon: <Check className="w-5 h-5 text-green-400" /> },
+  { text: 'Cross-device analytics', icon: <Check className="w-5 h-5 text-green-400" /> },
 ];
 
 const brands = ['Noise', 'Apple Watch', 'Garmin', 'boAt', 'Fire-Boltt', 'Amazfit'];
@@ -39,11 +40,11 @@ export default function WelcomePage() {
           ></div>
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-          MEET YOUR HEALTH COACH
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 bg-gradient-to-r from-teal-400 to-blue-400 text-transparent bg-clip-text">
+          AI Health Insights for Any Wearable
         </h1>
         <p className="text-lg text-muted-foreground mb-8">
-          We turn your wearable data into actions that actually work
+          Works with Noise devices, Apple Watch, Fitbit, Garmin, and <b>more</b>
         </p>
 
         <div className="space-y-3 text-left mb-8 self-start w-full">
@@ -55,52 +56,25 @@ export default function WelcomePage() {
           ))}
         </div>
 
-        <div className="text-left w-full mb-8">
-          <p className="text-sm text-muted-foreground mb-3">Works with:</p>
-          <div className="flex flex-wrap gap-2">
-            {brands.map((brand) => (
-              <div
-                key={brand}
-                className="text-xs px-3 py-1 bg-card/50 rounded-full"
-              >
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
-
         <Link href="/device-selection" className="w-full">
           <Button
             size="lg"
             className="w-full bg-gradient-to-r from-primary to-purple-600 text-white transition-transform transform hover:scale-102 hover:shadow-lg hover:shadow-accent/20"
           >
-            Begin your journey 🚀
+            Get Started
           </Button>
         </Link>
+        
+        <p className="text-sm text-muted-foreground mt-4">
+            Already have an account?{' '}
+            <Link href="/sign-in" className="font-semibold text-primary hover:underline underline-offset-4">
+                Sign In
+            </Link>
+        </p>
 
-        <div className="mt-8 text-center w-full">
-          <p className="text-sm text-muted-foreground mb-4">Continue with:</p>
-          <div className="flex justify-center gap-4">
-            <Link href="/device-selection">
-              <Button variant="outline" size="icon">
-                <svg role="img" viewBox="0 0 24 24" className="h-5 w-5 fill-current"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.9-4.32 1.9-3.42 0-6.22-2.8-6.22-6.22s2.8-6.22 6.22-6.22c1.93 0 3.25.78 4.22 1.7l2.76-2.76C19.01 1.97 16.25 1 12.48 1 5.83 1 1 5.83 1 12.48s4.83 11.48 11.48 11.48c6.4 0 11.02-4.56 11.02-11.02 0-.74-.06-1.42-.18-2.08h-9.84z"/></svg>
-                <span className="sr-only">Google</span>
-              </Button>
-            </Link>
-            <Link href="/device-selection">
-              <Button variant="outline" size="icon">
-                <Apple className="h-5 w-5" />
-                <span className="sr-only">Apple</span>
-              </Button>
-            </Link>
-            <Link href="/sign-in">
-              <Button variant="outline" size="icon">
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Email</span>
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <p className="text-xs text-muted-foreground mt-8">
+          By continuing, you agree to our Terms of Service and Privacy Policy.
+        </p>
       </main>
     </div>
   );
