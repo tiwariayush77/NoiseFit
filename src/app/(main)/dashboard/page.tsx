@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { GoalsCard } from '@/components/dashboard-cards';
+import EnergyScoreCard from '@/components/energy-score-card';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -72,15 +73,7 @@ return (
 <p className="text-muted-foreground">Here's your health overview</p>
 </div>
 
-  {/* Health Score Card */}
-  <div className="bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 rounded-2xl p-6">
-    <h3 className="text-lg font-semibold mb-2">YOUR HEALTH SCORE</h3>
-    <div className="text-5xl font-bold mb-2">84<span className="text-2xl text-muted-foreground">/100</span></div>
-    <div className="w-full bg-muted/50 rounded-full h-3 mb-2">
-      <div className="bg-gradient-to-r from-primary to-accent h-3 rounded-full" style={{ width: '84%' }}></div>
-    </div>
-    <p className="text-sm text-muted-foreground">Great progress! Keep it up 💪</p>
-  </div>
+  <EnergyScoreCard score={87} />
 
   {/* Activity Cards */}
     <div className="grid grid-cols-2 gap-4">
