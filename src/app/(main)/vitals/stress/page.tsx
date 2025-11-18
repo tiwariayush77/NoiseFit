@@ -29,6 +29,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  CartesianGrid,
 } from 'recharts';
 
 const stressDetailData = {
