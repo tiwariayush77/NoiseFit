@@ -76,7 +76,7 @@ const settingsMenu = {
       { icon: <Bell />, label: 'Reminder Settings', href: '/settings/reminders' },
   ],
   'Support & About': [
-    { icon: <HelpCircle />, label: 'Help Center', href: '/support' },
+    { icon: <HelpCircle />, label: 'Help Center', href: '/help' },
     { icon: <Contact />, label: 'Contact Support', href: '/support/contact' },
     { icon: <FileText />, label: 'Terms of Service', href: '/terms' },
     { icon: <Shield />, label: 'Privacy Policy', href: '/privacy' },
