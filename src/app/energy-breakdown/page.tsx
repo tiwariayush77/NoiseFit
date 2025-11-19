@@ -95,106 +95,121 @@ return (
     <div className="px-6 py-6 space-y-8">
 
       {/* Final Score Card - ENHANCED */}
-        <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-8 text-center">
-            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                Your Energy Score
-            </p>
-            <div className="mb-4">
-                <p className="text-7xl font-bold text-white leading-none">{finalScore}</p>
-                <p className="text-2xl text-muted-foreground mt-2">/100</p>
-            </div>
-            <div className="inline-block px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-full">
-                <p className="text-lg font-bold text-green-400">EXCELLENT</p>
-            </div>
+      <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-8 text-center">
+        <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+          Your Energy Score
+        </p>
+        <div className="mb-4">
+          <p className="text-7xl font-bold text-white leading-none">{finalScore}</p>
+          <p className="text-2xl text-muted-foreground mt-2">/100</p>
         </div>
+        <div className="inline-block px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-full">
+          <p className="text-lg font-bold text-green-400">EXCELLENT</p>
+        </div>
+      </div>
 
       {/* Component Breakdown - ENHANCED READABILITY */}
-        <div className="space-y-5 mb-8">
-            <div className="mb-6">
-                <h2 className="text-xl font-bold text-white mb-2">Score Components</h2>
-                <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
+      <div className="space-y-5 mb-8">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-white mb-2">Score Components</h2>
+          <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
+        </div>
+        
+        {components.map((component, idx) => (
+          <button
+            key={idx}
+            onClick={() => router.push(component.route)}
+            className="w-full bg-card/80 border-2 border-border/20 hover:border-accent/70 hover:bg-muted/50 rounded-2xl p-6 text-left transition-all cursor-pointer group"
+          >
+            {/* Header Row */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{component.icon}</span>
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-accent transition-colors">
+                    {component.name}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{component.detail}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-4xl font-bold text-white leading-none">
+                  {component.score}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">/100</p>
+              </div>
             </div>
             
-            {components.map((component, idx) => (
-                <button
-                key={idx}
-                onClick={() => router.push(component.route)}
-                className="w-full bg-card/80 border-2 border-border/20 hover:border-accent/70 hover:bg-muted/50 rounded-2xl p-6 text-left transition-all cursor-pointer group"
-                >
-                {/* Header Row */}
-                <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                    <span className="text-3xl">{component.icon}</span>
-                    <div>
-                        <h3 className="text-lg font-bold text-white group-hover:text-accent transition-colors">
-                        {component.name}
-                        </h3>
-                        <p className="text-xs text-muted-foreground mt-0.5">{component.detail}</p>
-                    </div>
-                    </div>
-                    <div className="text-right">
-                    <p className="text-4xl font-bold text-white leading-none">
-                        {component.score}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">/100</p>
-                    </div>
-                </div>
-                
-                {/* Progress Bar - THICKER */}
-                <div className="w-full bg-muted/30 rounded-full h-4 mb-4">
-                    <div
-                    className={`${component.color} h-4 rounded-full transition-all duration-500`}
-                    style={{ width: `${component.score}%` }}
-                    ></div>
-                </div>
-                
-                {/* Weight Badge */}
-                <div className="flex items-center justify-between mb-4">
-                    <div className={`inline-block px-3 py-1.5 rounded-full border ${component.textColor} bg-card/50`}>
-                    <p className="text-xs font-semibold">
-                        {component.weight}% of total score
-                    </p>
-                    </div>
-                </div>
-                
-                {/* Explanation Box */}
-                <div className="bg-muted/30 border border-border/30 rounded-xl p-4 mb-4">
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                    {component.explanation}
-                    </p>
-                </div>
+            {/* Progress Bar - THICKER */}
+            <div className="w-full bg-muted/30 rounded-full h-4 mb-4">
+              <div
+                className={`${component.color} h-4 rounded-full transition-all duration-500`}
+                style={{ width: `${component.score}%` }}
+              ></div>
+            </div>
+            
+            {/* Weight Badge */}
+            <div className="flex items-center justify-between mb-4">
+              <div className={`inline-block px-3 py-1.5 rounded-full border ${component.textColor} bg-card/50`}>
+                <p className="text-xs font-semibold">
+                  {component.weight}% of total score
+                </p>
+              </div>
+            </div>
+            
+            {/* Explanation Box */}
+            <div className="bg-muted/30 border border-border/30 rounded-xl p-4 mb-4">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {component.explanation}
+              </p>
+            </div>
 
-                {/* Click Indicator */}
-                <div className="flex items-center justify-between pt-4 border-t border-border/30">
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-accent transition-colors">
-                    Tap for detailed analysis
-                    </span>
-                    <svg className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </div>
-                </button>
-            ))}
-        </div>
+            {/* Click Indicator */}
+            <div className="flex items-center justify-between pt-4 border-t border-border/30">
+              <span className="text-xs font-medium text-muted-foreground group-hover:text-accent transition-colors">
+                Tap for detailed analysis
+              </span>
+              <svg className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+        ))}
+      </div>
 
-      {/* Calculation Explanation */}
-      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 mb-6">
-        <div className="flex items-start gap-3 mb-4">
-          <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
+      {/* Calculation Explanation - ENHANCED */}
+      <div className="bg-accent/10 border-2 border-accent/30 rounded-2xl p-6 mb-8">
+        <div className="flex items-start gap-4 mb-5">
+          <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-white mb-2">How It's Calculated:</p>
-            <div className="font-mono text-xs text-muted-foreground space-y-1 bg-card/50 rounded-lg p-3">
-              {components.map((c) => (
-                <p key={c.name}>
-                  {c.name}: {c.score} × {(c.weight/100).toFixed(2)} = <span className="text-accent">{(c.score * (c.weight/100)).toFixed(1)}</span>
-                </p>
-              ))}
-              <div className="border-t border-border/50 my-2 pt-2">
-                <p className="text-accent font-semibold text-sm">
-                  Total = {finalScore}/100
-                </p>
+            <h3 className="text-lg font-bold text-white mb-2">How It's Calculated</h3>
+            <p className="text-sm text-muted-foreground">Weighted average of all components</p>
+          </div>
+        </div>
+        
+        <div className="bg-card/50 border border-border/20 rounded-xl p-5">
+          <div className="font-mono text-sm text-foreground space-y-2.5">
+            {components.map((c) => (
+              <div key={c.name} className="flex items-center justify-between">
+                <span className="text-muted-foreground">{c.name}:</span>
+                <span className="text-white">
+                  {c.score} × {(c.weight/100).toFixed(2)} = 
+                  <span className="text-accent font-bold ml-2">
+                    {(c.score * (c.weight/100)).toFixed(1)}
+                  </span>
+                </span>
+              </div>
+            ))}
+            <div className="border-t-2 border-accent/30 my-3 pt-3">
+              <div className="flex items-center justify-between text-base">
+                <span className="font-bold text-white">Total Score:</span>
+                <span className="text-2xl font-bold text-accent">
+                  {finalScore}/100
+                </span>
               </div>
             </div>
           </div>
@@ -269,7 +284,7 @@ export default function EnergyBreakdownPage() {
 return (
 <Suspense fallback={
 <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-<div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+<div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
 </div>
 }>
 <EnergyBreakdownContent />
