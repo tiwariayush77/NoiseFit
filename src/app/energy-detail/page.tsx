@@ -326,111 +326,119 @@ export default function EnergyDetail() {
           </CardContent>
         </Card>
         
-        {/* AI Insights Card - ENHANCED */}
         <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-2 border-purple-500/30 rounded-2xl p-6 mb-6">
-          <div className="flex items-center gap-3 mb-5">
-            <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-            <div>
-              <h2 className="text-xl font-bold text-white">AI Insights & Patterns</h2>
-              <p className="text-sm text-gray-400">Key correlations we've found in your data</p>
-            </div>
-          </div>
-          
-          {/* Key Pattern Section */}
-          <div className="mb-6">
-            <h3 className="text-base font-semibold text-white mb-4">
-              Key Pattern Detected:
-            </h3>
-            <p className="text-base text-gray-300 mb-3 leading-relaxed">
-              Your energy peaks on days when you:
-            </p>
-            <ul className="space-y-2.5 ml-4">
-              <li className="text-base text-gray-300 flex items-start leading-relaxed">
-                <span className="text-teal-400 mr-2.5 mt-1">- </span>
-                <span>Sleep 7.5h+ (92% correlation)</span>
-              </li>
-              <li className="text-base text-gray-300 flex items-start leading-relaxed">
-                <span className="text-teal-400 mr-2.5 mt-1">- </span>
-                <span>Do morning workouts (87% correlation)</span>
-              </li>
-              <li className="text-base text-gray-300 flex items-start leading-relaxed">
-                <span className="text-teal-400 mr-2.5 mt-1">- </span>
-                <span>Avoid late-night screen time</span>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Recommendation Section */}
-          <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
-            <div className="flex items-start gap-2 mb-3">
-              <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-3 mb-5">
+                <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              <div className="flex-1">
-                <p className="font-semibold text-purple-300 mb-2">Recommendation:</p>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Tonight: Sleep by 10 PM for peak energy tomorrow morning.
-                </p>
-              </div>
+                </svg>
+                <div>
+                <h2 className="text-xl font-bold text-white">AI Insights & Patterns</h2>
+                <p className="text-sm text-gray-400">Key correlations we've found in your data</p>
+                </div>
             </div>
-            <button className="w-full mt-3 py-2.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 rounded-lg font-medium text-sm text-purple-300 transition-colors">
-              Set Bedtime Reminder
-            </button>
-          </div>
+            
+            <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-4">
+                Key Pattern Detected:
+                </h3>
+                <p className="text-base text-gray-300 mb-3 leading-relaxed">
+                Your energy peaks on days when you:
+                </p>
+                <ul className="space-y-2.5 ml-4">
+                <li className="text-base text-gray-300 flex items-start leading-relaxed">
+                    <span className="text-teal-400 mr-2.5 mt-1">- </span>
+                    <span>Sleep 7.5h+ (92% correlation)</span>
+                </li>
+                <li className="text-base text-gray-300 flex items-start leading-relaxed">
+                    <span className="text-teal-400 mr-2.5 mt-1">- </span>
+                    <span>Do morning workouts (87% correlation)</span>
+                </li>
+                <li className="text-base text-gray-300 flex items-start leading-relaxed">
+                    <span className="text-teal-400 mr-2.5 mt-1">- </span>
+                    <span>Avoid late-night screen time</span>
+                </li>
+                </ul>
+            </div>
+            
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
+                <div className="flex items-start gap-2 mb-3">
+                <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <div className="flex-1">
+                    <p className="font-semibold text-purple-300 mb-2">Recommendation:</p>
+                    <p className="text-sm text-gray-300 leading-relaxed">
+                    Tonight: Sleep by 10 PM for peak energy tomorrow morning.
+                    </p>
+                </div>
+                </div>
+                <button className="w-full mt-3 py-2.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 rounded-lg font-medium text-sm text-purple-300 transition-colors">
+                Set Bedtime Reminder
+                </button>
+            </div>
         </div>
 
-        {/* Energy Killers - ENHANCED READABILITY */}
         <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/30 rounded-2xl p-6 mb-6">
-          <div className="flex items-center gap-3 mb-5">
-            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <div>
-              <h2 className="text-xl font-bold text-white">Energy Killers</h2>
-              <p className="text-sm text-gray-400">Things to watch out for</p>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            {killers.map((killer, index) => (
-               <div key={index} className="flex items-start gap-4 pt-4 first:pt-0 border-t border-gray-700 first:border-none">
-                  <div className="flex-1">
-                    <p className="text-base font-medium text-gray-300 mb-1 leading-relaxed">
-                      {killer.issue}
-                    </p>
-                  </div>
-                  <p className="text-sm font-semibold text-red-400 whitespace-nowrap">
-                    {killer.impact}
-                  </p>
+            <div className="flex items-center gap-3 mb-5">
+                <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                <h2 className="text-xl font-bold text-white">Energy Killers</h2>
+                <p className="text-sm text-gray-400">Things to watch out for</p>
                 </div>
-            ))}
-          </div>
+            </div>
+            
+            <div className="space-y-4">
+                {killers.map((killer, index) => (
+                <div key={index} className="flex items-start gap-4 pt-4 first:pt-0 border-t border-gray-700 first:border-none">
+                    <div className="flex-1">
+                        <p className="text-base font-medium text-gray-300 mb-1 leading-relaxed">
+                        {killer.issue}
+                        </p>
+                    </div>
+                    <p className="text-sm font-semibold text-red-400 whitespace-nowrap">
+                        {killer.impact}
+                    </p>
+                    </div>
+                ))}
+            </div>
         </div>
         
-        {/* Peak Hours */}
-        <Card className="bg-card/50">
-            <CardHeader className="flex-row items-start gap-3 space-y-0">
-                <Clock className="w-6 h-6 text-accent mt-1" />
+        <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-5">
+                <svg className="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 <div>
-                    <CardTitle>Your Peak Hours</CardTitle>
-                    <CardDescription>When you're at your best.</CardDescription>
+                <h2 className="text-xl font-bold text-white">Your Peak Hours</h2>
+                <p className="text-sm text-gray-400">When you're at your best</p>
                 </div>
-            </CardHeader>
-            <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                    {peakHours.map(ph => (
-                        <div key={ph.period} className="bg-muted/30 p-3 rounded-lg text-center">
-                            <p className="text-lg">{ph.icon}</p>
-                            <p className="font-semibold text-sm">{ph.period}</p>
-                            <p className="text-xs text-muted-foreground mb-1">Avg Energy: <span className='font-bold text-accent'>{ph.energy}</span></p>
-                            <p className="text-xs text-muted-foreground">Best for: {ph.bestFor}</p>
-                        </div>
-                    ))}
+            </div>
+            
+            <div className="space-y-4">
+                <div className="bg-gray-700/50 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                    <p className="text-base font-semibold text-white">Morning Peak</p>
+                    <span className="text-sm text-teal-400 font-medium">6-9 AM</span>
                 </div>
-            </CardContent>
-        </Card>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                    Best for: Workouts, important decisions, creative work
+                </p>
+                </div>
+                
+                <div className="bg-gray-700/50 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                    <p className="text-base font-semibold text-white">Afternoon Peak</p>
+                    <span className="text-sm text-teal-400 font-medium">2-4 PM</span>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                    Best for: Collaboration, meetings, social activities
+                </p>
+                </div>
+            </div>
+        </div>
+
 
         {/* Bottom Actions */}
         <div className='space-y-3 pt-4'>
@@ -443,5 +451,3 @@ export default function EnergyDetail() {
     </div>
   );
 }
-
-    
