@@ -1,10 +1,11 @@
+
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 
-export default function CreateCompanyGroupPage() {
+function CreateCompanyGroupContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const companyName = searchParams.get('company') || 'Your Company';
@@ -220,4 +221,24 @@ export default function CreateCompanyGroupPage() {
             </div>
         </div>
     );
+}
+
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function CreateCompanyGroupPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CreateCompanyGroupContent />
+    </Suspense>
+  );
 }
