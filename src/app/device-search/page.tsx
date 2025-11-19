@@ -78,31 +78,6 @@ return (
       </span>
     </button>
   </div>
-
-  {/* Info Cards - Bottom */}
-  <div className="px-6 pb-8">
-    <div className="bg-card/50 border border-border/20 rounded-2xl p-5">
-      <p className="text-sm font-semibold mb-3 text-muted-foreground">We'll find:</p>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex items-center">
-          <span className="text-2xl mr-2">⌚</span>
-          <span className="text-xs text-muted-foreground">Noise Watches</span>
-        </div>
-        <div className="flex items-center">
-          <span className="text-2xl mr-2">🍎</span>
-          <span className="text-xs text-muted-foreground">Apple Health</span>
-        </div>
-        <div className="flex items-center">
-          <span className="text-2xl mr-2">🏃</span>
-          <span className="text-xs text-muted-foreground">Google Fit</span>
-        </div>
-        <div className="flex items-center">
-          <span className="text-2xl mr-2">💪</span>
-          <span className="text-xs text-muted-foreground">Fitbit & More</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 );
 }
