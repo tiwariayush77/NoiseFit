@@ -14,7 +14,8 @@ weight: 30,
 color: 'bg-blue-500',
 textColor: 'text-blue-400',
 detail: 'Deep: 18% | REM: 22%',
-explanation: 'Both deep and REM sleep are above optimal thresholds'
+explanation: 'Both deep and REM sleep are above optimal thresholds',
+icon: '😴'
 },
 {
 name: 'Sleep Consistency',
@@ -23,7 +24,8 @@ weight: 20,
 color: 'bg-purple-500',
 textColor: 'text-purple-400',
 detail: '±15 min variance',
-explanation: 'Highly consistent bedtime and wake time'
+explanation: 'Highly consistent bedtime and wake time over 7 days',
+icon: '📅'
 },
 {
 name: 'HRV Recovery',
@@ -32,7 +34,8 @@ weight: 25,
 color: 'bg-green-500',
 textColor: 'text-green-400',
 detail: 'Avg HRV: 61ms',
-explanation: 'Average recovery, room for improvement'
+explanation: 'Average recovery, room for improvement with stress management',
+icon: '❤️'
 },
 {
 name: 'Activity Load',
@@ -41,7 +44,8 @@ weight: 15,
 color: 'bg-orange-500',
 textColor: 'text-orange-400',
 detail: 'Avg steps: 8,340',
-explanation: 'Consistently hitting daily movement goals'
+explanation: 'Consistently hitting daily movement goals',
+icon: '💪'
 },
 {
 name: 'Stress Recovery',
@@ -50,7 +54,8 @@ weight: 10,
 color: 'bg-red-500',
 textColor: 'text-red-400',
 detail: 'Avg stress: 47/100',
-explanation: 'Moderate stress levels, breathing sessions help'
+explanation: 'Moderate stress levels, breathing sessions help',
+icon: '🧘'
 }
 ];
 
@@ -91,8 +96,14 @@ return (
         <div key={idx} className="bg-card/50 border border-border/20 rounded-xl p-5">
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
-            <span className="text-base font-semibold text-white">{component.name}</span>
-            <span className="text-2xl font-bold text-white">{component.score}<span className="text-sm text-muted-foreground">/100</span></span>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">{component.icon}</span>
+              <span className="text-base font-semibold text-white">{component.name}</span>
+            </div>
+            <span className="text-2xl font-bold text-white">
+              {component.score}
+              <span className="text-sm text-muted-foreground">/100</span>
+            </span>
           </div>
           
           {/* Progress Bar */}
@@ -104,7 +115,7 @@ return (
           </div>
           
           {/* Details */}
-          <div className="flex items-center justify-between text-xs mb-2">
+          <div className="flex items-center justify-between text-xs mb-3">
             <span className="text-muted-foreground">{component.detail}</span>
             <span className={`font-semibold ${component.textColor}`}>
               {component.weight}% weight
@@ -112,56 +123,80 @@ return (
           </div>
           
           {/* Explanation */}
-          <p className="text-xs text-muted-foreground bg-muted/20 rounded-lg p-2">
-            💡 {component.explanation}
-          </p>
+          <div className="bg-muted/20 rounded-lg p-2">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              💡 {component.explanation}
+            </p>
+          </div>
         </div>
       ))}
     </div>
 
     {/* Calculation Explanation */}
-    <div className="bg-teal-500/10 border border-teal-500/30 rounded-xl p-5 mb-6">
-      <p className="text-sm text-muted-foreground font-semibold mb-3">How It's Calculated:</p>
-      <div className="font-mono text-xs text-muted-foreground space-y-1">
-        {components.map((c) => (
-          <p key={c.name}>
-            {c.name}: {c.score} × {(c.weight/100).toFixed(2)} = {(c.score * (c.weight/100)).toFixed(1)}
-          </p>
-        ))}
-        <div className="border-t border-teal-500/30 my-2 pt-2">
-          <p className="text-teal-400 font-semibold text-sm">
-            Total = {finalScore}/100
-          </p>
+    <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 mb-6">
+      <div className="flex items-start gap-3 mb-4">
+        <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-white mb-2">How It's Calculated:</p>
+          <div className="font-mono text-xs text-muted-foreground space-y-1 bg-card/50 rounded-lg p-3">
+            {components.map((c) => (
+              <p key={c.name}>
+                {c.name}: {c.score} × {(c.weight/100).toFixed(2)} = <span className="text-accent">{(c.score * (c.weight/100)).toFixed(1)}</span>
+              </p>
+            ))}
+            <div className="border-t border-border/50 my-2 pt-2">
+              <p className="text-accent font-semibold text-sm">
+                Total = {finalScore}/100
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     {/* Improvement Tips */}
     <div className="bg-card/50 border border-border/20 rounded-xl p-5">
-      <h3 className="text-base font-semibold mb-3 flex items-center">
-        <span className="mr-2">💡</span>
-        How to Improve Your Score
-      </h3>
+      <div className="flex items-center gap-2 mb-4">
+        <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h3 className="text-base font-semibold">How to Improve Your Score</h3>
+      </div>
+      
       <div className="space-y-3 text-sm">
-        <div className="flex items-start">
-          <span className="text-green-400 mr-2 mt-0.5">✓</span>
-          <p className="text-muted-foreground">
-            <span className="font-medium text-foreground">Sleep Quality (85/100):</span> Already excellent! Maintain your evening routine.
-          </p>
+        <div className="flex items-start gap-3">
+          <span className="text-green-400 text-lg flex-shrink-0">✓</span>
+          <div>
+            <p className="text-white font-medium mb-1">Sleep Quality (85/100)</p>
+            <p className="text-muted-foreground text-xs">Already excellent! Maintain your evening routine.</p>
+          </div>
         </div>
-        <div className="flex items-start">
-          <span className="text-yellow-400 mr-2 mt-0.5">⚠</span>
-          <p className="text-muted-foreground">
-            <span className="font-medium text-foreground">HRV Recovery (61/100):</span> Try evening walks and reduce evening screen time.
-          </p>
+        
+        <div className="flex items-start gap-3 pt-3 border-t border-border/20">
+          <span className="text-orange-400 text-lg flex-shrink-0">⚠</span>
+          <div>
+            <p className="text-white font-medium mb-1">HRV Recovery (61/100)</p>
+            <p className="text-muted-foreground text-xs">Try evening walks and reduce evening screen time to boost recovery.</p>
+          </div>
         </div>
-        <div className="flex items-start">
-          <span className="text-red-400 mr-2 mt-0.5">!</span>
-          <p className="text-muted-foreground">
-            <span className="font-medium text-foreground">Stress Recovery (53/100):</span> Your 2 PM breathing sessions work - do them daily!
-          </p>
+        
+        <div className="flex items-start gap-3 pt-3 border-t border-border/20">
+          <span className="text-red-400 text-lg flex-shrink-0">!</span>
+          <div>
+            <p className="text-white font-medium mb-1">Stress Recovery (53/100)</p>
+            <p className="text-muted-foreground text-xs">Your 2 PM breathing sessions work - do them daily! Success rate: 89%</p>
+          </div>
         </div>
       </div>
+
+      <button
+        onClick={() => router.push('/opportunities')}
+        className="w-full mt-5 py-3 bg-accent hover:bg-accent/90 rounded-lg font-semibold transition-colors"
+      >
+        View Personalized Opportunities
+      </button>
     </div>
 
 </div>
