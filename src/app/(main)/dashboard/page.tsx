@@ -165,40 +165,8 @@ export default function DashboardPage() {
                 <WeeklyWinsCard />
 
             </div>
-
-            {showTeamBanner && (
-                <div className="sticky bottom-16 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent pt-8 pb-4 px-4 mt-8">
-                    <div className="max-w-md mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-4 shadow-2xl relative">
-                        <button
-                            onClick={() => {
-                                localStorage.setItem('teamBannerDismissed', 'true');
-                                setShowTeamBanner(false);
-                            }}
-                            className="absolute top-2 right-2 text-white/70 hover:text-white"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                        </button>
-
-                        <div className="flex items-center gap-3">
-                            <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl">
-                                💼
-                            </div>
-                            <div className="flex-1">
-                                <p className="font-semibold text-white mb-1">Team Features Available</p>
-                                <p className="text-xs text-white/80">Connect with colleagues</p>
-                            </div>
-                            <button
-                                onClick={() => router.push('/corporate-setup')}
-                                className="flex-shrink-0 bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-                            >
-                                Enable
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
+
+    
