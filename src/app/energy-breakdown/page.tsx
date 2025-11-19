@@ -109,7 +109,7 @@ return (
       </div>
 
       {/* Component Breakdown - ENHANCED READABILITY */}
-      <div className="space-y-5 mb-8">
+      <div className="space-y-5">
         <div className="mb-6">
           <h2 className="text-xl font-bold text-white mb-2">Score Components</h2>
           <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
@@ -178,7 +178,7 @@ return (
       </div>
 
       {/* Calculation Explanation - ENHANCED */}
-      <div className="bg-accent/10 border-2 border-accent/30 rounded-2xl p-6 mb-8">
+      <div className="bg-accent/10 border-2 border-accent/30 rounded-2xl p-6">
         <div className="flex items-start gap-4 mb-5">
           <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center flex-shrink-0">
             <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,7 +217,7 @@ return (
       </div>
 
       {/* Improvement Tips - ENHANCED */}
-      <div className="bg-card/80 border-2 border-border/20 rounded-2xl p-6 mb-8">
+      <div className="bg-card/80 border-2 border-border/20 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center">
             <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,21 +273,24 @@ return (
         </button>
       </div>
 
-      {/* Educational Footer */}
-      <div className="mt-6 bg-primary/10 border border-primary/20 rounded-xl p-4">
-        <div className="flex items-start gap-3">
-          <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div>
-            <p className="text-sm font-semibold text-white mb-1">About Energy Scores</p>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+      {/* Educational Footer - ENHANCED */}
+      <div className="bg-primary/10 border-2 border-primary/30 rounded-2xl p-6">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <h3 className="text-base font-bold text-white mb-3">
+              About Energy Scores
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Your energy score is calculated daily based on multiple health factors. It's designed to predict your readiness for challenges and help you optimize your daily activities. Scores are personalized to YOUR baseline - not compared to others.
             </p>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
