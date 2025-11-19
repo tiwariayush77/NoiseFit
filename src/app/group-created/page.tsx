@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 
-export default function GroupCreatedPage() {
+function GroupCreatedContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const referralCode = searchParams.get('code') || '';
@@ -198,4 +198,13 @@ export default function GroupCreatedPage() {
             </div>
         </div>
     );
+}
+
+
+export default function GroupCreatedPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <GroupCreatedContent />
+        </Suspense>
+    )
 }
