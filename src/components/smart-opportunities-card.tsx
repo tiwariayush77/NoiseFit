@@ -44,7 +44,7 @@ export default function SmartOpportunitiesCard() {
       </div>
       
       <button
-        onClick={() => router.push('/intelligence')}
+        onClick={() => router.push('/opportunities')}
         className="mt-3 text-sm text-accent hover:text-accent/80 w-full text-center transition-colors"
       >
         View all opportunities →
