@@ -91,7 +91,7 @@ className="flex items-center text-muted-foreground hover:text-foreground mb-4 tr
           onClick={() => router.push('/patterns')}
           className="text-sm text-teal-400 hover:text-teal-300 transition-colors"
         >
-          View All
+          View All →
         </button>
       </div>
       
