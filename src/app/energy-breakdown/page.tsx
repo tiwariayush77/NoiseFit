@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function EnergyBreakdownPage() {
+function EnergyBreakdownContent() {
 const router = useRouter();
 
 const components = [
@@ -69,12 +70,12 @@ return (
 
     {/* Header */}
     <div className="mb-6">
-      <Link
-        href="/energy-detail"
+      <button
+        onClick={() => router.back()}
         className="flex items-center text-muted-foreground hover:text-foreground mb-4 transition-colors"
       >
         <span className="mr-2">←</span> Back
-      </Link>
+      </button>
       <h1 className="text-2xl font-bold mb-2">Energy Score Breakdown</h1>
       <p className="text-muted-foreground text-sm">How your {finalScore}/100 score is calculated</p>
     </div>
@@ -203,3 +204,20 @@ return (
 </div>
 );
 }
+
+export default function EnergyBreakdownPage() {
+return (
+<Suspense fallback={
+<div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+  <div className="text-center">
+    <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+    <p className="text-muted-foreground">Loading...</p>
+  </div>
+</div>
+}>
+<EnergyBreakdownContent />
+</Suspense>
+);
+}
+
+    
