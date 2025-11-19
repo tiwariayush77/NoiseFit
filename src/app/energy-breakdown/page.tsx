@@ -39,7 +39,7 @@ textColor: 'text-green-400',
 detail: 'Avg HRV: 75ms',
 explanation: 'Good recovery with room for optimization',
 icon: '❤️',
-route: '/vitals/recovery'
+route: '/vitals/hrv'
 },
 {
 name: 'Activity Load',
@@ -192,7 +192,7 @@ return (
         </div>
         
         <div className="bg-card/50 border border-border/20 rounded-xl p-5">
-          <div className="font-mono text-sm text-foreground space-y-2.5">
+          <div className="font-mono text-sm text-muted-foreground space-y-2.5">
             {components.map((c) => (
               <div key={c.name} className="flex items-center justify-between">
                 <span className="text-muted-foreground">{c.name}:</span>
@@ -216,44 +216,58 @@ return (
         </div>
       </div>
 
-      {/* Improvement Tips */}
-      <div className="bg-card/80 border border-border/20 rounded-xl p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-          <h3 className="text-base font-semibold">How to Improve Your Score</h3>
+      {/* Improvement Tips - ENHANCED */}
+      <div className="bg-card/80 border-2 border-border/20 rounded-2xl p-6 mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center">
+            <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-bold text-white">How to Improve Your Score</h3>
         </div>
         
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3">
-            <span className="text-green-400 text-lg flex-shrink-0">✓</span>
-            <div>
-              <p className="text-white font-medium mb-1">Sleep Quality (90/100)</p>
-              <p className="text-muted-foreground text-xs">Excellent! Maintain your evening routine.</p>
+        <div className="space-y-4 mb-6">
+          <div className="flex items-start gap-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+            <span className="text-2xl flex-shrink-0">✓</span>
+            <div className="flex-1">
+              <p className="text-base font-semibold text-white mb-1">
+                Sleep Quality (90/100)
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Excellent! Maintain your evening routine.
+              </p>
             </div>
           </div>
           
-          <div className="flex items-start gap-3 pt-3 border-t border-border/50">
-            <span className="text-orange-400 text-lg flex-shrink-0">→</span>
-            <div>
-              <p className="text-white font-medium mb-1">HRV Recovery (75/100)</p>
-              <p className="text-muted-foreground text-xs">Try evening walks to boost to 85+</p>
+          <div className="flex items-start gap-4 p-4 bg-orange-500/10 border border-orange-500/30 rounded-xl">
+            <span className="text-2xl flex-shrink-0">→</span>
+            <div className="flex-1">
+              <p className="text-base font-semibold text-white mb-1">
+                HRV Recovery (75/100)
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Try evening walks to boost to 85+
+              </p>
             </div>
           </div>
           
-          <div className="flex items-start gap-3 pt-3 border-t border-border/50">
-            <span className="text-blue-400 text-lg flex-shrink-0">→</span>
-            <div>
-              <p className="text-white font-medium mb-1">Stress Recovery (70/100)</p>
-              <p className="text-muted-foreground text-xs">Your 2 PM breathing sessions work - do them daily!</p>
+          <div className="flex items-start gap-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+            <span className="text-2xl flex-shrink-0">→</span>
+            <div className="flex-1">
+              <p className="text-base font-semibold text-white mb-1">
+                Stress Recovery (70/100)
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Your 2 PM breathing sessions work - do them daily!
+              </p>
             </div>
           </div>
         </div>
 
         <button
           onClick={() => router.push('/opportunities')}
-          className="w-full mt-5 py-3 bg-accent hover:bg-accent/90 rounded-lg font-semibold transition-colors"
+          className="w-full py-4 bg-accent hover:bg-accent/90 rounded-xl font-bold text-lg transition-colors shadow-lg shadow-accent/30"
         >
           View Personalized Opportunities
         </button>
