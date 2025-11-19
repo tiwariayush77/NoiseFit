@@ -117,7 +117,7 @@ export default function SleepDetail() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-border/20 bg-background/80 backdrop-blur-lg">
-        <Link href="/energy-detail">
+        <Link href="/energy-breakdown">
           <Button variant="ghost" size="icon">
             <ArrowLeft />
             <span className="sr-only">Back</span>
