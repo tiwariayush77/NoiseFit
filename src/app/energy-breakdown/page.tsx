@@ -93,17 +93,17 @@ return (
       </div>
     </div>
 
-    <div className="px-6 py-6">
+    <div className="px-6 py-6 space-y-8">
 
       {/* Final Score Card */}
-      <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-6 mb-6 text-center">
+      <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-6 text-center">
         <p className="text-sm text-muted-foreground mb-3">Your Energy Score</p>
         <p className="text-6xl font-bold text-white mb-3">{finalScore}</p>
         <p className="text-xl font-semibold text-green-400">EXCELLENT</p>
       </div>
 
       {/* Component Breakdown - NOW CLICKABLE */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4">
         <h2 className="text-lg font-semibold">Score Components</h2>
         <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
         
@@ -162,7 +162,7 @@ return (
       </div>
 
       {/* Calculation Explanation */}
-      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 mb-6">
+      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5">
         <div className="flex items-start gap-3 mb-4">
           <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -229,7 +229,7 @@ return (
       </div>
 
       {/* Educational Footer */}
-      <div className="mt-6 bg-primary/10 border border-primary/20 rounded-xl p-4">
+      <div className="bg-primary/10 border border-primary/20 rounded-xl p-4">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
