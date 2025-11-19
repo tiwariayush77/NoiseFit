@@ -64,7 +64,7 @@ export default function DashboardPage() {
                   </div>
                 )}
 
-                <EnergyScoreCard score={87} />
+                <EnergyScoreCard score={85} />
                 
                 <div className="px-6 mb-8">
                   <button
