@@ -95,80 +95,90 @@ return (
     <div className="px-6 py-6 space-y-8">
 
       {/* Final Score Card - ENHANCED */}
-<div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-8 mb-8 text-center">
-  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-    Your Energy Score
-  </p>
-  <div className="mb-4">
-    <p className="text-7xl font-bold text-white leading-none">{finalScore}</p>
-    <p className="text-2xl text-muted-foreground mt-2">/100</p>
-  </div>
-  <div className="inline-block px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-full">
-    <p className="text-lg font-bold text-green-400">EXCELLENT</p>
-  </div>
-</div>
+        <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-8 text-center">
+            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+                Your Energy Score
+            </p>
+            <div className="mb-4">
+                <p className="text-7xl font-bold text-white leading-none">{finalScore}</p>
+                <p className="text-2xl text-muted-foreground mt-2">/100</p>
+            </div>
+            <div className="inline-block px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-full">
+                <p className="text-lg font-bold text-green-400">EXCELLENT</p>
+            </div>
+        </div>
 
-      {/* Component Breakdown - NOW CLICKABLE */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Score Components</h2>
-        <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
-        
-        {components.map((component, idx) => (
-          <button
-            key={idx}
-            onClick={() => router.push(component.route)}
-            className="w-full bg-card/50 border border-border/20 hover:border-accent/50 rounded-xl p-5 text-left transition-all cursor-pointer"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{component.icon}</span>
-                <span className="text-base font-semibold text-white">{component.name}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold text-white">
-                  {component.score}
-                </span>
-                <span className="text-sm text-muted-foreground">/100</span>
-              </div>
+      {/* Component Breakdown - ENHANCED READABILITY */}
+        <div className="space-y-5 mb-8">
+            <div className="mb-6">
+                <h2 className="text-xl font-bold text-white mb-2">Score Components</h2>
+                <p className="text-sm text-muted-foreground">Tap any component for detailed insights</p>
             </div>
             
-            {/* Progress Bar */}
-            <div className="w-full bg-muted/30 rounded-full h-3 mb-3">
-              <div
-                className={`${component.color} h-3 rounded-full transition-all duration-500`}
-                style={{ width: `${component.score}%` }}
-              ></div>
-            </div>
-            
-            {/* Details */}
-            <div className="flex items-center justify-between text-xs mb-3">
-              <span className="text-muted-foreground">{component.detail}</span>
-              <span className={`font-semibold ${component.textColor}`}>
-                {component.weight}% weight
-              </span>
-            </div>
-            
-            {/* Explanation */}
-            <div className="bg-muted/30 rounded-lg p-3 mb-3">
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                💡 {component.explanation}
-              </p>
-            </div>
+            {components.map((component, idx) => (
+                <button
+                key={idx}
+                onClick={() => router.push(component.route)}
+                className="w-full bg-card/80 border-2 border-border/20 hover:border-accent/70 hover:bg-muted/50 rounded-2xl p-6 text-left transition-all cursor-pointer group"
+                >
+                {/* Header Row */}
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                    <span className="text-3xl">{component.icon}</span>
+                    <div>
+                        <h3 className="text-lg font-bold text-white group-hover:text-accent transition-colors">
+                        {component.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">{component.detail}</p>
+                    </div>
+                    </div>
+                    <div className="text-right">
+                    <p className="text-4xl font-bold text-white leading-none">
+                        {component.score}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">/100</p>
+                    </div>
+                </div>
+                
+                {/* Progress Bar - THICKER */}
+                <div className="w-full bg-muted/30 rounded-full h-4 mb-4">
+                    <div
+                    className={`${component.color} h-4 rounded-full transition-all duration-500`}
+                    style={{ width: `${component.score}%` }}
+                    ></div>
+                </div>
+                
+                {/* Weight Badge */}
+                <div className="flex items-center justify-between mb-4">
+                    <div className={`inline-block px-3 py-1.5 rounded-full border ${component.textColor} bg-card/50`}>
+                    <p className="text-xs font-semibold">
+                        {component.weight}% of total score
+                    </p>
+                    </div>
+                </div>
+                
+                {/* Explanation Box */}
+                <div className="bg-muted/30 border border-border/30 rounded-xl p-4 mb-4">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    {component.explanation}
+                    </p>
+                </div>
 
-            {/* Click Indicator */}
-            <div className="flex items-center justify-between pt-3 border-t border-border/50">
-              <span className="text-xs text-muted-foreground">Tap for detailed analysis</span>
-              <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </button>
-        ))}
-      </div>
+                {/* Click Indicator */}
+                <div className="flex items-center justify-between pt-4 border-t border-border/30">
+                    <span className="text-xs font-medium text-muted-foreground group-hover:text-accent transition-colors">
+                    Tap for detailed analysis
+                    </span>
+                    <svg className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+                </button>
+            ))}
+        </div>
 
       {/* Calculation Explanation */}
-      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5">
+      <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 mb-6">
         <div className="flex items-start gap-3 mb-4">
           <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -192,7 +202,7 @@ return (
       </div>
 
       {/* Improvement Tips */}
-      <div className="bg-card/50 border border-border/20 rounded-xl p-5">
+      <div className="bg-card/80 border border-border/20 rounded-xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -235,7 +245,7 @@ return (
       </div>
 
       {/* Educational Footer */}
-      <div className="bg-primary/10 border border-primary/20 rounded-xl p-4">
+      <div className="mt-6 bg-primary/10 border border-primary/20 rounded-xl p-4">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
