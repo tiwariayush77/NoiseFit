@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 
-export default function HealthAppOAuthMockPage() {
+function HealthAppOAuthMockContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const platform = searchParams.get('platform') || 'google-fit';
@@ -221,4 +221,12 @@ function GoogleFitMockup({ onAllow, onCancel, isAuthenticating }: { onAllow: () 
       </div>
     </div>
   );
+}
+
+export default function HealthAppOAuthMockPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <HealthAppOAuthMockContent />
+        </Suspense>
+    )
 }

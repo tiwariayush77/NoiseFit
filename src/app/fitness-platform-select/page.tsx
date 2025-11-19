@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 const PLATFORMS = [
   {
@@ -35,7 +36,7 @@ const PLATFORMS = [
   }
 ];
 
-export default function FitnessPlatformSelectPage() {
+function FitnessPlatformSelectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const devices = searchParams.get('devices');
@@ -130,4 +131,12 @@ export default function FitnessPlatformSelectPage() {
       </div>
     </div>
   );
+}
+
+export default function FitnessPlatformSelectPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <FitnessPlatformSelectContent />
+        </Suspense>
+    )
 }

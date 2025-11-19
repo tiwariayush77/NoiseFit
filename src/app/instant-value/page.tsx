@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, Footprints, Heart, BedDouble, Dumbbell, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
-function ImportCompletionContent() {
+function InstantValueContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const platform = searchParams.get('platform') || 'google-fit';
@@ -131,10 +131,10 @@ function ImportCompletionContent() {
 }
 
 
-export default function HealthAppCompletePage() {
+export default function InstantValuePage() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ImportCompletionContent />
+            <InstantValueContent />
         </Suspense>
     )
 }
