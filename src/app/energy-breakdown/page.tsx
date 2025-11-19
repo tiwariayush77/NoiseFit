@@ -69,7 +69,6 @@ route: '/vitals/stress'
 const finalScore = Math.round(
 components.reduce((acc, c) => acc + (c.score * (c.weight / 100)), 0)
 );
-// Now = 90×0.3 + 92×0.2 + 75×0.25 + 88×0.15 + 70×0.1 = 87
 
 return (
 <div className="min-h-screen bg-background text-foreground pb-28">
@@ -95,12 +94,19 @@ return (
 
     <div className="px-6 py-6 space-y-8">
 
-      {/* Final Score Card */}
-      <div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-6 text-center">
-        <p className="text-sm text-muted-foreground mb-3">Your Energy Score</p>
-        <p className="text-6xl font-bold text-white mb-3">{finalScore}</p>
-        <p className="text-xl font-semibold text-green-400">EXCELLENT</p>
-      </div>
+      {/* Final Score Card - ENHANCED */}
+<div className="bg-gradient-to-br from-teal-500/20 to-blue-500/20 border-2 border-teal-500/50 rounded-2xl p-8 mb-8 text-center">
+  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+    Your Energy Score
+  </p>
+  <div className="mb-4">
+    <p className="text-7xl font-bold text-white leading-none">{finalScore}</p>
+    <p className="text-2xl text-muted-foreground mt-2">/100</p>
+  </div>
+  <div className="inline-block px-6 py-2 bg-green-500/20 border border-green-500/50 rounded-full">
+    <p className="text-lg font-bold text-green-400">EXCELLENT</p>
+  </div>
+</div>
 
       {/* Component Breakdown - NOW CLICKABLE */}
       <div className="space-y-4">
