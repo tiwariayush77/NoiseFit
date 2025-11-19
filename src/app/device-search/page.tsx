@@ -17,59 +17,48 @@ router.push(`/device-connect?scenario=${scenario}`);
 };
 
 return (
-<div className="min-h-screen bg-background text-foreground flex flex-col">
-{/* Header */}
-<div className="p-6">
-<button onClick={() => router.back()} className="text-muted-foreground hover:text-foreground text-sm">
-← Back
-</button>
-</div>
+<div className="min-h-screen bg-background text-foreground p-6 pb-28">
+  <div className="max-w-2xl mx-auto">
+    
+    <button onClick={() => router.back()} className="flex items-center text-muted-foreground hover:text-foreground mb-4 transition-colors">
+      <span className="mr-2">←</span> Back
+    </button>
+    <h1 className="text-2xl font-bold mb-2">Find Your Devices</h1>
+    <p className="text-muted-foreground text-sm mb-8">
+      Connect your wearables in seconds
+    </p>
 
-  {/* Main Content - Centered */}
-  <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20">
-    {/* Icon */}
-    <div className="mb-8">
-      <div className="w-32 h-32 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-6xl animate-pulse">
-        {scanning ? '⏳' : '🔍'}
+    <div className="flex justify-center mb-8">
+      <div className="w-40 h-40 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center border-2 border-primary/30">
+        <svg className="w-20 h-20 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </div>
     </div>
 
-    {/* Title */}
-    <h1 className="text-3xl font-bold text-center mb-3">
-      {scanning ? 'Scanning...' : 'Find Your Devices'}
-    </h1>
-
-    {/* Subtitle */}
-    <p className="text-muted-foreground text-center mb-12 max-w-sm">
-      {scanning 
-        ? 'Looking for compatible devices nearby' 
-        : 'Connect your wearables in seconds'
-      }
-    </p>
-
-    {/* Large Primary Button */}
     <button
       onClick={handleSmartDetection}
       disabled={scanning}
-      className="w-full max-w-sm bg-gradient-to-r from-primary to-accent hover:opacity-90 disabled:from-muted disabled:to-muted text-white text-lg font-semibold py-6 rounded-2xl mb-4 transition-all shadow-2xl active:scale-95"
+      className="w-full py-5 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 rounded-xl font-bold text-lg transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-3 mb-4"
     >
       {scanning ? (
-        <span className="flex items-center justify-center">
-          <span className="animate-spin mr-3 text-2xl">⏳</span>
-          Scanning Nearby...
-        </span>
+          <>
+            <svg className="w-7 h-7 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4.5v3m0 9v3m7.5-7.5h-3m-9 0h-3m12.364-6.364l-2.122 2.122m-9.056 9.056l-2.122 2.122m13.298-2.122l-2.122-2.122m-9.056-9.056l-2.122-2.122" /></svg>
+            Scanning...
+          </>
       ) : (
-        <span className="flex items-center justify-center">
-          <span className="mr-3 text-2xl">🔍</span>
-          Scan for Devices
-        </span>
+          <>
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Scan for Devices
+          </>
       )}
     </button>
 
-    {/* Secondary Button */}
     <button
       onClick={() => router.push('/device-search-manual')}
-      className="w-full max-w-sm py-4 bg-card/50 hover:bg-muted border border-border/20 rounded-xl font-semibold transition-colors text-left px-5"
+      className="w-full py-4 bg-card/50 hover:bg-muted border border-border/20 rounded-xl font-semibold transition-colors text-left px-5"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center flex-1">
@@ -88,6 +77,7 @@ return (
         </svg>
       </div>
     </button>
+
   </div>
 </div>
 );

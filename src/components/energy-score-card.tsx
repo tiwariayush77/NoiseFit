@@ -10,76 +10,79 @@ interface EnergyScoreCardProps {
 export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
   const router = useRouter();
 
-  const getScoreLevel = (score: number) => {
-    if (score >= 80) return {
-      color: 'hsl(var(--primary))',
-      label: 'EXCELLENT',
-      message: 'Perfect day for challenges! 💪',
-      gradientFrom: 'hsla(var(--primary), 0.2)',
-      gradientTo: 'hsla(var(--accent), 0.2)',
-      borderColor: 'hsla(var(--primary), 0.5)'
-    };
-    if (score >= 60) return {
-      color: '#FFD54F', // Yellow
-      label: 'GOOD',
-      message: 'Solid energy for the day',
-      gradientFrom: 'rgba(255, 213, 79, 0.2)',
-      gradientTo: 'rgba(255, 193, 7, 0.2)',
-      borderColor: 'rgba(255, 213, 79, 0.5)'
-    };
-    if (score >= 40) return {
-      color: '#FF9800', // Orange
-      label: 'MODERATE',
-      message: 'Take it easy today',
-      gradientFrom: 'rgba(255, 152, 0, 0.2)',
-      gradientTo: 'rgba(245, 124, 0, 0.2)',
-      borderColor: 'rgba(255, 152, 0, 0.5)'
-    };
-    return {
-      color: '#FF5252', // Red
-      label: 'NEEDS REST',
-      message: 'Prioritize recovery',
-      gradientFrom: 'rgba(255, 82, 82, 0.2)',
-      gradientTo: 'rgba(213, 0, 0, 0.2)',
-      borderColor: 'rgba(255, 82, 82, 0.5)'
-    };
+  const getEnergyScoreColor = (score: number) => {
+    if (score >= 80) {
+      return {
+        ring: 'stroke-green-500',
+        text: 'text-green-400',
+        status: 'EXCELLENT',
+        statusColor: 'text-green-400',
+        bg: 'from-green-500/20 to-emerald-500/20',
+        border: 'border-green-500/50',
+        message: 'Perfect day for challenges! 💪'
+      };
+    } else if (score >= 60) {
+      return {
+        ring: 'stroke-blue-500',
+        text: 'text-blue-400',
+        status: 'GOOD',
+        statusColor: 'text-blue-400',
+        bg: 'from-blue-500/20 to-cyan-500/20',
+        border: 'border-blue-500/50',
+        message: 'Solid energy for the day 👍'
+      };
+    } else if (score >= 40) {
+      return {
+        ring: 'stroke-orange-500',
+        text: 'text-orange-400',
+        status: 'MODERATE',
+        statusColor: 'text-orange-400',
+        bg: 'from-orange-500/20 to-amber-500/20',
+        border: 'border-orange-500/50',
+        message: 'Take it easy today 😌'
+      };
+    } else {
+      return {
+        ring: 'stroke-red-500',
+        text: 'text-red-400',
+        status: 'NEEDS REST',
+        statusColor: 'text-red-400',
+        bg: 'from-red-500/20 to-rose-500/20',
+        border: 'border-red-500/50',
+        message: 'Prioritize recovery today 😴'
+      };
+    }
   };
 
-  const { color, label, message, gradientFrom, gradientTo, borderColor } = getScoreLevel(score);
+  const scoreColors = getEnergyScoreColor(score);
   const circumference = 2 * Math.PI * 56; // radius = 56
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
     <div 
-      className="border-2 rounded-2xl p-6 mb-6 bg-gradient-to-br"
-      style={{
-        '--tw-gradient-from': gradientFrom,
-        '--tw-gradient-to': gradientTo,
-        borderColor: borderColor
-      } as React.CSSProperties}
+      className={`bg-gradient-to-br ${scoreColors.bg} border-2 ${scoreColors.border} rounded-2xl p-6 mb-8`}
     >
-      <p className="text-sm font-semibold text-muted-foreground mb-4">YOUR ENERGY SCORE</p>
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+        Your Energy Score
+      </p>
       
-      {/* Circular Progress */}
-      <div className="relative w-32 h-32 mx-auto mb-4">
-        <svg className="transform -rotate-90" width="128" height="128" viewBox="0 0 128 128">
-          {/* Background circle */}
+      <div className="relative w-36 h-36 mx-auto mb-4">
+        <svg className="transform -rotate-90" width="144" height="144" viewBox="0 0 144 144">
           <circle
-            cx="64"
-            cy="64"
-            r="56"
-            stroke="hsl(var(--muted) / 0.3)"
+            cx="72"
+            cy="72"
+            r="64"
+            stroke="#374151"
             strokeWidth="8"
-            fill="transparent"
+            fill="none"
           />
-          {/* Progress circle */}
           <circle
-            cx="64"
-            cy="64"
-            r="56"
-            stroke={color}
+            cx="72"
+            cy="72"
+            r="64"
+            className={scoreColors.ring}
             strokeWidth="8"
-            fill="transparent"
+            fill="none"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
@@ -87,33 +90,24 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
           />
         </svg>
         
-        {/* Score number */}
         <div className="absolute inset-0 flex items-center justify-center flex-col">
-          <span className="text-4xl font-bold text-foreground">{score}</span>
+          <span className="text-5xl font-bold text-white">{score}</span>
           <span className="text-sm text-muted-foreground">/100</span>
         </div>
       </div>
       
-      {/* Status */}
       <div className="text-center mb-4">
-        <p className="text-lg font-semibold mb-2" style={{ color }}>{label}</p>
-        <p className="text-base text-white font-medium">
-          {message}
+        <p className={`text-xl font-bold mb-2 ${scoreColors.statusColor}`}>
+          {scoreColors.status}
+        </p>
+        <p className="text-base text-white">
+          {scoreColors.message}
         </p>
       </div>
       
-       {/* NEW: Urgency Message */}
-      <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3 mb-4">
-        <p className="text-sm text-orange-300 flex items-center justify-center">
-          <span className="mr-2">⏰</span>
-          Peak energy window: Next 3 hours
-        </p>
-      </div>
-
-      {/* Breakdown button */}
       <button
-        onClick={() => router.push('/energy-detail')}
-        className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
+        onClick={() => router.push('/energy-breakdown')}
+        className={`w-full text-sm ${scoreColors.text} hover:opacity-80 transition-opacity text-center`}
       >
         See how this score is calculated →
       </button>
