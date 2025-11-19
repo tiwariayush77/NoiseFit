@@ -93,10 +93,10 @@ export default function NutritionPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-border/20 bg-background/80 backdrop-blur-lg">
-        <Link href="/dashboard">
+        <Link href="/energy-detail">
           <Button variant="ghost" size="icon">
             <ArrowLeft />
-            <span className="sr-only">Back</span>
+            <span className="sr-only">Back to Energy Detail</span>
           </Button>
         </Link>
         <h1 className="text-lg font-semibold">Nutrition</h1>

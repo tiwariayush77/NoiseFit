@@ -124,7 +124,7 @@ export default function ActivityDetail() {
         <Link href="/energy-detail">
           <Button variant="ghost" size="icon">
             <ArrowLeft />
-            <span className="sr-only">Back</span>
+            <span className="sr-only">Back to Energy Detail</span>
           </Button>
         </Link>
         <h1 className="text-lg font-semibold">Activity</h1>
