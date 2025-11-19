@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -195,7 +196,7 @@ export default function EnergyDetail() {
         </Button>
       </header>
 
-      <main className="flex-1 overflow-y-auto p-4 space-y-6">
+      <main className="flex-1 overflow-y-auto p-4 space-y-8">
         {/* Current Score */}
         <Card className="bg-card/50 backdrop-blur-lg border-border/20 shadow-lg text-center">
           <CardHeader>

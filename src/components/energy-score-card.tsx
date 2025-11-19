@@ -55,7 +55,7 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
   };
 
   const scoreColors = getEnergyScoreColor(score);
-  const circumference = 2 * Math.PI * 56; // radius = 56
+  const circumference = 2 * Math.PI * 64;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
@@ -107,9 +107,15 @@ export default function EnergyScoreCard({ score }: EnergyScoreCardProps) {
       
       <button
         onClick={() => router.push('/energy-breakdown')}
-        className={`w-full text-sm ${scoreColors.text} hover:opacity-80 transition-opacity text-center`}
+        className={`w-full flex items-center justify-center gap-1.5 text-sm ${scoreColors.text} hover:opacity-80 transition-opacity text-center`}
       >
-        See how this score is calculated →
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        See how this score is calculated
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
       </button>
     </div>
   );

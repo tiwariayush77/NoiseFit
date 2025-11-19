@@ -1,12 +1,11 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import EnergyScoreCard from '@/components/energy-score-card';
 import SmartOpportunitiesCard from '@/components/smart-opportunities-card';
 import WeeklyWinsCard from '@/components/weekly-wins-card';
-import { Progress } from '@/components/ui/progress';
 import StressLevelCard from '@/components/stress-level-card';
 
 export default function DashboardPage() {
@@ -66,6 +65,7 @@ export default function DashboardPage() {
                 )}
 
                 <EnergyScoreCard score={87} />
+                
                 <div className="px-6 mb-8">
                   <button
                     onClick={() => router.push('/intelligence')}
@@ -77,101 +77,140 @@ export default function DashboardPage() {
                     Explore AI Insights
                   </button>
                 </div>
+
                 <StressLevelCard />
                 <SmartOpportunitiesCard />
                 
-                {/* Today's Progress - COLLAPSIBLE */}
                 <div className="px-6 mb-6">
-                    <button
-                        onClick={() => setProgressExpanded(!progressExpanded)}
-                        className="w-full bg-card/50 border border-border/20 rounded-xl p-5 text-left hover:bg-muted/30 transition-colors"
-                    >
-                        <div className="flex items-center justify-between">
-                        <div>
-                            <h2 className="text-lg font-bold text-white mb-1">Today's Progress</h2>
-                            <p className="text-sm text-muted-foreground">
-                            8,540 steps -  7.2h sleep -  68 bpm
-                            </p>
-                        </div>
-                        <svg
-                          className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
-                            progressExpanded ? 'rotate-180' : ''
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                        </div>
-                    </button>
+                  <button
+                    onClick={() => setProgressExpanded(!progressExpanded)}
+                    className="w-full bg-card/50 border border-border/20 rounded-xl p-5 text-left hover:bg-muted/30 transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h2 className="text-lg font-bold text-white mb-1.5">Today's Progress</h2>
+                        <p className="text-sm text-muted-foreground">
+                          8,540 steps -  7.2h sleep -  68 bpm
+                        </p>
+                      </div>
+                      <svg
+                        className={`w-6 h-6 text-gray-400 transition-transform duration-200 flex-shrink-0 ml-3 ${
+                          progressExpanded ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </button>
                     
-                    {progressExpanded && (
-                        <div className="mt-4 space-y-5 px-4 animate-in fade-in-5">
-                        {/* Steps */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-300">👟 Steps</span>
-                            <span className="text-sm font-bold text-white">8,540 / 10,000</span>
-                            </div>
-                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
-                            <div className="bg-teal-500 h-2.5 rounded-full" style={{ width: '85%' }}></div>
-                            </div>
-                            <p className="text-xs text-teal-400">
-                            🏆 You're ahead of 68% in your area
-                            </p>
+                  {progressExpanded && (
+                    <div className="mt-5 px-5 pb-5 space-y-5 animate-fadeIn">
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-300">👟 Steps</span>
+                          <span className="text-sm font-bold text-white">8,540 / 10,000</span>
                         </div>
-
-                        {/* Sleep Quality */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-300">😴 Sleep Quality</span>
-                            <span className="text-sm font-bold text-white">7.2h</span>
-                            </div>
-                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
-                            <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: '90%' }}></div>
-                            </div>
-                            <p className="text-xs text-blue-400">
-                            📈 30 min more than weekly average
-                            </p>
+                        <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                          <div className="bg-teal-500 h-2.5 rounded-full" style={{ width: '85%' }}></div>
                         </div>
-
-                        {/* Active Minutes */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-300">💪 Active Minutes</span>
-                            <span className="text-sm font-bold text-white">23 / 30</span>
-                            </div>
-                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
-                            <div className="bg-orange-500 h-2.5 rounded-full" style={{ width: '77%' }}></div>
-                            </div>
-                            <p className="text-xs text-orange-400">
-                            ⚡ Just 7 more minutes to hit your goal!
-                            </p>
+                        <p className="text-xs text-teal-400">
+                          🏆 You're ahead of 68% in your area
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-300">😴 Sleep Quality</span>
+                          <span className="text-sm font-bold text-white">7.2h</span>
                         </div>
-
-                        {/* Resting HR */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-300">❤️ Resting HR</span>
-                            <span className="text-sm font-bold text-white">68 bpm</span>
-                            </div>
-                            <div className="w-full bg-muted rounded-full h-2.5 mb-2">
-                            <div className="bg-red-500 h-2.5 rounded-full" style={{ width: '70%' }}></div>
-                            </div>
-                            <p className="text-xs text-gray-400">
-                            ✓ 4 bpm lower than average (excellent!)
-                            </p>
+                        <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                          <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: '90%' }}></div>
                         </div>
+                        <p className="text-xs text-blue-400">
+                          📈 30 min more than weekly average
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-300">💪 Active Minutes</span>
+                          <span className="text-sm font-bold text-white">23 / 30</span>
                         </div>
-                    )}
+                        <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                          <div className="bg-orange-500 h-2.5 rounded-full" style={{ width: '77%' }}></div>
+                        </div>
+                        <p className="text-xs text-orange-400">
+                          ⚡ Just 7 more minutes to hit your goal!
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-300">❤️ Resting HR</span>
+                          <span className="text-sm font-bold text-white">68 bpm</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-2.5 mb-2">
+                          <div className="bg-red-500 h-2.5 rounded-full" style={{ width: '70%' }}></div>
+                        </div>
+                        <p className="text-xs text-gray-400">
+                          ✓ 4 bpm lower than average (excellent!)
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <WeeklyWinsCard />
+                <div className="px-6 mb-6">
+                    <WeeklyWinsCard expanded={winsExpanded} setExpanded={setWinsExpanded} />
+                </div>
 
             </div>
         </div>
     );
 }
 
-    
+function WeeklyWinsCard({ expanded, setExpanded }: { expanded: boolean, setExpanded: (expanded: boolean) => void }) {
+    const wins = [
+        { icon: '😴', title: 'Sleep improved 18%', subtitle: 'Evening walks are working!' },
+        { icon: '💪', title: 'Fitness consistency up 25%', subtitle: 'Morning routine is locked in' },
+        { icon: '🧘', title: 'Stress down 32%', subtitle: 'Breathing sessions are effective' },
+    ];
+
+    return (
+        <div className="bg-card/50 border border-border/20 rounded-xl p-5">
+            <button
+                onClick={() => setExpanded(!expanded)}
+                className="w-full flex items-center justify-between"
+            >
+                <div className="flex items-center flex-1">
+                    <span className="text-2xl mr-3">🏆</span>
+                    <h2 className="text-lg font-bold text-white">This Week's Wins</h2>
+                </div>
+                <svg
+                    className={`w-6 h-6 text-gray-400 transition-transform duration-200 flex-shrink-0 ml-3 ${
+                        expanded ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            
+            {expanded && (
+                <div className="mt-5 space-y-4 animate-fadeIn">
+                    {wins.map((win, idx) => (
+                        <div key={idx} className="flex items-start space-x-3 bg-muted/30 rounded-lg p-3">
+                            <span className="text-2xl flex-shrink-0">{win.icon}</span>
+                            <div className="flex-1">
+                                <p className="font-semibold text-white mb-1">{win.title}</p>
+                                <p className="text-sm text-gray-400">{win.subtitle}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
