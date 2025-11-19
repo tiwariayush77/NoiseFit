@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function EnergyBreakdownPage() {
 const router = useRouter();
@@ -63,12 +64,12 @@ return (
 
     {/* Header */}
     <div className="mb-6">
-      <button
-        onClick={() => router.back()}
+      <Link
+        href="/energy-detail"
         className="flex items-center text-muted-foreground hover:text-foreground mb-4 transition-colors"
       >
         <span className="mr-2">←</span> Back
-      </button>
+      </Link>
       <h1 className="text-2xl font-bold mb-2">Energy Score Breakdown</h1>
       <p className="text-muted-foreground text-sm">How your {finalScore}/100 score is calculated</p>
     </div>
