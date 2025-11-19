@@ -68,14 +68,25 @@ return (
 
     {/* Secondary Button */}
     <button
-      onClick={() => router.push('/fitness-platform-select')}
-      disabled={scanning}
-      className="w-full max-w-sm bg-transparent border-2 border-border hover:border-muted-foreground text-foreground text-base font-medium py-4 rounded-xl transition-all active:scale-95"
+      onClick={() => router.push('/device-search-manual')}
+      className="w-full max-w-sm py-4 bg-card/50 hover:bg-muted border border-border/20 rounded-xl font-semibold transition-colors text-left px-5"
     >
-      <span className="flex items-center justify-center">
-        <span className="mr-2">📱</span>
-        Choose App Manually
-      </span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center flex-1">
+          <svg className="w-6 h-6 mr-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          <div>
+            <p className="font-semibold text-foreground">Choose App Manually</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Already have Google Fit, Apple Health, or Fitbit installed
+            </p>
+          </div>
+        </div>
+        <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
     </button>
   </div>
 </div>
